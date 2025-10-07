@@ -15,8 +15,7 @@ function createNewBag() {
     basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I', 
                       'Q', 'X', 'U', 'P', 'V', 'dot', 'dot', 'dot', 'dot']; 
   }else if(MODE_bigBlock){
-    basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I']
-                      + ['bigT', 'bigL']; 
+    basicBlocks = ['bigT', 'bigO', 'bigJ', 'bigL', 'bigS', 'bigZ', 'bigI']; 
   }else{
     basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I']; 
   }
@@ -83,6 +82,7 @@ function spawnNewPiece() {
   if(isAnimating) return;
   currentPiece = getNextPiece(); // 가방에서 다음 블록 가져오기
   currentX = Math.floor(COLS / 2) -2; // 중앙에 배치
+  if(currentPiece.type == 'bigI') currentX = 0;
   rotationState = 0; // 회전 상태 초기화 추가
 
   checkRedZone();
@@ -228,7 +228,6 @@ function placePieceOnGrid(piece, x, y) {
     }
     canPlaceHold = true;//홀드 제어 해제
   }
-  
   // 블록이 배치된 후 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
   
@@ -245,10 +244,11 @@ function placePieceOnGrid(piece, x, y) {
     if(currentStage == 4)clearedTetrisStage4++; //스4 미션을위한
 
   }
+  if (bigTypes.includes(currentPiece.type)) placedBigPiece++;
   placedPiece++;
   totalLinesCleared += clearedLines;
 }
-
+const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
 // 그리드 그리기
 function drawGrid() {
   context.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 지우기
@@ -330,6 +330,7 @@ function showCountdownAndStart(duration = 3) {
 function startGame() {
   gameRunning = true;
   difficultySetting();
+  stageMessageSetting();
 
   currentBag = createNewBag();
   nextBag = createNewBag();  // 시작할 때 미리 준비
@@ -438,4 +439,30 @@ function flipGrid() {
 function flipCurrentPiece() {
   const pieceHeight = currentPiece.shape.length;
   currentY = ROWS - currentY - pieceHeight;
+}
+
+function clearGrid() {
+  isAnimating = true;
+  let row = 0;
+
+  function step() {
+    // 현재 row의 모든 칸을 비우기
+    for (let c = COLS-1; c > 0; c--) {
+      grid[row][c] = 0; // 빈 칸으로
+    }
+
+    drawGrid(); // 변경된 내용 그리기
+
+    row++;
+    if (row < ROWS) {
+      setTimeout(step, 150); // 다음 줄로 (속도 조절 가능)
+    } else {
+      // 애니 끝
+      isAnimating = false;
+      placedPiece = 0; // 혹시 전체 초기화 시
+      updateGhostPiece();
+    }
+  }
+
+  step();
 }

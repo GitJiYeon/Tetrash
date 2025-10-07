@@ -18,6 +18,7 @@ function getNextPiece() {
     currentBag = nextBag.length > 0 ? nextBag : createNewBag();
     nextBag = createNewBag(); 
   }
+  
   const pieceType = currentBag.shift();
   return blocks[pieceType];
   

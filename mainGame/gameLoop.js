@@ -1,64 +1,60 @@
-//====게임 루프==============================================================================================================================
-let lastPPS = 0; // 마지막 PPS 값 저장
-let lastFrameTime = 0;     
-let gamePlayTime = 0;    
+let paused = false; // 일시정지
+
+document.addEventListener("visibilitychange", () => {
+  paused = document.hidden;
+  if (paused) lastFrameTime = 0; 
+});
 
 function gameLoop(now) {
-  // lastFrameTime 초기화
-  if (!lastFrameTime) lastFrameTime = now;
-  const dt = now - lastFrameTime; // ms
+  // 일시정지 후 복귀 시 초기화
+  if (!lastFrameTime || paused) lastFrameTime = now;
+
+  let dt = now - lastFrameTime;
   lastFrameTime = now;
 
-  // 애니메이션/일시정지 중이 아닐 때만 실제 플레이 시간 누적
-  if (!isAnimating && gameRunning) {
-    gamePlayTime += dt;
+  // dt 튐 방지
+  if (dt > 100) dt = 100;
+
+  // 애니메이션/일시정지 중 시간 누적X
+  if (!isAnimating && gameRunning && !paused) {
+      gameTime += dt;
   }
 
-  // gamePlayTime을 현재 게임 시간으로 사용 (ms)
-  const currentTime = gamePlayTime;
-
-  handleInput(currentTime);
+  handleInput(gameTime);
   updateMissionDisplay();
-  if (!isAnimating) {
-    checkRedZone();
-    updateScoreDisplay(currentTime);
 
-    if (currentTime - dropTimer > DROP_DELAY) {
-      if (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
-        currentY += gravityDirection;
-        isOnGround = false;
-      } else {
-        if (!isOnGround) {
-          isOnGround = true;
-          placeTimer = currentTime;
-        }
+  if (!isAnimating && gameRunning) {
+      checkRedZone();
 
-        if (currentTime - placeTimer >= PLACE_DELAY) {
-          placePieceOnGrid(currentPiece, currentX, currentY);
-          placeTimer = 0;
+      if (gameTime - dropTimer > DROP_DELAY) {
+          if (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
+              currentY += gravityDirection;
+              isOnGround = false;
+          } else {
+              if (!isOnGround) {
+                  isOnGround = true;
+                  placeTimer = gameTime;
+              }
 
-          if (!spawnNewPiece()) {
-            return;
+              if (gameTime - placeTimer >= PLACE_DELAY) {
+                  placePieceOnGrid(currentPiece, currentX, currentY);
+                  placeTimer = 0;
+
+                  if (!spawnNewPiece()) return;
+              }
           }
-        }
+          dropTimer = gameTime;
       }
-      dropTimer = currentTime;
-    }
 
-    checkStageProgress();
+      checkStageProgress();
+      updateScoreDisplay(gameTime);
 
-    if (MODE_garbageLine) {
-      updateGarbage();
-    }
+      if (MODE_garbageLine) updateGarbage();
   }
-
-  if (!gameRunning) return;
 
   drawHold();
   drawGrid();
   drawNext();
 
-  if (gameRunning) {
-    requestAnimationFrame(gameLoop);
-  }
+  if (gameRunning) requestAnimationFrame(gameLoop);
 }

@@ -23,10 +23,7 @@ function drawHold() {
     const w = shape[0].length;
 
     let color = holdingPiece.color;
-    if(!canPlaceHold){
-      color = '#4a4a4a';
-    }
-
+    if(!canPlaceHold)color = '#4a4a4a';
     // 중앙 정렬
     const offsetX = Math.floor((hold_COLS - w) / 2);
 
@@ -42,6 +39,9 @@ function drawHold() {
           
       }
     }
+  }
+  else{
+    canPlaceHold = true;
   }
 
   

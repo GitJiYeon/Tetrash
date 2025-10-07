@@ -202,10 +202,10 @@ function moveLeft() {
 
 let lastSoftDropTime = 0;
 
-function softDrop(currentTime) {
+function softDrop(gameTime) {
   updateGhostPiece();
 
-  if (currentTime - lastSoftDropTime >= softDropDelay) {
+  if (gameTime - lastSoftDropTime >= softDropDelay) {
     if (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
       if(softDropMax){
         while (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
@@ -218,11 +218,11 @@ function softDrop(currentTime) {
     } else {
       if (!isOnGround) {
         isOnGround = true;
-        placeTimer = currentTime; // 바닥에 닿은 순간 기록
+        placeTimer = gameTime; // 바닥에 닿은 순간 기록
       }
     }
 
-    lastSoftDropTime = currentTime;
+    lastSoftDropTime = gameTime;
   }
 }
 
@@ -260,7 +260,7 @@ const pressedKeys = {};
 let lastMoveKey = null; // 마지막으로 누른 좌우 키 기록
 
 //==== 키 다운/업 이벤트 ========================================================
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', (e) => { //좌우는 먼저 누른 한쪽만 처리되도록
   pressedKeys[e.code] = true;
   if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
     lastMoveKey = e.code; // 마지막으로 누른 키 갱신
@@ -285,32 +285,32 @@ document.addEventListener('keyup', (e) => {
 });
 
 //==== 입력 처리 함수 ===========================================================
-function handleInput(currentTime) {
+function handleInput(gameTime) {
   if (!currentPiece || !gameRunning) return;
 
   // 좌/우 이동 (DAS + ARR)
   if (lastMoveKey && pressedKeys[lastMoveKey]) {
     if (keyTimers[lastMoveKey] === 0) {
       lastMoveKey === 'ArrowLeft' ? moveLeft() : moveRight();
-      keyTimers[lastMoveKey] = currentTime + DAS;
-    } else if (currentTime >= keyTimers[lastMoveKey]) {
+      keyTimers[lastMoveKey] = gameTime + DAS;
+    } else if (gameTime >= keyTimers[lastMoveKey]) {
       lastMoveKey === 'ArrowLeft' ? moveLeft() : moveRight();
-      keyTimers[lastMoveKey] = currentTime + ARR;
+      keyTimers[lastMoveKey] = gameTime + ARR;
     }
   }
 
-  // 아래 화살표 처리 → 항상 소프트드롭
+  // 아래 화살표 소프트드롭
   if (pressedKeys['ArrowDown']) {
     if (keyTimers['ArrowDown'] === 0) {
-      softDrop(currentTime);
-      keyTimers['ArrowDown'] = currentTime + DAS;
-    } else if (currentTime >= keyTimers['ArrowDown']) {
-      softDrop(currentTime);
-      keyTimers['ArrowDown'] = currentTime + ARR;
+      softDrop(gameTime);
+      keyTimers['ArrowDown'] = gameTime + DAS;
+    } else if (gameTime >= keyTimers['ArrowDown']) {
+      softDrop(gameTime);
+      keyTimers['ArrowDown'] = gameTime + ARR;
     }
   }
 
-  // 위 화살표 처리 → 항상 단발 회전
+  // 위 화살표 단발 회전
   if (pressedKeys['ArrowUp']) {
     if (!processedOnceKeys['ArrowUp']) {
       rotateRight();

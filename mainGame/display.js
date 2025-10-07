@@ -1,5 +1,5 @@
 ////////////////스코어
-function updateScoreDisplay(currentTime) {
+function updateScoreDisplay(gameTime) {
     document.getElementById('score_value').textContent = score;
 
     let ppsValue;
@@ -7,17 +7,17 @@ function updateScoreDisplay(currentTime) {
         // 애니 중에는 이전 PPS 유지
         ppsValue = lastPPS.toFixed(2);
     } else {
-        ppsValue = getPPS(currentTime);
+        ppsValue = getPPS(gameTime);
         lastPPS = parseFloat(ppsValue);
     }
 
     document.getElementById('pps_value').textContent = ppsValue;
-    document.getElementById('time_value').textContent = formatTime(currentTime);
+    document.getElementById('time_value').textContent = formatTime(gameTime);
     document.getElementById('tSpin_value').textContent = tSpinCount + "  " + clearedGarbageLine;
 }
 
-function formatTime(currentTime) {
-    const totalSeconds = Math.floor(currentTime / 1000);
+function formatTime(gameTime) {
+    const totalSeconds = Math.floor(gameTime / 1000);
     const minutes = Math.floor(totalSeconds / 60);
     const seconds = totalSeconds % 60;
     const secondsStr = seconds < 10 ? '0' + seconds : seconds;
@@ -34,7 +34,7 @@ function getPPS(gameTime) {
 /////////////////////미션
 function updateMissionDisplay() {
     document.getElementById('stage_value').textContent = currentStage;
-    document.getElementById('mission_value').textContent = easyStages.find(stage => stage.id === currentStage)?.mission;
+    document.getElementById('mission_value').textContent = stagesDisplay.find(stage => stage.id === currentStage)?.mission;
     document.getElementById('progress_value').textContent = makeProgressString();
 }
 
@@ -47,6 +47,8 @@ function makeProgressString(){
         return `(${clearedLineWithTetrash} / ${LINES_FOR_STAGE4})`;
     }else if (currentStage == 4){
         return `(${clearedTetrisStage4} / ${TETRIS_FOR_STAGE5})`;
+    }else if (currentStage == 5){
+        return `(${placedBigPiece} / ${PLACED_FOR_STAGE6})`;
     }
     return '(0 / 0)';
 }
