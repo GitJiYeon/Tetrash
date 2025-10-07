@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tetris</title>
+    <link rel="stylesheet" href="./game.css" />
+    <link rel="stylesheet" href="./mainMenu.css" />
+    <link rel="stylesheet" href="./interaction.css" />
+    <link rel="stylesheet" href="./motion.css" />
+</head>
+<body>
+    <!-- 메인메뉴 -->
+    <div class="mainMenu" id="mainMenu">
+        <h1 class="menu-title">TETRASH</h1>
+        <div class="menu-container">
+            <button class="arrow-button arrow-left" id="arrowLeft">◀</button>
+            
+            <div class="cards-wrapper" id="cardsWrapper">
+                <div class="mode-card" data-mode="arcade">
+                    <div class="mode-icon"><img src="./images/logo/arcade_easy.png"></div>
+                    <div class="mode-name">Tetrash Arcade<br><p>(EASY MODE)</p></div>
+                    <div class="mode-description">테트리스 마을이 위험해요!</div>
+                </div>
+                
+                <div class="mode-card active" data-mode="marathon">
+                    <div class="mode-icon"><img src="./images/logo/arcade_nomal.png"></div>
+                    <div class="mode-name">Tetrash Arcade<br><p>(NOMAL MODE)</p></div>
+                    <div class="mode-description">테트리스 마을이 멸망 위기에요!</div>
+                </div>
+                
+                <div class="mode-card" data-mode="ultra">
+                    <div class="mode-icon"><img src="./images/logo/arcade_hard.png"></div>
+                    <div class="mode-name">Tetrash Arcade<br><p>(HARD MODE)</p></div>
+                    <div class="mode-description">테트리스 마을이 소멸 위기에요!</div>
+                </div>
+                
+                <div class="mode-card" data-mode="zen">
+                    <div class="mode-icon"><img src="./images/logo/temp.png"></div>
+                    <div class="mode-name">Skill Test</div>
+                    <div class="mode-description">당신의 실력은 어느정도일까요?</div>
+                </div>
+                
+                <div class="mode-card" data-mode="battle">
+                    <div class="mode-icon"><img src="./images/logo/commingSoon.png"></div>
+                    <div class="mode-name">ROCK</div>
+                    <div class="mode-description">(Coming Soon...)</div>
+                </div>
+            </div>
+            
+            <button class="arrow-button arrow-right" id="arrowRight">▶</button>
+        </div>
+    </div>
+
+    <!--테트리스 화면-->
+    <div class="gamePlay" id="gamePlay">
+        <div class="backgroundLayer">
+                
+            <!--
+            <img class="bg-img" src="./images/stageBackground/pMino1.png">
+            <img class="bg-img" src="./images/stageBackground/xMino1.png">
+            <img class="bg-img" src="./images/stageBackground/zMino1.png">
+            -->
+        </div>
+        <div class="gameInfo"><h2>Tetrash</h2></div>
+        <div class="gameSpace">
+
+            <div class="gameBox">
+
+                <div class="left">
+                    <div class="hold-title">Hold</div>
+                    <div class="hold">
+                        <canvas id="hold" width="120" height="120">홀드</canvas>
+                    </div> <!--hold-->
+                    <div class="score">
+                        <div class="score">
+                            <div>Score : <span id="score_value">0</span></div>
+                            <div>PPS : <span id="pps_value">0</span></div>
+                            <div>Time : <span id="time_value">0:00</span></div>
+                            <div>T-spin : <span id="tSpin_value">0:00</span></div>
+                        </div>
+                        
+                    </div>
+                    <div class="mission-text">
+                        <div style="font-weight:bold; font-size: 18px;" ><span id="stage_value">0</span> Stage  Mission!</div>
+                        <div><span id="mission_value">준비하세요!</span></div>
+                        <div style="color: rgb(255, 243, 138);"><span id="progress_value">(0 / 100)</span></div>
+                    </div> <!--mission-text-->
+                    <div class="spin-text">T-spin</div>
+                </div><!--left-->
+
+                <div class="grid">
+                    <canvas id="tetris" width="300" height="690">그리드</canvas>
+                </div><!--grid-->
+
+                <div class="right">
+                    <div class="next-title">Next</div>
+                    <div class="next">
+                        <canvas id="next" width="120" height="520">넥스트</canvas>
+                    </div><!--next-->
+                </div><!--right-->
+
+
+            </div><!--gameBox-->
+        </div><!--gamePlay-->
+
+
+    <!--메뉴-->
+    <script src="mainMenu/menuHandle.js"></script>
+
+    <!--테트리스-->
+    <script src="mainGame/gameSetting.js"></script>
+    <script src="mainGame/shapeKickSetting.js"></script>
+    <script src="mainGame/holdGrid.js"></script>
+    <script src="mainGame/nextGrid.js"></script>
+    <script src="mainGame/mainGrid.js"></script>
+    <script src="mainGame/modeManagement.js"></script>
+    <script src="mainGame/stageManagement.js"></script>
+    <script src="mainGame/moveControl.js"></script>
+    <script src="mainGame/display.js"></script>
+    <script src="mainGame/gameLoop.js"></script>
+
+</html>
+
+
+<!--
+1. 귀신 갑툭튀
+2. 화면 무빙
+3. 블루스크린
+4. 블록크기 개커짐
+5. 
+-->
