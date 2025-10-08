@@ -150,7 +150,7 @@ const blocks = {
         [1, 1, 1, 1, 1, 1]
       ],
       color: '#6765e6',
-      type : 'bigL'
+      type : 'bigJ'
     },
     bigZ :{
       shape: [
@@ -160,7 +160,7 @@ const blocks = {
         [0, 0, 1, 1, 1, 1]
       ],
       color: '#e66565',
-      type : 'bigL'
+      type : 'bigZ'
     },
     bigS :{
       shape: [
@@ -170,7 +170,7 @@ const blocks = {
         [1, 1, 1, 1, 0, 0]
       ],
       color: '#74e665',
-      type : 'bigL'
+      type : 'bigS'
     },
     bigO :{
       shape: [

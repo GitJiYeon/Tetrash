@@ -68,7 +68,6 @@
 }
   
 .left{
-    background-color: rgb(255, 250, 221); 
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -91,12 +90,19 @@
     border: 2px solid rgb(255, 250, 221); 
 }
 
-.spin-text{
-    background-color: rgb(20, 38, 77);
+.spin-text {
     width: 100%;
     height: 100px;
-}
-
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;              /* 처음엔 안 보이게 */
+    transition: opacity 0.3s ease;
+  }
+  .spin-text.show {
+    opacity: 1;              /* 보이게 */
+  }
+  
 .mission-text {
     /*background-image: url("/images/titleBackground.png");*/
     background-size: cover;

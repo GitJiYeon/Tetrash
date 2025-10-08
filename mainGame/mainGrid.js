@@ -241,6 +241,7 @@ function placePieceOnGrid(piece, x, y) {
   }else if(clearedLines == 4){
     score += 800;
     totalTetrisClear++;
+    showSkillImage('tetrash');
     if(currentStage == 4)clearedTetrisStage4++; //스4 미션을위한
 
   }
@@ -447,7 +448,7 @@ function clearGrid() {
 
   function step() {
     // 현재 row의 모든 칸을 비우기
-    for (let c = COLS-1; c > 0; c--) {
+    for (let c = COLS; c >= 0; c--) {
       grid[row][c] = 0; // 빈 칸으로
     }
 

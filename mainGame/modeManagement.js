@@ -28,15 +28,15 @@ let PLACED_FOR_STAGE6 = 10;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 0;   //15
-    GARBAGELINES_FOR_STAGE3 = 0; //7
-    LINES_FOR_STAGE4 = 0; //4
-    TETRIS_FOR_STAGE5 = 0; //1
-    PLACED_FOR_STAGE6 = 5;
+    LINES_FOR_STAGE2 = 15;   //15
+    GARBAGELINES_FOR_STAGE3 = 7; //7
+    LINES_FOR_STAGE4 = 4; //4
+    TETRIS_FOR_STAGE5 = 1; //1
+    PLACED_FOR_STAGE6 = 15; //15
 
     //세팅
     DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다
-    garbageInterval = 6800; //방해줄 속도 : 6.5초
+    garbageInterval = 6500; //방해줄 속도 : 6.5초
 
   }else if(difficulty == 1){ //nomal
     //라운드 조건
@@ -98,16 +98,20 @@ function checkStageProgress() {
   }else if (currentStage === 4 && clearedTetrisStage4 >= TETRIS_FOR_STAGE5) {
     currentStage++;
     modeReset();
-    MODE_bigBlock = true;
-    currentBag = [];
-    nextBag = [];  
-    holdingPiece = '';
+    
 
     flipGrid();
     clearGrid();
     flipCurrentPiece();
-    currentPiece = getNextPiece();
+    MODE_bigBlock = true;
+    currentBag = [];
+    nextBag = [];  
 
+    holdingPiece = '';
+    isUsingHold = false;
+    canPlaceHold = false;
+
+    currentPiece = getNextPiece();
     alert("5스테이지");
   }
   else if (currentStage === 5 && placedBigPiece >= PLACED_FOR_STAGE6) {
@@ -115,8 +119,12 @@ function checkStageProgress() {
     modeReset();
     currentBag = [];
     nextBag = [];  
-    holdingPiece = '';
 
+    holdingPiece = '';
+    isUsingHold = false;
+    canPlaceHold = false;
+
+    currentPiece = getNextPiece();
     alert("6스테이지");
   }
 }

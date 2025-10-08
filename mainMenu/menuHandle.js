@@ -96,21 +96,6 @@ cards.forEach((card, index) => {
     });
 });
 
-// 게임 시작 함수 (예시)
-/*
-function startGame(mode) {
-    console.log(`게임 시작: ${mode} 모드`);
-    showGamePlay();
-    
-    // 여기서 실제 게임 로직을 호출하세요
-    // 예: initGame(mode);
-    
-    // 테스트용: 3초 후 메인메뉴로 돌아가기
-    setTimeout(() => {
-        showMainMenu();
-    }, 3000);
-}
-*/
 // 초기화
 updateCards();
 
@@ -121,3 +106,34 @@ document.addEventListener('mousedown', function(e) {
     }
   });
   
+
+  const spinText = document.querySelector('.spin-text');
+
+// 스킬 이미지를 보여주는 함수
+function showSkillImage(skillType) {
+  let imagePath = '';
+
+  switch (skillType) {
+    case 'tSpin':
+      imagePath = '/images/skillImages/tSpin.png';
+      break;
+    case 'tetrash':
+      imagePath = '/images/skillImages/tetrash.png';
+      break;
+    case 'perfect':
+      imagePath = '/images/skillImages/perfect.png';
+      break;
+    default:
+      imagePath = ''; // 기본값 (없을 때)
+  }
+
+  if (imagePath) {
+    spinText.style.backgroundImage = `url("${imagePath}")`;
+    spinText.classList.add('show');
+
+    // 1.5초 후 자동으로 사라지게
+    setTimeout(() => {
+      spinText.classList.remove('show');
+    }, 1500);
+  }
+}

@@ -84,6 +84,7 @@ function rotateRight() {
     if (canPlacePiece(rotated, currentX + dx, currentY + dy)) {
       if(isTspinTriple(dx, dy)){
         tSpinCount++;
+        showSkillImage('tSpin');
       }
 
       console.log(`Kick [${dx}, ${dy}] successful!`);
@@ -129,6 +130,7 @@ function rotateLeft() {
     if (canPlacePiece(rotated, currentX + dx, currentY + dy)) {
       if(isTspinTriple(dx, dy)){
         tSpinCount++;
+        showSkillImage('tSpin');
       }
       //실제블록
       currentPiece = rotated;
