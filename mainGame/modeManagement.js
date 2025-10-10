@@ -30,9 +30,9 @@ function difficultySetting(){
     //라운드 조건
     LINES_FOR_STAGE2 = 0;   //15
     GARBAGELINES_FOR_STAGE3 = 0; //7
-    LINES_FOR_STAGE4 = 1; //4
+    LINES_FOR_STAGE4 = 0; //4
     TETRIS_FOR_STAGE5 = 0; //1
-    PLACED_FOR_STAGE6 = 20; //20
+    PLACED_FOR_STAGE6 = 1; //20
 
     //세팅
     DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다

@@ -24,8 +24,7 @@ function createNewBag() {
     basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I', 
                    'Q', 'X', 'U', 'P', 'V', 'dot', 'dot', 'dot', 'dot'];
   } else if (MODE_bigBlock) {
-    //basicBlocks = ['bigT', 'bigO', 'bigJ', 'bigL', 'bigS', 'bigZ', 'bigI'];
-    basicBlocks = ['bigI'];
+    basicBlocks = ['bigT', 'bigO', 'bigJ', 'bigL', 'bigS', 'bigZ', 'bigI'];
   } else {
     basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I'];
   }
@@ -92,7 +91,7 @@ function canPlacePiece(piece, x, y) {
 // 새로운 블록 스폰
 function spawnNewPiece() {
   if (isAnimating) return;
-  
+  lastRotationUsed = false;
   currentPiece = getNextPiece();
   if (currentPiece.type === 'bigI') {
     // bigI 블록은 특수 처리
@@ -229,9 +228,20 @@ function placePieceOnGrid(piece, x, y) {
   
   canPlaceHold = true; // 홀드 사용 가능하도록 설정
   
+  // 라인 제거 전 T-Spin 체크
+  const isTSpinMove = detectTSpin();
+
   // 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
-  
+
+  // 점수 계산
+  const tSpinTable = [0, 300, 800, 1200];
+  if (isTSpinMove) {
+      score += tSpinTable[clearedLines];
+      console.log("TTTTTTTTTTTTTTTTTTTTTTT" + tSpinTable[clearedLines]);
+  }
+  // 초기화
+  lastRotationUsed = false;
   // 점수 계산
   const scoreTable = [0, 100, 300, 500, 800];
   score += scoreTable[clearedLines] || 0;
