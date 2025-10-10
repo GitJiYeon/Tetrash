@@ -20,6 +20,11 @@ function getNextPiece() {
   }
   
   const pieceType = currentBag.shift();
+  if (pieceType === 'bigI') {
+    // bigI 블록은 특수 처리
+    currentX = 1;
+    currentY = (gravityDirection === 1) ? 0 : 20;
+  }
   return blocks[pieceType];
   
 }

@@ -9,7 +9,7 @@ let DAS = 110; // 키를 누른 후 반복 시작까지 딜레이(ms)
 let ARR = 25;  // 반복 간격(ms)
 let softDropMax = true;
 let softDropDelay = 80;
-let RED_ROW = 1; // 기본 데드라인 (중력 아래)
+let RED_ROW = 2; // 기본 데드라인 (중력 아래)
 let gravityDirection = 1; // 1 = 아래, -1 = 위 (중력 방향)
 
 ///////////////////////////////[Canvas & 그리드 설정]/////////////////////////////////

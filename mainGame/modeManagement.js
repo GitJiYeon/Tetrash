@@ -28,11 +28,11 @@ let PLACED_FOR_STAGE6 = 10;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 15;   //15
-    GARBAGELINES_FOR_STAGE3 = 7; //7
-    LINES_FOR_STAGE4 = 4; //4
-    TETRIS_FOR_STAGE5 = 1; //1
-    PLACED_FOR_STAGE6 = 15; //15
+    LINES_FOR_STAGE2 = 0;   //15
+    GARBAGELINES_FOR_STAGE3 = 0; //7
+    LINES_FOR_STAGE4 = 1; //4
+    TETRIS_FOR_STAGE5 = 0; //1
+    PLACED_FOR_STAGE6 = 20; //20
 
     //세팅
     DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다
@@ -42,9 +42,9 @@ function difficultySetting(){
     //라운드 조건
     LINES_FOR_STAGE2 = 25;  
     GARBAGELINES_FOR_STAGE3 = 15;
-    LINES_FOR_STAGE4 = 8;
+    LINES_FOR_STAGE4 = 10;
     TETRIS_FOR_STAGE5 = 3;
-    PLACED_FOR_STAGE6 = 12;
+    PLACED_FOR_STAGE6 = 30;
 
     //세팅
     DROP_DELAY = 1000; //블록 떨어지는 속도 : 1초마다
@@ -61,8 +61,6 @@ function difficultySetting(){
 let countLinesCleared = 0;
 
 function checkStageProgress() {
-  const linesClearedThisTurn = checkLineFilled();
-  totalLinesCleared += linesClearedThisTurn;
 
   // 1스테이지 → 2스테이지 
   if (currentStage === 1 && totalLinesCleared >= LINES_FOR_STAGE2) {
@@ -99,7 +97,6 @@ function checkStageProgress() {
     currentStage++;
     modeReset();
     
-
     flipGrid();
     clearGrid();
     flipCurrentPiece();
@@ -125,6 +122,7 @@ function checkStageProgress() {
     canPlaceHold = false;
 
     currentPiece = getNextPiece();
+    updateGhostPiece();
     alert("6스테이지");
   }
 }

@@ -40,8 +40,8 @@ function isIPiece(piece) {
 
 // T인지 체크
 function isTPiece(piece) {
-  return piece.shape.length === 3 && piece.shape[0].length === 3 &&
-         piece.shape[1][1] === 1; // 중심에 블록 있는지 확인
+  if(piece.type == 'T') return true;
+  else return false;
 }
 
 function isTspinTriple(dx, dy){
@@ -288,7 +288,7 @@ document.addEventListener('keyup', (e) => {
 
 //==== 입력 처리 함수 ===========================================================
 function handleInput(gameTime) {
-  if (!currentPiece || !gameRunning) return;
+  if (!currentPiece || !gameRunning || isAnimating) return;
 
   // 좌/우 이동 (DAS + ARR)
   if (lastMoveKey && pressedKeys[lastMoveKey]) {

@@ -1,6 +1,10 @@
-// 배열을 랜덤하게 섞는 함수 (Fisher-Yates 알고리즘)
+// ============================================================================
+// 유틸리티 함수
+// ============================================================================
+
+// Fisher-Yates 알고리즘 배열 섞기
 function shuffleArray(array) {
-  const shuffled = [...array]; // 원본 배열 복사
+  const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
@@ -8,36 +12,41 @@ function shuffleArray(array) {
   return shuffled;
 }
 
-// 새로운 가방을 생성하는 함수
-function createNewBag() {
-  // 기본 7개 블록 타입
-  if(MODE_tetrash){
-    basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I', 
-                      'Q', 'X', 'U', 'P', 'V', 'dot', 'dot', 'dot', 'dot']; 
-  }else if(MODE_bigBlock){
-    basicBlocks = ['bigT', 'bigO', 'bigJ', 'bigL', 'bigS', 'bigZ', 'bigI']; 
-  }else{
-    basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I']; 
-  }
+// ============================================================================
+// 가방 시스템
+// ============================================================================
 
-  //7개 블록 랜덤
-  return shuffleArray(basicBlocks);
+// 모드에 따라 새로운 블록 가방 생성
+function createNewBag() {
+  let basicBlocks;
   
+  if (MODE_tetrash) {
+    basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I', 
+                   'Q', 'X', 'U', 'P', 'V', 'dot', 'dot', 'dot', 'dot'];
+  } else if (MODE_bigBlock) {
+    //basicBlocks = ['bigT', 'bigO', 'bigJ', 'bigL', 'bigS', 'bigZ', 'bigI'];
+    basicBlocks = ['bigI'];
+  } else {
+    basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I'];
+  }
+  
+  return shuffleArray(basicBlocks);
 }
 
+// ============================================================================
+// 게임 오버
+// ============================================================================
 
-
+// 레드존(위험 영역)에 블록이 있는지 확인
 function checkRedZone() {
-  if(isAnimating) return false;
-
-  if(gravityDirection == 1){ //중력 아래
-    RED_ROW = 2; // 빨간 영역 행
-  }else{ //중력 위
-    RED_ROW = 20; // 빨간 영역 행
-  }
+  if (isAnimating) return false;
   
+  // 중력 방향에 따라 레드존 위치 결정
+  RED_ROW = (gravityDirection === 1) ? 2 : 20;
+  
+  // 중앙 4칸(3-6) 체크
   for (let x = 3; x < 7; x++) {
-    if (grid[RED_ROW][x] !== 0) { 
+    if (grid[RED_ROW][x] !== 0) {
       gameOver();
       return true;
     }
@@ -45,15 +54,19 @@ function checkRedZone() {
   return false;
 }
 
-function gameOver(){
+// 게임 오버 처리
+function gameOver() {
   gameRunning = false;
   isGameOver = true;
-  alert("gameover"); 
-  console.log("gameover")
-  
+  alert("gameover");
+  console.log("gameover");
 }
 
-// 블록이 그리드에 배치될 수 있는지 확인
+// ============================================================================
+// 블록 배치 & 충돌 감지
+// ============================================================================
+
+// 블록이 현재 위치에 배치 가능한지 확인
 function canPlacePiece(piece, x, y) {
   for (let row = 0; row < piece.shape.length; row++) {
     for (let col = 0; col < piece.shape[row].length; col++) {
@@ -61,7 +74,7 @@ function canPlacePiece(piece, x, y) {
         const newX = x + col;
         const newY = y + row;
         
-        // 경계 체크 수정
+        // 경계 체크
         if (newX < 0 || newX >= COLS || newY < 0 || newY >= ROWS) {
           return false;
         }
@@ -76,113 +89,187 @@ function canPlacePiece(piece, x, y) {
   return true;
 }
 
-
-// 새로운 블록을 스폰시키는 함수
+// 새로운 블록 스폰
 function spawnNewPiece() {
-  if(isAnimating) return;
-  currentPiece = getNextPiece(); // 가방에서 다음 블록 가져오기
-  currentX = Math.floor(COLS / 2) -2; // 중앙에 배치
-  if(currentPiece.type == 'bigI') currentX = 0;
-  rotationState = 0; // 회전 상태 초기화 추가
-
-  checkRedZone();
-
-  if(gravityDirection == 1){ //중력이 아래
-    currentY = 0; // 맨 위에서 시작
-  }else{ //중력이 위
-    currentY = 20; // 맨 아래에서 시작
-  }
+  if (isAnimating) return;
   
-  // 스폰 위치에 블록을 놓을 수 없으면 게임 오버
-  if (!canPlacePiece(currentPiece, currentX, currentY)) {
+  currentPiece = getNextPiece();
+  if (currentPiece.type === 'bigI') {
+    // bigI 블록은 특수 처리
+    currentX = 1;
+    currentY = (gravityDirection === 1) ? 0 : 20;
+  }else {
+  // 중력 방향에 따른 스폰 위치 설정
+    currentX = Math.floor(COLS / 2) - 2;
+    currentY = (gravityDirection === 1) ? 0 : 20;
+  }
+
+  
+  // 스폰 위치 유효성 검사
+  if (!canPlacePiece(currentPiece, currentX, currentY) || checkRedZone()) {
     gameOver();
     return false;
   }
-  updateGhostPiece();
   
+  updateGhostPiece();
   showNextBlocks();
   return true;
 }
-//고스트블록 ==================================================================
+
+// ============================================================================
+// 고스트 블록
+// ============================================================================
+
+// 고스트 블록 위치 업데이트
 function updateGhostPiece() {
-  // currentPiece를 복사해서 유령 블록 만들기
   currentGhostPiece = {
     shape: currentPiece.shape.map(row => row.slice()),
-    color: currentPiece.color //ghostColor
+    color: currentPiece.color
   };
-
+  
   currentGhostX = currentX;
   currentGhostY = currentY;
-
-  // 실제 고정된 grid 기준으로 유령 블록의 위치 계산
+  
+  // 중력 방향으로 떨어뜨려 최종 위치 계산
   while (canPlacePiece(currentGhostPiece, currentGhostX, currentGhostY + gravityDirection)) {
     currentGhostY += gravityDirection;
   }
 }
-/*function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-*/
 
+// ============================================================================
+// 라인 클리어 
+// ============================================================================
+
+// 특정 라인이 방해줄인지 확인
 function isGarbageLine(rowIndex) {
   for (let col = 0; col < COLS; col++) {
-      if (grid[rowIndex][col] === 0) continue; // 구멍은 제외
-      if (grid[rowIndex][col] !== 'gray') return false;
+    if (grid[rowIndex][col] === 0) continue;
+    if (grid[rowIndex][col] !== 'gray') return false;
   }
   return true;
 }
 
+// 채워진 라인 확인 및 제거
 function checkLineFilled(pieceType) {
   let linesCleared = 0;
-
+  
+  // 중력 방향에 따라 스캔 방향 결정
   const startRow = gravityDirection === 1 ? ROWS - 1 : 0;
   const endRow = gravityDirection === 1 ? -1 : ROWS;
   const step = gravityDirection === 1 ? -1 : 1;
-
+  
   for (let row = startRow; row !== endRow; row += step) {
+    // 라인이 꽉 찼는지 확인
     let isLineFilled = true;
-
     for (let col = 0; col < COLS; col++) {
-        if (grid[row][col] === 0) isLineFilled = false;
-    }
-
-    if (isLineFilled) {
-      if (['Q', 'X', 'U', 'P', 'V', 'dot'].includes(pieceType)) clearedLineWithTetrash++;
-      // 채워진 줄에 gray가 한 칸이라도 있으면 방해줄 카운트
-      for (let col = 0; col < COLS; col++) {
-          if (grid[row][col] === 'gray') {
-              clearedGarbageLine++;
-              break; // 한 번만 카운트
-          }
+      if (grid[row][col] === 0) {
+        isLineFilled = false;
+        break;
       }
-
-      // 한 줄 삭제 → 중력 반대로 행 이동
+    }
+    
+    if (isLineFilled) {
+      // 테트라쉬 블록으로 클리어한 경우 카운트
+      if (['Q', 'X', 'U', 'P', 'V', 'dot'].includes(pieceType)) {
+        clearedLineWithTetrash++;
+      }
+      
+      // 방해줄 포함 여부 확인
+      for (let col = 0; col < COLS; col++) {
+        if (grid[row][col] === 'gray') {
+          clearedGarbageLine++;
+          break;
+        }
+      }
+      
+      // 라인 제거 및 블록 이동
       let moveRow = row;
       while (gravityDirection === 1 ? moveRow > 0 : moveRow < ROWS - 1) {
-          for (let col = 0; col < COLS; col++) {
-              grid[moveRow][col] = grid[moveRow - gravityDirection][col];
-          }
-          moveRow -= gravityDirection;
+        for (let col = 0; col < COLS; col++) {
+          grid[moveRow][col] = grid[moveRow - gravityDirection][col];
+        }
+        moveRow -= gravityDirection;
       }
-
-      // 맨 끝 행 비우기
+      
+      // 최상단/최하단 행 초기화
       const clearRow = gravityDirection === 1 ? 0 : ROWS - 1;
       for (let col = 0; col < COLS; col++) {
-          grid[clearRow][col] = 0;
+        grid[clearRow][col] = 0;
       }
-
-      // 같은 행 다시 체크
+      
+      // 같은 행 재검사
       row -= step;
       linesCleared++;
     }
-      
   }
-
+  
   return linesCleared;
 }
 
-//=================================================그래픽=============================================
-// 현재 떨어지는 블록을 화면에 그리가
+// ============================================================================
+// 블록 배치 및 점수 계산
+// ============================================================================
+
+const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
+
+// 블록을 그리드에 배치하고 점수 계산
+function placePieceOnGrid(piece, x, y) {
+  // 블록을 그리드에 배치
+  for (let row = 0; row < piece.shape.length; row++) {
+    for (let col = 0; col < piece.shape[row].length; col++) {
+      if (piece.shape[row][col]) {
+        const gridX = x + col;
+        const gridY = y + row;
+        if (gridY >= 0) {
+          grid[gridY][gridX] = piece.color;
+        }
+      }
+    }
+  }
+  
+  canPlaceHold = true; // 홀드 사용 가능하도록 설정
+  
+  // 라인 체크 및 제거
+  const clearedLines = checkLineFilled(piece.type);
+  
+  // 점수 계산
+  const scoreTable = [0, 100, 300, 500, 800];
+  score += scoreTable[clearedLines] || 0;
+  
+  // 테트리스 클리어 카운트
+  if (clearedLines === 4) {
+    totalTetrisClear++;
+    showSkillImage('tetrash');
+    if (currentStage === 4) clearedTetrisStage4++;
+  }
+  
+  // 퍼펙트 클리어 체크
+  isPerfectClear();
+  
+  // 통계 업데이트
+  if (bigTypes.includes(piece.type)) placedBigPiece++;
+  placedPiece++;
+  totalLinesCleared += clearedLines;
+}
+
+// 퍼펙트 클리어 확인
+function isPerfectClear() {
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (grid[r][c] !== 0) return false;
+    }
+  }
+  
+  showSkillImage('perfect');
+  score += 2000;
+  return true;
+}
+
+// ============================================================================
+// 그래픽 
+// ============================================================================
+
+// 현재 떨어지는 블록 그리기
 function drawCurrentPiece() {
   if (!currentPiece) return;
   
@@ -191,7 +278,7 @@ function drawCurrentPiece() {
       if (currentPiece.shape[row][col]) {
         const x = currentX + col;
         const y = currentY + row;
-        if (y >= 0) { // 화면 위쪽은 그리지 않음
+        if (y >= 0) {
           drawBlock(context, x, y, currentPiece.color);
         }
       }
@@ -199,6 +286,7 @@ function drawCurrentPiece() {
   }
 }
 
+// 고스트 블록 그리기
 function drawCurrentGhostPiece() {
   if (!currentGhostPiece) return;
   
@@ -207,7 +295,7 @@ function drawCurrentGhostPiece() {
       if (currentGhostPiece.shape[row][col]) {
         const x = currentGhostX + col;
         const y = currentGhostY + row;
-        if (y >= 0) { // 화면 위쪽은 그리지 않음
+        if (y >= 0) {
           drawBlock(context, x, y, currentGhostPiece.color, true);
         }
       }
@@ -215,140 +303,103 @@ function drawCurrentGhostPiece() {
   }
 }
 
-function placePieceOnGrid(piece, x, y) {
-  for (let row = 0; row < piece.shape.length; row++) {
-    for (let col = 0; col < piece.shape[row].length; col++) {
-      if (piece.shape[row][col]) {
-        const gridX = x + col;
-        const gridY = y + row;
-        if (gridY >= 0) { // 화면 위쪽은 무시
-          grid[gridY][gridX] = piece.color;
-        }
-      }
-    }
-    canPlaceHold = true;//홀드 제어 해제
-  }
-  // 블록이 배치된 후 라인 체크 및 제거
-  const clearedLines = checkLineFilled(piece.type);
-  
-  // 선택사항: 제거된 라인 수에 따른 점수 계산이나 효과음 등을 추가할 수 있음
-  if (clearedLines == 1) {
-    score += 100;
-  }else if(clearedLines == 2){
-    score += 300;
-  }else if(clearedLines == 3){
-    score += 500;
-  }else if(clearedLines == 4){
-    score += 800;
-    totalTetrisClear++;
-    showSkillImage('tetrash');
-    if(currentStage == 4)clearedTetrisStage4++; //스4 미션을위한
-
-  }
-  if (bigTypes.includes(currentPiece.type)) placedBigPiece++;
-  placedPiece++;
-  totalLinesCleared += clearedLines;
-}
-const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
-// 그리드 그리기
+// 그리드 전체 그리기
 function drawGrid() {
-  context.clearRect(0, 0, canvas.width, canvas.height); // 캔버스 지우기
-
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  
   for (let y = 0; y < ROWS; y++) {
     for (let x = 0; x < COLS; x++) {
       const px = x * BLOCK_SIZE;
       const py = y * BLOCK_SIZE;
-
+      
       if (grid[y][x] !== 0) {
-        // 블록이 있으면 블록 그림
+        // 블록이 있는 경우
         drawBlock(context, x, y, grid[y][x]);
-      } 
-      else if (y == RED_ROW) {
-        // 커트라인
+      } else if (y === RED_ROW) {
+        // 레드존 (커트라인)
         context.fillStyle = 'rgba(255, 222, 89, 0.4)';
         context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
         context.strokeStyle = '#292929';
         context.lineWidth = 1;
         context.strokeRect(px + 0.5, py + 0.5, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
-      } 
-      else {
-        // 빈칸 → 반투명 검정
+      } else {
+        // 빈 칸
         context.fillStyle = 'rgba(0, 0, 0, 0.6)';
         context.fillRect(px, py, BLOCK_SIZE, BLOCK_SIZE);
-
-        // 테두리
         context.strokeStyle = 'rgba(255, 222, 89, 0.12)';
         context.lineWidth = 1;
         context.strokeRect(px + 0.5, py + 0.5, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
       }
     }
   }
-
-
   
-  // 그 다음 현재 떨어지는 블록을 그림
-  drawCurrentPiece();
   drawCurrentGhostPiece();
+  drawCurrentPiece();
 }
 
+// ============================================================================
+// 게임 시작 
+// ============================================================================
 
+// 카운트다운 후 게임 시작
 function showCountdownAndStart(duration = 3) {
-  if (!canvas) return; // 캔버스가 없으면 종료
-    const ctx = canvas.getContext('2d'); // 여기서 ctx 정의
-
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  const centerX = canvas.width / 2;
+  const centerY = canvas.height / 2;
   let counter = duration;
-
+  
   function drawCountdown() {
-      // 캔버스 초기화
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      drawGrid();
-      // 중앙에 숫자 표시
-      ctx.font = 'bold 80px Arial';
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(counter, centerX, centerY);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawGrid();
+    
+    ctx.font = 'bold 80px Arial';
+    ctx.fillStyle = 'white';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(counter, centerX, centerY);
   }
-
+  
   drawCountdown();
-
+  
   const interval = setInterval(() => {
     counter--;
-      if (counter <= 0) {
-          clearInterval(interval);
-          ctx.clearRect(0, 0, canvas.width, canvas.height); // 마지막 숫자 지우기
-          startGame(); // 카운트 끝나면 게임 시작
-      } else {
-          drawCountdown();
-      }
+    if (counter <= 0) {
+      clearInterval(interval);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      startGame();
+    } else {
+      drawCountdown();
+    }
   }, 1000);
 }
 
-
-// 게임 시작 함수
+// 게임 시작
 function startGame() {
   gameRunning = true;
   difficultySetting();
   stageMessageSetting();
-
+  
   currentBag = createNewBag();
-  nextBag = createNewBag();  // 시작할 때 미리 준비
-
-  // 첫 번째 블록 스폰
+  nextBag = createNewBag();
+  
   if (spawnNewPiece()) {
-    startTime = performance.now();  // 루프 시작 시점 기준
+    startTime = performance.now();
     gamePlayTime = 0;
-    dropTimer = 0;   // elapsed 기준으로 0부터 시작
+    dropTimer = 0;
     placeTimer = 0;
-
     requestAnimationFrame(gameLoop);
   }
 }
 
 window.showCountdownAndStart = showCountdownAndStart;
 
+// ============================================================================
+// 방해줄 
+// ============================================================================
+
+// 방해줄 업데이트 (시간 기반)
 function updateGarbage() {
   const now = Date.now();
   if (now - lastGarbageTime >= garbageInterval) {
@@ -357,113 +408,122 @@ function updateGarbage() {
   }
 }
 
+// 방해줄 추가
 function addGarbageRow() {
-    const hole = Math.floor(Math.random() * COLS);
-    const row = Array.from({ length: COLS }, (_, x) => (x === hole ? 0 : 'gray'));
+  const hole = Math.floor(Math.random() * COLS);
+  const row = Array.from({ length: COLS }, (_, x) => (x === hole ? 0 : 'gray'));
   
-    // grid 위로 밀기
-    for (let y = 0; y < ROWS - 1; y++) {
-      grid[y] = grid[y + 1];
-    }
-    grid[ROWS - 1] = row;
+  // 모든 행을 위로 밀어올림
+  for (let y = 0; y < ROWS - 1; y++) {
+    grid[y] = grid[y + 1];
+  }
+  grid[ROWS - 1] = row;
   
-    
-    liftPieceIfOverlapping();
+  liftPieceIfOverlapping();
+}
+
+// 블록이 그리드와 겹치면 위로 이동
+function liftPieceIfOverlapping() {
+  while (!canPlacePiece(currentPiece, currentX, currentY) && currentY > 0) {
+    currentY--;
   }
+  updateGhostPiece();
+}
 
-  // 블록 겹치면 가능한 만큼 위로 올리기
-  function liftPieceIfOverlapping() {
-    while (!canPlacePiece(currentPiece, currentX, currentY) && currentY > 0) {
-      currentY--;
-    }
-    updateGhostPiece(); // ghost도 갱신
-  }
+// ============================================================================
+// 텍스처 로딩
+// ============================================================================
 
-
-// 텍스처 이미지 로드 후 게임 시작
 blockTexture.onload = function() {
   console.log('블록 텍스처 로드 완료');
-  drawGrid(); // 초기 그리드 그리기
+  drawGrid();
   drawHold();
   drawNext();
 };
 
-// 이미지 로드 실패시에도 게임은 시작
 blockTexture.onerror = function() {
   console.log('블록 텍스처 로드 실패, 텍스처 없이 게임 시작');
-  drawGrid(); // 초기 그리드 그리기
+  drawGrid();
   drawHold();
   drawNext();
 };
 
-// 이미지가 이미 캐시되어 있을 경우를 대비
 if (blockTexture.complete) {
   console.log('블록 텍스처가 이미 로드됨');
-  drawGrid(); // 초기 그리드 그리기
+  drawGrid();
   drawHold();
   drawNext();
 }
 
-/////////////////////애니메이션
+// ============================================================================
+// 애니메이션
+// ============================================================================
 
+// 그리드 상하 반전 애니메이션
 function flipGrid() {
   isAnimating = true;
-  if (MODE_gravityReverse) gravityDirection = -1;
-  else gravityDirection = 1;
+  
+  if (MODE_gravityReverse) {
+    gravityDirection = -1;
+    RED_ROW = 20;
+  } else {
+    gravityDirection = 1;
+    RED_ROW = 2;
+  }
+  
   let row = 0;
-
   drawGrid();
+  
   function step() {
+    // 현재 행과 대칭 행을 교환
     for (let c = 0; c < COLS; c++) {
-      const r = row;
-      const oppositeRow = ROWS - 1 - r;
-      const tmp = grid[r][c];
-      grid[r][c] = grid[oppositeRow][c];
+      const oppositeRow = ROWS - 1 - row;
+      const tmp = grid[row][c];
+      grid[row][c] = grid[oppositeRow][c];
       grid[oppositeRow][c] = tmp;
     }
-
+    
     row++;
     if (row < Math.floor(ROWS / 2)) {
       setTimeout(step, 100);
     } else {
-      // 애니 끝
+      isAnimating = false;
+      updateGhostPiece();
+    }
+  }
+  
+  step();
+}
+
+// 현재 블록 Y좌표 반전
+function flipCurrentPiece() {
+  const pieceHeight = currentPiece.shape.length;
+  currentY = ROWS - currentY - pieceHeight;
+  
+}
+
+// 그리드 클리어 애니메이션
+function clearGrid() {
+  isAnimating = true;
+  let row = 0;
+  
+  function step() {
+    // 현재 행의 모든 칸 비우기
+    for (let c = 0; c < COLS; c++) {
+      grid[row][c] = 0;
+    }
+    
+    drawGrid();
+    
+    row++;
+    if (row < ROWS) {
+      setTimeout(step, 30);
+    } else {
       isAnimating = false;
       placedPiece--;
       updateGhostPiece();
     }
   }
-
-  step();
-}
-
-
-function flipCurrentPiece() {
-  const pieceHeight = currentPiece.shape.length;
-  currentY = ROWS - currentY - pieceHeight;
-}
-
-function clearGrid() {
-  isAnimating = true;
-  let row = 0;
-
-  function step() {
-    // 현재 row의 모든 칸을 비우기
-    for (let c = COLS; c >= 0; c--) {
-      grid[row][c] = 0; // 빈 칸으로
-    }
-
-    drawGrid(); // 변경된 내용 그리기
-
-    row++;
-    if (row < ROWS) {
-      setTimeout(step, 150); // 다음 줄로 (속도 조절 가능)
-    } else {
-      // 애니 끝
-      isAnimating = false;
-      placedPiece = 0; // 혹시 전체 초기화 시
-      updateGhostPiece();
-    }
-  }
-
+  
   step();
 }
