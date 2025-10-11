@@ -49,6 +49,14 @@
     z-index: 1; /* 배경보다 앞 */
 }
 
+/* 게임 전체 비율 축소 (기본) */
+.gameSpace {
+    transform: scale(0.75);         /* 기본 90% 크기 */
+    transform-origin: center;      /* 가운데 기준으로 축소 */
+}
+
+
+
 .backgroundLayer {
     position: absolute;
     top: 0;

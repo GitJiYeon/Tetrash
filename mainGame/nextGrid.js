@@ -34,7 +34,7 @@ function showNextBlocks() {
   nextContext.fillStyle = "black"; // 원하는 배경색
   nextContext.fillRect(0, 0, nextCanvas.width, nextCanvas.height);
 
-  // 🔥 currentBag + nextBag 합치기
+  // currentBag + nextBag 합치기
   const combinedQueue = [...currentBag, ...nextBag];
 
   for (let i = 0; i < 5; i++) {

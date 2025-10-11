@@ -229,16 +229,19 @@ function placePieceOnGrid(piece, x, y) {
   canPlaceHold = true; // 홀드 사용 가능하도록 설정
   
   // 라인 제거 전 T-Spin 체크
-  const isTSpinMove = detectTSpin();
+  const isTSpin = detectTSpin();
 
   // 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
 
   // 점수 계산
   const tSpinTable = [0, 300, 800, 1200];
-  if (isTSpinMove) {
+  if (isTSpin) {
+    if(currentStage == 6 && clearedLines !== 0) tSpinStage7++;
+      tSpinCount++;
       score += tSpinTable[clearedLines];
-      console.log("TTTTTTTTTTTTTTTTTTTTTTT" + tSpinTable[clearedLines]);
+      console.log("T스핀" + tSpinTable[clearedLines]);
+    
   }
   // 초기화
   lastRotationUsed = false;

@@ -57,7 +57,7 @@ body {
 
 .mode-card {
     position: absolute;
-    border-radius: 43px;
+    border-radius: 8%;
     padding: 60px 50px;
     box-shadow: 00 20px 30px #f8e27f66;
     background: rgb(113, 231, 231);
@@ -69,8 +69,9 @@ body {
     justify-content: center;
     top: 50%;                  /* 부모 기준 수직 중앙 */
     transform: translateY(-50%); /* 세로 중앙 정렬 */
-    min-width: 500px;
-    min-height: 705px;
+    min-width: 350px;
+    width: 25%;
+    height: 90%;
 }
 
 /* 중앙 카드 */
@@ -88,7 +89,7 @@ body {
 .mode-card.left {
     background-image: url("/images/s.png");
     background-size: cover; 
-    left: calc(50% - 350px); /* 중앙에서 왼쪽으로 300px */
+    left: calc(50% - 20%); /* 중앙에서 왼쪽으로 300px */
     transform: translate(-50%, -50%) scale(0.85);
     z-index: 7;
     opacity: 0.8;
@@ -99,7 +100,7 @@ body {
 .mode-card.left2 {
     background-image: url("/images/s.png");
     background-size: cover; 
-    left: calc(50% - 700px); /* 중앙에서 왼쪽으로 300px */
+    left: calc(50% - 35%); /* 중앙에서 왼쪽으로 300px */
     transform: translate(-50%, -50%) scale(0.8);
     z-index: 5;
     opacity: 0.5;
@@ -110,7 +111,7 @@ body {
 .mode-card.right {
     background-image: url("/images/s.png");
     background-size: cover; 
-    left: calc(50% + 350px); /* 중앙에서 왼쪽으로 300px */
+    left: calc(50% + 20%); /* 중앙에서 왼쪽으로 300px */
     transform: translate(-50%, -50%) scale(0.85);
     z-index: 7;
     opacity: 0.8;
@@ -121,7 +122,7 @@ body {
 .mode-card.right2 {
     background-image: url("/images/s.png");
     background-size: cover; 
-    left: calc(50% + 700px); /* 중앙에서 왼쪽으로 300px */
+    left: calc(50% + 35%); /* 중앙에서 왼쪽으로 300px */
     transform: translate(-50%, -50%) scale(0.8);
     z-index: 5;
     opacity: 0.5;
@@ -144,8 +145,8 @@ body {
     font-size: 96px;
     margin-bottom: 30px;
     background-color: white;
-    width: 350px;
-    height: 350px;
+    margin-top: 30%;
+    width: 100%;
     border-radius: 5%;
 }
 .mode-icon img {

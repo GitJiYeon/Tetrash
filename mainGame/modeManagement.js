@@ -12,6 +12,7 @@ let clearedGarbageLine = 0; //클리어 한 방해줄 라인
 let clearedLineWithTetrash = 0; //테트레쉬 블럭으로 클리어한 라인
 let clearedTetrisStage4 = 0;
 let placedBigPiece = 0;
+let tSpinStage7 = 0;
 //DROP_DELAY = 1000
 //gravityDirection = 1     -1 반전
 let lastGarbageTime = Date.now();
@@ -24,15 +25,17 @@ let GARBAGELINES_FOR_STAGE3 = 10;   //3스테이지 조건(방해줄 10줄 삭�
 let LINES_FOR_STAGE4 = 7;        // 4스테이지로 넘어가기 위한 줄 수
 let TETRIS_FOR_STAGE5 = 3;        // 4스테이지로 넘어가기 위한 줄 수
 let PLACED_FOR_STAGE6 = 10;
+let TSPIN_FOR_STAGE7 = 3;
 
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 0;   //15
-    GARBAGELINES_FOR_STAGE3 = 0; //7
-    LINES_FOR_STAGE4 = 0; //4
+    LINES_FOR_STAGE2 = 0;   //13
+    GARBAGELINES_FOR_STAGE3 = 0; //5
+    LINES_FOR_STAGE4 = 0; //3
     TETRIS_FOR_STAGE5 = 0; //1
-    PLACED_FOR_STAGE6 = 1; //20
+    PLACED_FOR_STAGE6 = 0; //10
+    TSPIN_FOR_STAGE7 = 1; //1
 
     //세팅
     DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다
@@ -45,10 +48,11 @@ function difficultySetting(){
     LINES_FOR_STAGE4 = 10;
     TETRIS_FOR_STAGE5 = 3;
     PLACED_FOR_STAGE6 = 30;
+    TSPIN_FOR_STAGE7 = 5;
 
     //세팅
     DROP_DELAY = 1000; //블록 떨어지는 속도 : 1초마다
-    garbageInterval = 4000; //방해줄 속도 : 4.5초
+    garbageInterval = 4000; //방해줄 속도 : 4초
     
   }
   else if(difficulty == 2){ //hard
@@ -110,8 +114,8 @@ function checkStageProgress() {
 
     currentPiece = getNextPiece();
     alert("5스테이지");
-  }
-  else if (currentStage === 5 && placedBigPiece >= PLACED_FOR_STAGE6) {
+  // 5스테이지 -> 6스테이지
+  }else if (currentStage === 5 && placedBigPiece >= PLACED_FOR_STAGE6) {
     currentStage++;
     modeReset();
     currentBag = [];
@@ -124,6 +128,11 @@ function checkStageProgress() {
     currentPiece = getNextPiece();
     updateGhostPiece();
     alert("6스테이지");
+  // 6스테이지 -> 7스테이지
+  }else if (currentStage === 6 && tSpinStage7 >= TSPIN_FOR_STAGE7) {
+    currentStage++;
+    modeReset();
+    alert("7스테이지");
   }
 }
 

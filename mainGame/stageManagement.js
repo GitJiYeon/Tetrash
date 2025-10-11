@@ -6,5 +6,6 @@ function stageMessageSetting(){
     { id: 3, mission: `새 블록으로 ${LINES_FOR_STAGE4}줄 삭제!`},
     { id: 4, mission: `4줄 삭제를 ${TETRIS_FOR_STAGE5}번 하세요!`},
     { id: 5, mission: `블록을 ${PLACED_FOR_STAGE6}개 놓으세요!`},
+    { id: 6, mission: `T스핀으로 줄 ${TSPIN_FOR_STAGE7}번 삭제!`},
   ];
 }

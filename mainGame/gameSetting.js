@@ -5,8 +5,8 @@ const BLOCK_SIZE = 30;
 
 let DROP_DELAY = 1000; // 블록 낙하 속도(ms)
 let PLACE_DELAY = 1000; // 블록이 바닥에 닿은 후 고정까지 딜레이(ms)
-let DAS = 110; // 키를 누른 후 반복 시작까지 딜레이(ms)
-let ARR = 25;  // 반복 간격(ms)
+let DAS = 160; // 키를 누른 후 반복 시작까지 딜레이(ms)
+let ARR = 30;  // 반복 간격(ms)
 let softDropMax = true;
 let softDropDelay = 80;
 let RED_ROW = 2; // 기본 데드라인 (중력 아래)

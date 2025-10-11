@@ -49,6 +49,8 @@ function makeProgressString(){
         return `(${clearedTetrisStage4} / ${TETRIS_FOR_STAGE5})`;
     }else if (currentStage == 5){
         return `(${placedBigPiece} / ${PLACED_FOR_STAGE6})`;
+    }else if (currentStage == 6){
+        return `(${tSpinStage7} / ${TSPIN_FOR_STAGE7})`;
     }
     return '(0 / 0)';
 }

@@ -21,7 +21,7 @@ function gameLoop(now) {
   }
 
   // 프레임 간 경과 시간 계산
-  let dt = now - lastFrameTime;
+  let dt = Math.min(now - lastFrameTime, 100); // 상한 100ms
   lastFrameTime = now;
 
   // 비정상적인 dt 값 방지 (최대 100ms)

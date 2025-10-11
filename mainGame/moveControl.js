@@ -247,9 +247,11 @@ function softDrop(gameTime) {
     if (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
       if(softDropMax){
         while (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
+          lastRotationUsed = false;
           currentY += gravityDirection;
         }
       }else{
+        lastRotationUsed = false;
         currentY += gravityDirection;
       }
       isOnGround = false;
@@ -267,6 +269,7 @@ function softDrop(gameTime) {
 function hardDrop() {
   updateGhostPiece();
   while (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
+    lastRotationUsed = false;
     currentY += gravityDirection;
   }
   placePieceOnGrid(currentPiece, currentX, currentY);
