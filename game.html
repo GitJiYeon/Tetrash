@@ -8,10 +8,11 @@
     <link rel="stylesheet" href="./mainMenu.css" />
     <link rel="stylesheet" href="./interaction.css" />
     <link rel="stylesheet" href="./motion.css" />
+    <link rel="stylesheet" href="./gameOver.css" />
 </head>
 <body>
     <!-- 메인메뉴 -->
-    <div class="mainMenu" id="mainMenu">
+    <div class="mainMenu active" id="mainMenu">
         <h1 class="menu-title">TETRASH</h1>
         <div class="menu-container">
             <button class="arrow-button arrow-left" id="arrowLeft">◀</button>
@@ -53,20 +54,32 @@
     </div>
 
     <!--테트리스 화면-->
-    <div class="gamePlay" id="gamePlay">
+    <div class="gamePlay hidden" id="gamePlay">
         <div class="backgroundLayer">
-                
             <!--
             <img class="bg-img" src="./images/stageBackground/pMino1.png">
             <img class="bg-img" src="./images/stageBackground/xMino1.png">
             <img class="bg-img" src="./images/stageBackground/zMino1.png">
             -->
         </div>
-        <div class="gameInfo"><h2>Tetrash</h2></div>
-        <div class="gameSpace">
+        <div class="gameInfo">
+            <button id="menuButton">MENU</button>
+            <h2>Tetrash</h2>
+        </div>
 
+        <div class="bossSpace" id="bossSpace">
+            <div class="bossInfo">
+                <div class="HPvar" id="HPvar">
+                    <div class="currentHP" id="currentHP"></div>
+                </div>
+                <div class="bossCase" id="bossCase">
+                    <img src="images/stageBackground/xMino1.png">
+                </div>
+            </div><!--bossInfo-->
+        </div><!--bossSpace-->
+
+        <div class="gameSpace" id="gameSpace">
             <div class="gameBox">
-
                 <div class="left">
                     <div class="hold-title">Hold</div>
                     <div class="hold">
@@ -100,9 +113,36 @@
                     </div><!--next-->
                 </div><!--right-->
 
-
             </div><!--gameBox-->
-        </div><!--gamePlay-->
+            
+        </div><!--gameSpace-->
+    </div><!--gamePlay-->
+
+    <!--게임오버 화면-->
+    <div class="gameOver hidden" id="gameOver">
+        <div class="gameOverContainer">
+            <div class="scoreImage" id="scoreImage">
+                
+            </div>
+            <div class="scoreInfo" id="scoreInfo">
+                <div class="scoreStar" id="scoreStar">
+                    ★ ★ ★ ★ ★
+                </div>
+                <div class="scoreView" id="scoreView">
+                    <div>Time : <span id="finish_time">0:00</span></div>
+                    <div>Score : <span id="finish_score">0</span></div>
+                    <div>PPS : <span id="finish_pps">0</span></div>
+                    <div>T-spin : <span id="finish_tSpin">0</span></div>
+                    <div>Tetrash : <span id="finish_tetrash">0</span></div>
+                </div>
+                <div class="gameOverButtons">
+                    <button class="gameOverButton" onclick="showMainMenu()">메인 메뉴</button>
+                    <button class="gameOverButton" onclick="restartGame()">다시하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
 
     <!--메뉴-->

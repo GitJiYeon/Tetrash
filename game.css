@@ -1,4 +1,4 @@
-
+/* 폰트 설정 */
 @font-face {
     font-family: 'IAmAPlayer';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2307-2@1.0/IAMAPLAYER.woff2') format('woff2');
@@ -6,160 +6,320 @@
     font-display: swap;
 }
 
-
-
-
-
-
-.gamePlay{
-    background-image: url("/images/stageBackground/backStage2.png");
-    background-size:cover; /* or contain */
-    display: flex;   
-    flex-direction: row; 
+/* 전역 초기화 - 여백 제거 */
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* ========================================
+   화면 전환 공통 스타일
+   ======================================== */
+.mainMenu,
+.gamePlay,
+.gameOver {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100vh;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
 }
 
-.gameInfo{
+.mainMenu.hidden,
+.gamePlay.hidden,
+.gameOver.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.mainMenu.active,
+.gamePlay.active,
+.gameOver.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+/* ========================================
+   게임 플레이 화면
+   ======================================== */
+.gamePlay {
+    background-image: url("/images/stageBackground/backStage2.png");
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 50;
+}
+
+/* 게임 정보 사이드바 */
+.gameInfo {
     flex: 2;
-    background-color: rgb(255, 250, 221); 
-    opacity: 0.4; /* 0~1 사이 값, 낮을수록 투명 */
-   
+    height: 100%;
+    background-color: rgb(255, 250, 221);
+    opacity: 0.4;
+    transition: transform 1s ease-in-out;
 }
 
-.gameSpace{
-    flex: 10;
-    width: auto;
-    height: auto;
+.gameInfo h2 {
+    color: black;
+}
+
+.gameInfo #menuButton {
+    width: 100%;
+}
+
+/* 보스 공간 */
+.bossSpace {
+    border: 2px solid rgb(255, 250, 221);
+    border-radius: 10px;
+    background-image: url("/images/bossFrame.png");
+    background-size: cover;
+    flex: 3;
+    transform: translateX(-120%);
+    transition: transform 1s ease-in-out;
+    opacity: 0;
+    width: 55%;
+    aspect-ratio: 1 / 1;
+    min-width: 200px;
+    min-height: 200px;
+    margin-left: 5%;
+    padding: 4%;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative; /* 배경과 게임박스 겹치게 */
-    margin-right: 200px;
-
-}
-.gameBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    height: 850px;
     position: relative;
-    z-index: 1; /* 배경보다 앞 */
 }
 
-/* 게임 전체 비율 축소 (기본) */
-.gameSpace {
-    transform: scale(0.75);         /* 기본 90% 크기 */
-    transform-origin: center;      /* 가운데 기준으로 축소 */
+.bossCase {
+    border: 2px solid rgb(255, 250, 221);
+    background-color: aquamarine;
+    width: 100%;
+    height: 100%;
 }
 
+.bossCase img {
+    background-color: black;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    display: block;
+}
 
+.bossSpace.hidden {
+    display: none;
+}
 
+.HPvar {
+    margin: 5%;
+    margin-top: 4%;
+    border-radius: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 8%;
+    border: 2px solid rgb(255, 217, 0);
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+.HPvar .currentHP {
+    border-radius: 20px;
+    height: 100%;
+    background-color: rgba(240, 221, 95, 0.8);
+    width: 100%;
+    z-index: 5;
+}
+
+/* 배경 레이어 */
 .backgroundLayer {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;  /* 화면 밖 이미지 숨기기 */
-    z-index: 0;        /* 게임 박스 뒤에 위치 */
+    overflow: hidden;
+    z-index: 0;
 }
 
 .backgroundLayer img {
     position: absolute;
-    width: 100%;       /* gameSpace 크기에 맞춤 */
+    width: 100%;
     height: 100%;
-    object-fit: cover; /* 비율 유지하며 꽉 채움 */
+    object-fit: cover;
     z-index: 0;
 }
-  
-.left{
-    border-radius: 10px;
+
+/* 게임 공간 */
+.gameSpace {
+    background-color: blue;
+    flex: 6;
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-left: 0px;
+    margin-right: 20%;
+    transform: scale(80%);
+    transform-origin: center;
+    transition: transform 1s ease-in-out, margin-right 1s ease-in-out;
+}
+
+.gameBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 850px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 왼쪽 패널 */
+.left {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start; /* 수평 중앙 */
+    justify-content: flex-start;
     align-self: flex-start;
     width: 200px;
     height: auto;
-    box-sizing: border-box;
 }
-.hold{
-    background-image: url("/images/holdFrame7.png");
-    background-size: cover; /* or contain */
+
+/* Hold 섹션 */
+.hold-title {
+    background-image: url("/images/titleBackground.png");
+    background-size: cover;
+    background-color: rgb(20, 38, 77);
+    border: 2px solid rgb(255, 250, 221);
+    border-radius: 10px;
+    width: 100%;
+    height: 50px;
     display: flex;
-    align-items: center; /* 수직 중앙 */
-    justify-content: center; /* 수평 중앙 */
+    justify-content: center;
+    align-items: center;
+    font-size: 200%;
+    font-weight: bold;
+    color: white;
+    font-family: 'IAmAPlayer', sans-serif;
+}
+
+.hold {
+    background-image: url("/images/holdFrame7.png");
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
     height: 200px;
     border-radius: 10px;
-    border: 2px solid rgb(255, 250, 221); 
+    border: 2px solid rgb(255, 250, 221);
 }
 
-.spin-text {
+canvas#hold {
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 140px;
+    height: 140px;
+}
+
+/* 점수 섹션 */
+.score {
+    border: 1px solid rgb(255, 250, 221);
+    background-image: url("/images/titleBackground.png");
+    background-size: cover;
+    background-color: rgb(20, 38, 77);
     width: 100%;
-    height: 100px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0;              /* 처음엔 안 보이게 */
-    transition: opacity 0.3s ease;
-  }
-  .spin-text.show {
-    opacity: 1;              /* 보이게 */
-  }
-  
+    height: 150px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 20px;
+    color: white;
+    font-family: 'IAmAPlayer', sans-serif;
+}
+
+.score span {
+    display: inline-block;
+    min-width: 50px;
+}
+
+/* 미션 텍스트 */
 .mission-text {
-    /*background-image: url("/images/titleBackground.png");*/
     background-size: cover;
     background-color: rgb(0, 0, 0);
     width: 100%;
     height: 100px;
     border-radius: 10px;
     border: 2px solid rgb(255, 250, 221);
-
-    /* 텍스트 중앙 정렬 */
     display: flex;
-    flex-direction: column; /* 세로로 쌓기 */
-    align-items: center; /* 가로 중앙 */
-
-    padding-top: 20px;
-    /* 글자 스타일 */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px;
     font-size: 16px;
     color: white;
+    gap: 5px;
 }
 
 .mission-text span {
     min-width: 50px;
 }
 
-.hold-title, .next-title {
-    background-image: url("/images/titleBackground.png");
-    background-size: cover; /* or contain */
-    font-weight: bold;
-    background-color: rgb(20, 38, 77);
-    border: 2px solid rgb(255, 250, 221); ;
-    border-radius: 10px;
+/* 스핀 텍스트 */
+.spin-text {
     width: 100%;
-    height: 50px;
-
-    /* 텍스트 중앙 정렬 */
-    display: flex;
-    justify-content: center; /* 가로 중앙 */
-    align-items: center;     /* 세로 중앙 */
-    flex-direction: column; /* 세로로 정렬 */
-    gap: 5px; /* 항목 사이 간격 */
-
-    /* 글자 크기 키우기 */
-    font-size: 30px; 
-    color: white; 
-
-    font-family: 'IAmAPlayer', sans-serif;
+    height: 100px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
+.spin-text.show {
+    opacity: 1;
+}
 
+/* 중앙 그리드 */
+.grid {
+    background-image: url("/images/gameFrame7.png");
+    background-size: cover;
+    border-radius: 10px;
+    border: 2px solid rgb(255, 250, 221);
+    padding: 20px;
+    width: 400px;
+    height: 840px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+canvas#tetris {
+    width: 350px;
+    height: 790px;
+    border: 2px solid rgb(20, 38, 77);
+    border-radius: 10px;
+    background: transparent;
+    image-rendering: pixelated;
+}
+
+/* 오른쪽 패널 */
 .right {
     background-color: rgb(20, 38, 77);
     display: flex;
@@ -172,83 +332,38 @@
     border-radius: 10px;
 }
 
-.next{
-    background-image: url("/images/nextFrame7.png");
-    background-size: cover; /* or contain */
-    display: flex;
-    align-items: center; /* 수직 중앙 */
-    justify-content: center; /* 수평 중앙 */
-    width: 100%;
-    height: 720px;
-    border-radius: 10px;
-    border: 2px solid rgb(255, 250, 221); 
-}
-
-.score{
+.next-title {
     background-image: url("/images/titleBackground.png");
-    background-size: cover; /* or contain */
-    background-color:rgb(20, 38, 77);
+    background-size: cover;
+    background-color: rgb(20, 38, 77);
+    border: 2px solid rgb(255, 250, 221);
+    border-radius: 10px;
     width: 100%;
-    height: 150px;
-    border-radius: 10px;
-    border: 2px solid rgb(255, 250, 221); 
-
-    /* 텍스트 중앙 정렬 */
-    display: flex;
-    justify-content: center; /* 가로 중앙 */
-    align-items: center;     /* 세로 중앙 */
-    flex-direction: column; /* 세로로 정렬 */
-    
-    gap: 5px; /* 항목 사이 간격 */
-
-    /* 글자 크기 키우기 */
-    font-size: 20px;
-    color: white; 
-
-    font-family: 'IAmAPlayer', sans-serif;
-}
-
-
-.score span {
-    display: inline-block;
-    min-width: 50px; /* 숫자 자리 확보, 정렬 깔끔 */
-}
-
-
-canvas#hold{
-    border: 2px solid white; 
-    border-radius: 10px;
-    width: 140px;
-    height: 140px;
-}
-
-.grid {
-    background-image: url("/images/gameFrame7.png");
-    background-size: cover; /* or contain */
-    border-radius: 10px;
-    border: 2px solid rgb(255, 250, 221); 
-    padding: 20px;
-    width: 400px;
-    height: 840px;
+    height: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    font-family: 'IAmAPlayer', sans-serif;
 }
-canvas#tetris {
-    width: 350px;
-    height: 790px;
-    border: 2px solid rgb(20, 38, 77);
-    align-self: flex;
-    image-rendering: pixelated;
+
+.next {
+    background-image: url("/images/nextFrame7.png");
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 720px;
     border-radius: 10px;
-    background: transparent;
+    border: 2px solid rgb(255, 250, 221);
 }
 
 canvas#next {
-    border: 2px solid white; 
+    border: 2px solid white;
     border-radius: 10px;
     width: 140px;
     height: 640px;
 }
-

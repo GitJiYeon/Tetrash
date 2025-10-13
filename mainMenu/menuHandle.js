@@ -7,19 +7,62 @@ const gamePlay = document.getElementById('gamePlay');
 const cards = document.querySelectorAll('.mode-card');
 const arrowLeft = document.getElementById('arrowLeft');
 const arrowRight = document.getElementById('arrowRight');
+const gameOverMenu = document.getElementById('gameOver');
 
-// Display 전환 함수
-function showMainMenu() {
+// 페이지 로드 시 초기 설정
+document.addEventListener('DOMContentLoaded', () => {
+    // 메인 메뉴만 표시
+    mainMenu.classList.add('active');
     mainMenu.classList.remove('hidden');
+    
+    // 나머지 화면 숨김
+    gamePlay.classList.add('hidden');
     gamePlay.classList.remove('active');
+    
+    gameOverMenu.classList.add('hidden');
+    gameOverMenu.classList.remove('active');
+});
+
+// 메인 메뉴로 전환
+function showMainMenu() {
+    console.log('메인 메뉴로 전환');
+    
+    // 모든 화면 숨기기
+    gamePlay.classList.remove('active');
+    gamePlay.classList.add('hidden');
+    gameOverMenu.classList.remove('active');
+    gameOverMenu.classList.add('hidden');
+
+    // 메인 메뉴 보이기
+    mainMenu.classList.remove('hidden');
+    mainMenu.classList.add('active');
 }
 
-function showGamePlay() {
-    // 메인 메뉴 슬라이드 아웃
+// gameOver화면
+function showGameOver() {
+    // 모든 화면 숨기기
+    //gamePlay.classList.remove('active');
+    //gamePlay.classList.add('hidden');
+    mainMenu.classList.remove('active');
     mainMenu.classList.add('hidden');
 
-    // 게임 화면 슬라이드 인
-    gamePlay.classList.remove('hidden'); // hidden이 있을 경우 제거
+
+    // 게임오버 화면 보이기
+    gameOverMenu.classList.remove('hidden');
+    gameOverMenu.classList.add('active');
+}
+
+
+function showGamePlay() {
+    
+   // 모든 화면 숨기기
+    mainMenu.classList.remove('active');
+    mainMenu.classList.add('hidden');
+    gameOverMenu.classList.remove('active');
+    gameOverMenu.classList.add('hidden');
+
+    // 게임 화면 보이기
+    gamePlay.classList.remove('hidden');
     gamePlay.classList.add('active');
 
     gamePlay.addEventListener('transitionend', function handler(e) {
@@ -137,3 +180,53 @@ function showSkillImage(skillType) {
     }, 1500);
   }
 }
+
+const menuButton = document.getElementById('menuButton');
+
+menuButton.addEventListener('click', () => {
+    gameRunning = false;
+    showMainMenu(); // 버튼 클릭 시 메뉴 화면으로 전환
+});
+
+function startBossStage() {
+  const boss = document.getElementById('bossSpace');
+  const gameSpace = document.getElementById('gameSpace');
+
+  // 화면 흔들림
+  gameSpace.classList.add('shakeBoss');
+
+  
+    
+  setTimeout(() => {
+
+    //블러 적용
+    //gamePlay.classList.add('bossActive');
+
+    // 테트리스 오른쪽으로 이동
+    gameSpace.style.marginRight = '4%';
+    // 보스 등장
+    boss.style.transform = 'translateX(0)';
+    boss.style.opacity = '1';
+    gameSpace.classList.remove('shakeBoss');
+    
+  }, 1000); // 흔들림 1초
+}
+
+function shaking(){
+  gameSpace.classList.add('shake');
+
+  setTimeout(() => {
+    gameSpace.classList.remove('shake');
+  }, 400); // 흔들림0.4초
+}
+
+
+
+function damageBoss(amount) {
+    bossHP -= amount;
+    if (bossHP < 0) bossHP = 0;
+
+    const hpBar = document.getElementById('currentHP');
+    hpBar.style.width = bossHP + '%';
+}
+

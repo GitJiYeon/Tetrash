@@ -1,6 +1,7 @@
+/* 이미지 드래그 방지 */
 img {
-    user-select: none;       /* 텍스트 선택 방지 */
-    -webkit-user-drag: none; /* 이미지 드래그 방지 (크롬, 사파리) */
+    user-select: none;
+    -webkit-user-drag: none;
     -moz-user-select: none;
     -ms-user-select: none;
-  }
+}

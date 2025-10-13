@@ -19,12 +19,28 @@ function getNextPiece() {
     nextBag = createNewBag(); 
   }
   
+  // 마지막 라운드 빅블록 추가
+  if (currentStage === 7) { 
+
+    // 1% 확률로 빅블록 추가
+    if (Math.random() < 0.1) {
+      const randomBig = bigTypes[Math.floor(Math.random() * bigTypes.length)];
+      currentBag.push(randomBig);
+    }
+
+    // 2.5% 확률로 테트레쉬 블록 추가
+    if (Math.random() < 0.25) {
+      const randomTetrash = tetrashTypes[Math.floor(Math.random() * tetrashTypes.length)];
+      currentBag.push(randomTetrash);
+    }
+  }
   const pieceType = currentBag.shift();
   if (pieceType === 'bigI') {
     // bigI 블록은 특수 처리
     currentX = 1;
     currentY = (gravityDirection === 1) ? 0 : 20;
   }
+  drawNext();
   return blocks[pieceType];
   
 }

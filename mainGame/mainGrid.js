@@ -57,7 +57,7 @@ function checkRedZone() {
 function gameOver() {
   gameRunning = false;
   isGameOver = true;
-  alert("gameover");
+  showGameOver();
   console.log("gameover");
 }
 
@@ -209,7 +209,6 @@ function checkLineFilled(pieceType) {
 // 블록 배치 및 점수 계산
 // ============================================================================
 
-const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
 
 // 블록을 그리드에 배치하고 점수 계산
 function placePieceOnGrid(piece, x, y) {
@@ -226,6 +225,7 @@ function placePieceOnGrid(piece, x, y) {
     }
   }
   
+  
   canPlaceHold = true; // 홀드 사용 가능하도록 설정
   
   // 라인 제거 전 T-Spin 체크
@@ -233,7 +233,7 @@ function placePieceOnGrid(piece, x, y) {
 
   // 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
-
+  if(currentStage == 7) damageBoss(clearedLines);
   // 점수 계산
   const tSpinTable = [0, 300, 800, 1200];
   if (isTSpin) {

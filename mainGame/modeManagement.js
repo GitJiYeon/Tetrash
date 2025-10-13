@@ -30,7 +30,7 @@ let TSPIN_FOR_STAGE7 = 3;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 0;   //13
+    LINES_FOR_STAGE2 = 2;   //13
     GARBAGELINES_FOR_STAGE3 = 0; //5
     LINES_FOR_STAGE4 = 0; //3
     TETRIS_FOR_STAGE5 = 0; //1
@@ -39,7 +39,7 @@ function difficultySetting(){
 
     //세팅
     DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다
-    garbageInterval = 6500; //방해줄 속도 : 6.5초
+    garbageInterval = 8000; //방해줄 속도 : 8초
 
   }else if(difficulty == 1){ //nomal
     //라운드 조건
@@ -52,7 +52,7 @@ function difficultySetting(){
 
     //세팅
     DROP_DELAY = 1000; //블록 떨어지는 속도 : 1초마다
-    garbageInterval = 4000; //방해줄 속도 : 4초
+    garbageInterval = 5000; //방해줄 속도 : 5초
     
   }
   else if(difficulty == 2){ //hard
@@ -72,7 +72,7 @@ function checkStageProgress() {
     modeReset();
     MODE_garbageLine = true;  // 방해줄 모드 켜기
     alert("2스테이지");
-
+    shaking();
   // 2스테이지 -> 3스테이지
   }else if (currentStage === 2 && clearedGarbageLine >= GARBAGELINES_FOR_STAGE3) {
     modeReset();
@@ -84,6 +84,7 @@ function checkStageProgress() {
     countLinesCleared = totalLinesCleared;
     currentStage++;
     alert("3스테이지");
+    shaking();
   // 3스테이지 -> 4스테이지
   }else if (currentStage === 3 && clearedLineWithTetrash >= LINES_FOR_STAGE4) {
     currentStage++;    
@@ -96,6 +97,7 @@ function checkStageProgress() {
     flipGrid();
     flipCurrentPiece();
     alert("4스테이지");
+    shaking();
   // 4스테이지 -> 5스테이지
   }else if (currentStage === 4 && clearedTetrisStage4 >= TETRIS_FOR_STAGE5) {
     currentStage++;
@@ -114,6 +116,7 @@ function checkStageProgress() {
 
     currentPiece = getNextPiece();
     alert("5스테이지");
+    shaking();
   // 5스테이지 -> 6스테이지
   }else if (currentStage === 5 && placedBigPiece >= PLACED_FOR_STAGE6) {
     currentStage++;
@@ -128,11 +131,17 @@ function checkStageProgress() {
     currentPiece = getNextPiece();
     updateGhostPiece();
     alert("6스테이지");
+    shaking();
   // 6스테이지 -> 7스테이지
   }else if (currentStage === 6 && tSpinStage7 >= TSPIN_FOR_STAGE7) {
     currentStage++;
     modeReset();
+    if(difficulty == 0) garbageInterval = 10000;
+    else if(difficulty == 1) garbageInterval = 7000;
+    else if(difficulty == 2) garbageInterval = 4500;
+    MODE_garbageLine = true
     alert("7스테이지");
+    startBossStage();
   }
 }
 

@@ -12,6 +12,8 @@ let softDropDelay = 80;
 let RED_ROW = 2; // 기본 데드라인 (중력 아래)
 let gravityDirection = 1; // 1 = 아래, -1 = 위 (중력 방향)
 
+let bossHP = 100; // 보스 최대 HP 100
+
 ///////////////////////////////[Canvas & 그리드 설정]/////////////////////////////////
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
@@ -61,7 +63,8 @@ let tSpinCount = 0;
 
 ///////////////////////////////[기타 설정]/////////////////////////////////
 let basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I'];
-
+const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
+const tetrashTypes = ['Q', 'X', 'U', 'P', 'V', 'dot'];
 //기본 블럭
 
 // 셀 그리기

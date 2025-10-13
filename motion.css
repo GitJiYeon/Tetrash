@@ -1,69 +1,101 @@
+/* ========================================
+   화면 전환 애니메이션
+   ======================================== */
 
-/* gamePlay 초기 상태 */
-#gamePlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+/* gamePlay 내부 요소 초기 상태 */
+.gamePlay .backgroundLayer,
+.gamePlay .gameBox,
+.gamePlay .gameInfo {
     opacity: 0;
     transform: translateY(-30px);
     transition: opacity 0.5s ease, transform 0.5s ease;
-    pointer-events: none;
-}
-#gamePlay.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-/* 내부 요소 초기 상태 */
-.backgroundLayer,
-.gameBox,
-.gameInfo {
-    opacity: 0;
-    transform: translateY(-30px); /* 위에서 내려오기 */
-    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-/* 활성화 시 순차 애니메이션 */
-#gamePlay.active .backgroundLayer {
+/* gamePlay 활성화 시 순차 애니메이션 */
+.gamePlay.active .backgroundLayer {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: 0s; /* 배경 바로 표시 */
+    transition-delay: 0s;
 }
 
-#gamePlay.active .gameBox {
+.gamePlay.active .gameBox {
     opacity: 1;
     transform: translateY(0);
-    transition-delay: 0.2s; /* 배경 뒤 0.2초 후 */
+    transition-delay: 0.2s;
 }
 
-#gamePlay.active .gameInfo {
+.gamePlay.active .gameInfo {
     opacity: 0.4;
     transform: translateY(0);
-    transition-delay: 0.4s; /* 마지막으로 등장 */
+    transition-delay: 0.4s;
 }
 
-
-/* 메인 메뉴 초기 상태: 중앙 */
-#mainMenu {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-    z-index: 5;
+/* mainMenu 사라질 때 애니메이션 */
+.mainMenu .cards-wrapper,
+.mainMenu .menu-title {
+    transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-/* 메뉴 사라질 때 */
-#mainMenu.hidden .cards-wrapper {
+.mainMenu.hidden .cards-wrapper {
     transform: translateY(30px);
     opacity: 0;
-    transition-delay: 0s; /* 카드 먼저 */
 }
 
-#mainMenu.hidden .menu-background {
-    transform: translateY(30px);
+.mainMenu.hidden .menu-title {
+    transform: translateY(-30px);
     opacity: 0;
-    transition-delay: 0.15s; /* 배경은 카드 뒤 */
+}
+
+/* gameOver 등장 애니메이션 */
+.gameOver.active .gameOverContainer {
+    animation: gameOverSlideIn 0.6s ease-out;
+}
+
+@keyframes gameOverSlideIn {
+    0% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* ========================================
+   게임 중 흔들림 애니메이션
+   ======================================== */
+
+/* 보스 공격 흔들림 */
+.gameSpace.shakeBoss {
+    animation: shakeBoss 0.8s;
+}
+
+/* 일반 흔들림 */
+.gameSpace.shake {
+    animation: shake 0.3s;
+}
+
+@keyframes shakeBoss {
+    0%, 100% { 
+        transform: scale(0.8) translateX(0); 
+    }
+    10%, 30%, 50%, 70%, 90% { 
+        transform: scale(0.82) translateX(-6px); 
+    }
+    20%, 40%, 60%, 80% { 
+        transform: scale(0.82) translateX(6px); 
+    }
+}
+
+@keyframes shake {
+    0%, 100% { 
+        transform: scale(0.8) translateX(0); 
+    }
+    25%, 75% { 
+        transform: scale(0.8) translateX(-2px); 
+    }
+    50% { 
+        transform: scale(0.8) translateX(2px); 
+    }
 }
