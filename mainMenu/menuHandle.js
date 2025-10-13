@@ -8,6 +8,8 @@ const cards = document.querySelectorAll('.mode-card');
 const arrowLeft = document.getElementById('arrowLeft');
 const arrowRight = document.getElementById('arrowRight');
 const gameOverMenu = document.getElementById('gameOver');
+const bossSpace = document.getElementById('bossSpace');
+const gameSpace = document.getElementById('gameSpace');
 
 // 페이지 로드 시 초기 설정
 document.addEventListener('DOMContentLoaded', () => {
@@ -189,37 +191,43 @@ menuButton.addEventListener('click', () => {
 });
 
 function startBossStage() {
-  const boss = document.getElementById('bossSpace');
-  const gameSpace = document.getElementById('gameSpace');
-
   // 화면 흔들림
   gameSpace.classList.add('shakeBoss');
 
-  
-    
   setTimeout(() => {
-
-    //블러 적용
-    //gamePlay.classList.add('bossActive');
-
     // 테트리스 오른쪽으로 이동
     gameSpace.style.marginRight = '4%';
     // 보스 등장
-    boss.style.transform = 'translateX(0)';
-    boss.style.opacity = '1';
+    bossSpace.style.transform = 'translateX(0)';
+    bossSpace.style.opacity = '1';
     gameSpace.classList.remove('shakeBoss');
     
-  }, 1000); // 흔들림 1초
+  }, 1000);
 }
 
-function shaking(){
-  gameSpace.classList.add('shake');
+function impactEffect(container){
+  container.classList.add('impact1');
 
   setTimeout(() => {
-    gameSpace.classList.remove('shake');
+    container.classList.remove('impact1');
+  }, 150); 
+}
+
+function shaking(container){
+  container.classList.add('shake');
+
+  setTimeout(() => {
+    container.classList.remove('shake');
   }, 400); // 흔들림0.4초
 }
 
+function shaking2(container){
+  container.classList.add('shake2');
+
+  setTimeout(() => {
+    container.classList.remove('shake2');
+  }, 300); // 흔들림0.4초
+}
 
 
 function damageBoss(amount) {
@@ -228,5 +236,31 @@ function damageBoss(amount) {
 
     const hpBar = document.getElementById('currentHP');
     hpBar.style.width = bossHP + '%';
+
+
 }
 
+
+
+function defeatBoss() {
+  // 흔들림 시작
+  bossSpace.classList.add('shakingBoss');
+
+  // 1.5초 동안 흔들리다가
+  setTimeout(() => {
+    bossSpace.classList.remove('shakingBoss');
+
+    // 터지는 효과로 전환
+    bossSpace.classList.add('bossExplode');
+
+    // 사운드나 효과 넣고 싶으면 여기에
+    // playExplosionSound();
+
+    // 0.6초 후 완전히 사라지기
+    setTimeout(() => {
+      bossSpace.style.display = 'none';
+      bossSpace.classList.remove('bossExplode');
+      gameOver();
+    }, 600);
+  }, 1500);
+}

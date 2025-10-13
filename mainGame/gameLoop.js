@@ -15,6 +15,10 @@ document.addEventListener("visibilitychange", () => {
 // ============================================================================
 
 function gameLoop(now) {
+  if(bossHP < 1){
+    defeatBoss();
+    gameRunning = false;
+  }
   // 일시정지 후 복귀 시 프레임 시간 초기화
   if (!lastFrameTime || paused) {
     lastFrameTime = now;

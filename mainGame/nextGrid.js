@@ -23,13 +23,13 @@ function getNextPiece() {
   if (currentStage === 7) { 
 
     // 1% 확률로 빅블록 추가
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.01) {
       const randomBig = bigTypes[Math.floor(Math.random() * bigTypes.length)];
       currentBag.push(randomBig);
     }
 
     // 2.5% 확률로 테트레쉬 블록 추가
-    if (Math.random() < 0.25) {
+    if (Math.random() < 0.025) {
       const randomTetrash = tetrashTypes[Math.floor(Math.random() * tetrashTypes.length)];
       currentBag.push(randomTetrash);
     }

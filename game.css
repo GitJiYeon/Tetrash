@@ -78,6 +78,7 @@ html, body {
 
 .gameInfo #menuButton {
     width: 100%;
+    height: 5%;
 }
 
 /* 보스 공간 */

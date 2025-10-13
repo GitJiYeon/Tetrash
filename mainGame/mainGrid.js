@@ -225,7 +225,8 @@ function placePieceOnGrid(piece, x, y) {
     }
   }
   
-  
+  //빅블록 애니메이션
+  if(MODE_bigBlock){impactEffect(gameSpace)}
   canPlaceHold = true; // 홀드 사용 가능하도록 설정
   
   // 라인 제거 전 T-Spin 체크
@@ -233,7 +234,10 @@ function placePieceOnGrid(piece, x, y) {
 
   // 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
-  if(currentStage == 7) damageBoss(clearedLines);
+  if(currentStage == 7 && clearedLines != 0) {
+    damageBoss(clearedLines);
+    shaking2(bossSpace);
+  }
   // 점수 계산
   const tSpinTable = [0, 300, 800, 1200];
   if (isTSpin) {
