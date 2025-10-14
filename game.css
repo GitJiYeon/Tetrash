@@ -163,7 +163,6 @@ html, body {
 
 /* 게임 공간 */
 .gameSpace {
-    background-color: blue;
     flex: 6;
     width: auto;
     height: 100%;

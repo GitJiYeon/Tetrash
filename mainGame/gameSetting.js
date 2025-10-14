@@ -13,7 +13,7 @@ let RED_ROW = 2; // 기본 데드라인 (중력 아래)
 let gravityDirection = 1; // 1 = 아래, -1 = 위 (중력 방향)
 
 let bossHP = 100; // 보스 최대 HP 100
-
+let currentBossHP = bossHP;
 ///////////////////////////////[Canvas & 그리드 설정]/////////////////////////////////
 const canvas = document.getElementById('tetris');
 const context = canvas.getContext('2d');
@@ -60,6 +60,7 @@ let totalLinesCleared = 0;
 let totalTetrisClear = 0;
 let placedPiece = 0;
 let tSpinCount = 0;
+let currentPps = 0;
 
 ///////////////////////////////[기타 설정]/////////////////////////////////
 let basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I'];

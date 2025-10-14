@@ -1,6 +1,6 @@
 // 메뉴 관리
-let currentModeIndex = 1; // 중앙 카드(Marathon)
-const modes = ['arcade', 'marathon', 'ultra', 'zen', 'battle'];
+let currentModeIndex = 1; 
+const modes = ['arcadeEasy', 'arcadeNomal', 'arcadeHard', 'skillCheck', '-'];
 
 const mainMenu = document.getElementById('mainMenu');
 const gamePlay = document.getElementById('gamePlay');
@@ -41,17 +41,39 @@ function showMainMenu() {
 }
 
 // gameOver화면
-function showGameOver() {
-    // 모든 화면 숨기기
-    //gamePlay.classList.remove('active');
-    //gamePlay.classList.add('hidden');
-    mainMenu.classList.remove('active');
-    mainMenu.classList.add('hidden');
+function showGameOver(isClear) {
+  //스코어 기록
+  const totalSeconds = Math.floor(gameTime / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+
+  const final_time = document.getElementById(`final_time`);
+  const final_score = document.getElementById('final_score');
+  const final_pps = document.getElementById('final_pps');
+  const final_tSpin = document.getElementById('final_tSpin');
+  const final_tetrash = document.getElementById('final_tetrash');
+
+  final_time.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  final_score.textContent = score;
+  final_pps.textContent = currentPps;
+  final_tSpin.textContent = tSpinCount;
+  final_tetrash.textContent = totalTetrisClear;
+  if(isClear){
+    document.getElementById('scoreMessage').textContent = "WOW CLEAR!";
+  }else{
+    document.getElementById('scoreMessage').textContent = "TRY AGAIN,,,";
+  }
+  
+  // 모든 화면 숨기기
+  //gamePlay.classList.remove('active');
+  //gamePlay.classList.add('hidden');
+  mainMenu.classList.remove('active');
+  mainMenu.classList.add('hidden');
 
 
-    // 게임오버 화면 보이기
-    gameOverMenu.classList.remove('hidden');
-    gameOverMenu.classList.add('active');
+  // 게임오버 화면 보이기
+  gameOverMenu.classList.remove('hidden');
+  gameOverMenu.classList.add('active');
 }
 
 
@@ -130,12 +152,12 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// 카드 클릭 이벤트
+// 카드 클릭
 cards.forEach((card, index) => {
     card.addEventListener('click', () => {
         const mode = card.getAttribute('data-mode');
         console.log(`${mode} 모드 선택됨`);
-        console.log(window.startGame); // 함수가 보이면 OK
+        console.log(window.startGame);
         // 게임 시작 함수 호출
         showGamePlay();
     });
@@ -230,15 +252,6 @@ function shaking2(container){
 }
 
 
-function damageBoss(amount) {
-    bossHP -= amount;
-    if (bossHP < 0) bossHP = 0;
-
-    const hpBar = document.getElementById('currentHP');
-    hpBar.style.width = bossHP + '%';
-
-
-}
 
 
 
@@ -260,7 +273,7 @@ function defeatBoss() {
     setTimeout(() => {
       bossSpace.style.display = 'none';
       bossSpace.classList.remove('bossExplode');
-      gameOver();
+      gameOver(true);
     }, 600);
   }, 1500);
 }

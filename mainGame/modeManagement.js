@@ -6,7 +6,7 @@ let MODE_gravityReverse = false;
 let MODE_multyBlock = false;
 let MODE_tetrash = false;
 
-let difficulty = 0; // 0 easy, 1 nomal, 2 hard
+let difficulty = 1; // 0 easy, 1 nomal, 2 hard
 
 let clearedGarbageLine = 0; //클리어 한 방해줄 라인
 let clearedLineWithTetrash = 0; //테트레쉬 블럭으로 클리어한 라인
@@ -30,24 +30,24 @@ let TSPIN_FOR_STAGE7 = 3;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 1;   //13
-    GARBAGELINES_FOR_STAGE3 = 0; //5
-    LINES_FOR_STAGE4 = 0; //3
-    TETRIS_FOR_STAGE5 = 0; //1
-    PLACED_FOR_STAGE6 = 10; //10
+    LINES_FOR_STAGE2 = 10;   //10
+    GARBAGELINES_FOR_STAGE3 = 3; //3
+    LINES_FOR_STAGE4 = 3; //3
+    TETRIS_FOR_STAGE5 = 1; //1
+    PLACED_FOR_STAGE6 = 13; //10
     TSPIN_FOR_STAGE7 = 1; //1
 
     //세팅
     DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다
-    garbageInterval = 8000; //방해줄 속도 : 8초
+    garbageInterval = 9000; //방해줄 속도 : 9초
 
     //보스
-    bossHP = 5;
-
+    bossHP = 40;
+    currentBossHP = bossHP;
   }else if(difficulty == 1){ //nomal
     //라운드 조건
     LINES_FOR_STAGE2 = 25;  
-    GARBAGELINES_FOR_STAGE3 = 15;
+    GARBAGELINES_FOR_STAGE3 = 12;
     LINES_FOR_STAGE4 = 10;
     TETRIS_FOR_STAGE5 = 3;
     PLACED_FOR_STAGE6 = 30;
@@ -59,12 +59,11 @@ function difficultySetting(){
     
     //보스
     bossHP = 60;
+    currentBossHP = bossHP;
   }
   else if(difficulty == 2){ //hard
 
-
   }
-  
 }
 
 let countLinesCleared = 0;
@@ -76,7 +75,7 @@ function checkStageProgress() {
     currentStage++;
     modeReset();
     MODE_garbageLine = true;  // 방해줄 모드 켜기
-    alert("2스테이지");
+    //alert("2스테이지");
     shaking(gameSpace);
   // 2스테이지 -> 3스테이지
   }else if (currentStage === 2 && clearedGarbageLine >= GARBAGELINES_FOR_STAGE3) {
@@ -88,7 +87,7 @@ function checkStageProgress() {
 
     countLinesCleared = totalLinesCleared;
     currentStage++;
-    alert("3스테이지");
+    //alert("3스테이지");
     shaking(gameSpace);
   // 3스테이지 -> 4스테이지
   }else if (currentStage === 3 && clearedLineWithTetrash >= LINES_FOR_STAGE4) {
@@ -101,7 +100,7 @@ function checkStageProgress() {
 
     flipGrid();
     flipCurrentPiece();
-    alert("4스테이지");
+    //alert("4스테이지");
     shaking(gameSpace);
   // 4스테이지 -> 5스테이지
   }else if (currentStage === 4 && clearedTetrisStage4 >= TETRIS_FOR_STAGE5) {
@@ -120,7 +119,7 @@ function checkStageProgress() {
     canPlaceHold = false;
 
     currentPiece = getNextPiece();
-    alert("5스테이지");
+    //alert("5스테이지");
     shaking(gameSpace);
   // 5스테이지 -> 6스테이지
   }else if (currentStage === 5 && placedBigPiece >= PLACED_FOR_STAGE6) {
@@ -135,7 +134,7 @@ function checkStageProgress() {
 
     currentPiece = getNextPiece();
     updateGhostPiece();
-    alert("6스테이지");
+    //alert("6스테이지");
     shaking(gameSpace);
   // 6스테이지 -> 7스테이지
   }else if (currentStage === 6 && tSpinStage7 >= TSPIN_FOR_STAGE7) {
@@ -145,7 +144,7 @@ function checkStageProgress() {
     else if(difficulty == 1) garbageInterval = 7000;
     else if(difficulty == 2) garbageInterval = 4500;
     MODE_garbageLine = true
-    alert("7스테이지");
+    //alert("7스테이지");
     startBossStage();
   }
 }

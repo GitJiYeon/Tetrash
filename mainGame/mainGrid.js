@@ -46,7 +46,7 @@ function checkRedZone() {
   // 중앙 4칸(3-6) 체크
   for (let x = 3; x < 7; x++) {
     if (grid[RED_ROW][x] !== 0) {
-      gameOver();
+      gameOver(false);
       return true;
     }
   }
@@ -54,13 +54,29 @@ function checkRedZone() {
 }
 
 // 게임 오버 처리
-function gameOver() {
+function gameOver(isClear) {
   gameRunning = false;
   isGameOver = true;
-  showGameOver();
+  showGameOver(isClear);
   console.log("gameover");
 }
 
+// ============================================================================
+// 보스
+// ============================================================================
+
+function damageBoss(amount) {
+    currentBossHP -= amount;
+    const hpBar = document.getElementById('currentHP');
+    const percent = (currentBossHP / bossHP) * 100;
+    hpBar.style.width = percent + '%';
+    
+    if (currentBossHP < 1){
+      defeatBoss();
+      gameRunning = false;
+      return;
+    }
+}
 // ============================================================================
 // 블록 배치 & 충돌 감지
 // ============================================================================
@@ -106,7 +122,7 @@ function spawnNewPiece() {
   
   // 스폰 위치 유효성 검사
   if (!canPlacePiece(currentPiece, currentX, currentY) || checkRedZone()) {
-    gameOver();
+    gameOver(false);
     return false;
   }
   
@@ -245,7 +261,11 @@ function placePieceOnGrid(piece, x, y) {
       tSpinCount++;
       score += tSpinTable[clearedLines];
       console.log("T스핀" + tSpinTable[clearedLines]);
-    
+    //보스전 T스핀 추가데미지
+    if(currentStage == 7 && clearedLines != 0){
+      damageBoss(clearedLines);
+    }
+
   }
   // 초기화
   lastRotationUsed = false;
@@ -255,6 +275,7 @@ function placePieceOnGrid(piece, x, y) {
   
   // 테트리스 클리어 카운트
   if (clearedLines === 4) {
+    if(currentStage == 7 && clearedLines != 0) damageBoss(1);
     totalTetrisClear++;
     showSkillImage('tetrash');
     if (currentStage === 4) clearedTetrisStage4++;

@@ -9,6 +9,7 @@ function updateScoreDisplay(gameTime) {
     } else {
         ppsValue = getPPS(gameTime);
         lastPPS = parseFloat(ppsValue);
+        currentPps = parseFloat(ppsValue);
     }
 
     document.getElementById('pps_value').textContent = ppsValue;
@@ -51,6 +52,8 @@ function makeProgressString(){
         return `(${placedBigPiece} / ${PLACED_FOR_STAGE6})`;
     }else if (currentStage == 6){
         return `(${tSpinStage7} / ${TSPIN_FOR_STAGE7})`;
+    }else if(currentStage == 7){
+        return `HP(${currentBossHP}/${bossHP})`;
     }
     return '(0 / 0)';
 }
