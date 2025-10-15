@@ -11,6 +11,8 @@ let difficulty = 1; // 0 easy, 1 nomal, 2 hard
 let clearedGarbageLine = 0; //클리어 한 방해줄 라인
 let clearedLineWithTetrash = 0; //테트레쉬 블럭으로 클리어한 라인
 let clearedTetrisStage4 = 0;
+let clearedLinesStage4 = 0;
+
 let placedBigPiece = 0;
 let tSpinStage7 = 0;
 //DROP_DELAY = 1000
@@ -23,7 +25,10 @@ let garbageInterval = 4000; // 4초마다 방해줄 추가
 let LINES_FOR_STAGE2 = 20;        // 2스테이지로 넘어가기 위한 줄 수
 let GARBAGELINES_FOR_STAGE3 = 10;   //3스테이지 조건(방해줄 10줄 삭제)
 let LINES_FOR_STAGE4 = 7;        // 4스테이지로 넘어가기 위한 줄 수
-let TETRIS_FOR_STAGE5 = 3;        // 4스테이지로 넘어가기 위한 줄 수
+
+let TETRIS_FOR_STAGE5 = 3;        // (NOMAL 이상)5스테이지로 넘어가기 위한 줄 수
+let LINES_FOR_STAGE5 = 3;         // (EASY)5스테이지로 넘어가기 위한 줄 수
+
 let PLACED_FOR_STAGE6 = 10;
 let TSPIN_FOR_STAGE7 = 3;
 
@@ -33,8 +38,8 @@ function difficultySetting(){
     LINES_FOR_STAGE2 = 10;   //10
     GARBAGELINES_FOR_STAGE3 = 3; //3
     LINES_FOR_STAGE4 = 3; //3
-    TETRIS_FOR_STAGE5 = 1; //1
-    PLACED_FOR_STAGE6 = 13; //10
+    LINES_FOR_STAGE5 = 3; //난이도 하향 
+    PLACED_FOR_STAGE6 = 9; //10
     TSPIN_FOR_STAGE7 = 1; //1
 
     //세팅
@@ -42,23 +47,23 @@ function difficultySetting(){
     garbageInterval = 9000; //방해줄 속도 : 9초
 
     //보스
-    bossHP = 40;
+    bossHP = 20;
     currentBossHP = bossHP;
   }else if(difficulty == 1){ //nomal
     //라운드 조건
-    LINES_FOR_STAGE2 = 25;  
-    GARBAGELINES_FOR_STAGE3 = 12;
-    LINES_FOR_STAGE4 = 10;
+    LINES_FOR_STAGE2 = 20;  
+    GARBAGELINES_FOR_STAGE3 = 10;
+    LINES_FOR_STAGE4 = 8;
     TETRIS_FOR_STAGE5 = 3;
     PLACED_FOR_STAGE6 = 30;
-    TSPIN_FOR_STAGE7 = 5;
+    TSPIN_FOR_STAGE7 = 4;
 
     //세팅
     DROP_DELAY = 1000; //블록 떨어지는 속도 : 1초마다
-    garbageInterval = 5000; //방해줄 속도 : 5초
+    garbageInterval = 4500; //방해줄 속도 : 5초
     
     //보스
-    bossHP = 60;
+    bossHP = 50;
     currentBossHP = bossHP;
   }
   else if(difficulty == 2){ //hard
@@ -102,8 +107,26 @@ function checkStageProgress() {
     flipCurrentPiece();
     //alert("4스테이지");
     shaking(gameSpace);
-  // 4스테이지 -> 5스테이지
-  }else if (currentStage === 4 && clearedTetrisStage4 >= TETRIS_FOR_STAGE5) {
+  // 4스테이지 -> 5스테이지(NOMAL)
+  }else if (difficulty != 0 && currentStage === 4 && clearedTetrisStage4 >= TETRIS_FOR_STAGE5) {
+    currentStage++;
+    modeReset();
+    
+    flipGrid();
+    clearGrid();
+    flipCurrentPiece();
+    MODE_bigBlock = true;
+    currentBag = [];
+    nextBag = [];  
+
+    holdingPiece = '';
+    isUsingHold = false;
+    canPlaceHold = false;
+
+    currentPiece = getNextPiece();
+    //alert("5스테이지");
+    shaking(gameSpace);
+  }else if(difficulty == 0 && currentStage === 4 && clearedLinesStage4 >= LINES_FOR_STAGE5){
     currentStage++;
     modeReset();
     

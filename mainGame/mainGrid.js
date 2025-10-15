@@ -189,6 +189,10 @@ function checkLineFilled(pieceType) {
         clearedLineWithTetrash++;
       }
       
+      if(currentStage == 4){
+        clearedLinesStage4++;
+      }
+
       // 방해줄 포함 여부 확인
       for (let col = 0; col < COLS; col++) {
         if (grid[row][col] === 'gray') {
@@ -250,14 +254,14 @@ function placePieceOnGrid(piece, x, y) {
 
   // 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
-  if(currentStage == 7 && clearedLines != 0) {
+  if(currentStage == 7 && clearedLines > 1) {
     damageBoss(clearedLines);
     shaking2(bossSpace);
   }
   // 점수 계산
   const tSpinTable = [0, 300, 800, 1200];
   if (isTSpin) {
-    if(currentStage == 6 && clearedLines !== 0) tSpinStage7++;
+    if(currentStage == 6 && clearedLines != 0) tSpinStage7++;
       tSpinCount++;
       score += tSpinTable[clearedLines];
       console.log("T스핀" + tSpinTable[clearedLines]);
@@ -380,7 +384,7 @@ function drawGrid() {
 // ============================================================================
 
 // 카운트다운 후 게임 시작
-function showCountdownAndStart(duration = 3) {
+function showCountdownAndStart(duration = 3, mode) {
   if (!canvas) return;
   
   const ctx = canvas.getContext('2d');
@@ -406,7 +410,7 @@ function showCountdownAndStart(duration = 3) {
     if (counter <= 0) {
       clearInterval(interval);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      startGame();
+      startGame(mode);
     } else {
       drawCountdown();
     }
@@ -414,8 +418,12 @@ function showCountdownAndStart(duration = 3) {
 }
 
 // 게임 시작
-function startGame() {
+function startGame(mode) {
   gameRunning = true;
+  if(mode == 'arcadeEasy') difficulty = 0;
+  else if(mode == 'arcadeNomal') difficulty = 1;
+  else if(mode == 'arcadeHard') difficulty = 2;
+  
   difficultySetting();
   stageMessageSetting();
   

@@ -77,8 +77,9 @@ function showGameOver(isClear) {
 }
 
 
-function showGamePlay() {
-    
+function showGamePlay(mode) {
+  //modes = ['arcadeEasy', 'arcadeNomal', 'arcadeHard', 'skillCheck', '-'];
+    if(mode == '-') return;
    // 모든 화면 숨기기
     mainMenu.classList.remove('active');
     mainMenu.classList.add('hidden');
@@ -91,7 +92,7 @@ function showGamePlay() {
 
     gamePlay.addEventListener('transitionend', function handler(e) {
         if (e.propertyName === 'opacity') {
-            showCountdownAndStart(3); // 3초 카운트
+            showCountdownAndStart(3, mode); // 3초 카운트
             gamePlay.removeEventListener('transitionend', handler);
         }
     });
@@ -159,7 +160,7 @@ cards.forEach((card, index) => {
         console.log(`${mode} 모드 선택됨`);
         console.log(window.startGame);
         // 게임 시작 함수 호출
-        showGamePlay();
+        showGamePlay(mode);
     });
 });
 

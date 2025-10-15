@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgb(68, 160, 160);
+    background: rgb(88, 204, 204);
     z-index: 100;
 }
 
@@ -47,7 +47,7 @@
     border-radius: 7.8%;
     padding: 60px 50px;
     box-shadow: 0 20px 30px rgba(248, 226, 127, 0.4);
-    background: rgb(113, 231, 231);
+    background: rgb(148, 255, 255);
     cursor: pointer;
     transition: all 0.4s ease;
     display: flex;

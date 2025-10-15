@@ -36,6 +36,9 @@ function getPPS(gameTime) {
 function updateMissionDisplay() {
     document.getElementById('stage_value').textContent = currentStage;
     document.getElementById('mission_value').textContent = stagesDisplay.find(stage => stage.id === currentStage)?.mission;
+    if(currentStage == 4 && difficulty == 0){//EASY모드
+        document.getElementById('mission_value').textContent = `${LINES_FOR_STAGE5}줄을 삭제!`;
+    } 
     document.getElementById('progress_value').textContent = makeProgressString();
 }
 
@@ -46,8 +49,10 @@ function makeProgressString(){
         return `(${clearedGarbageLine} / ${GARBAGELINES_FOR_STAGE3})`;
     }else if (currentStage == 3){
         return `(${clearedLineWithTetrash} / ${LINES_FOR_STAGE4})`;
-    }else if (currentStage == 4){
+    }else if (difficulty != 0 && currentStage == 4){ //NOMAL
         return `(${clearedTetrisStage4} / ${TETRIS_FOR_STAGE5})`;
+    }else if(difficulty == 0 && currentStage == 4){ //EASY
+        return `(${clearedLinesStage4} / ${LINES_FOR_STAGE5})`;
     }else if (currentStage == 5){
         return `(${placedBigPiece} / ${PLACED_FOR_STAGE6})`;
     }else if (currentStage == 6){
