@@ -99,6 +99,21 @@ function showGamePlay(mode) {
 }
 
 
+// 로그인 화면으로 전환
+function showLoginMenu() {
+  const popup = document.getElementById('loginPopup');
+  popup.classList.remove('hidden');
+  popup.classList.add('active');
+}
+
+function hideLoginMenu() {
+  const popup = document.getElementById('loginPopup');
+  popup.classList.remove('active');
+  popup.classList.add('hidden');
+}
+
+
+
 function updateCards() {
     cards.forEach((card, index) => {
         card.classList.remove('active', 'left2', 'left', 'right', 'right2', 'hidden');

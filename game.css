@@ -26,7 +26,8 @@ html, body {
    ======================================== */
 .mainMenu,
 .gamePlay,
-.gameOver {
+.gameOver,
+.loginMenu {
     position: fixed;
     top: 0;
     left: 0;
@@ -37,7 +38,8 @@ html, body {
 
 .mainMenu.hidden,
 .gamePlay.hidden,
-.gameOver.hidden {
+.gameOver.hidden,
+.loginMenu.hidden {
     opacity: 0 !important;
     visibility: hidden !important;
     pointer-events: none !important;
@@ -45,12 +47,12 @@ html, body {
 
 .mainMenu.active,
 .gamePlay.active,
-.gameOver.active {
+.gameOver.active,
+.loginMenu.active {
     opacity: 1 !important;
     visibility: visible !important;
     pointer-events: auto !important;
 }
-
 /* ========================================
    게임 플레이 화면
    ======================================== */

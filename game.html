@@ -9,11 +9,21 @@
     <link rel="stylesheet" href="./interaction.css" />
     <link rel="stylesheet" href="./motion.css" />
     <link rel="stylesheet" href="./gameOver.css" />
+    <link rel="stylesheet" href="./login.css" />
 </head>
 <body>
     <!-- 메인메뉴 -->
     <div class="mainMenu active" id="mainMenu">
-        <h1 class="menu-title">TETRASH</h1>
+        <div class="topBar">
+            <h1 class="menu-title">TETRASH</h1>
+                <div class="rightMenu">
+                <button class="settingButton">Setting</button>
+                <button class="rankingButton">Ranking</button>
+                <button class="loginButton" onclick="showLoginMenu()">Login</button>
+                <img src="images/profile.png" class="profile-img" id="profileImg" style="display: none;">
+            </div>
+        </div>
+
         <div class="menu-container">
             <button class="arrow-button arrow-left" id="arrowLeft">◀</button>
             
@@ -146,9 +156,30 @@
     </div>
 
 
+    <!--로그인 화면-->
+    <div class="loginPopup hidden" id="loginPopup">
+        <div class="loginContainer">
+            <h2 class="loginTitle">Login</h2>
+            <button class="googleButton">
+                <img src="images/logo/google.png" alt="Google" class="googleIcon">
+                Continue with Google
+            </button>
+            <button class="closeButton" onclick="hideLoginMenu()">Back</button>
+        </div>
+    </div>
+
+    <!--랭킹 화면-->
+    <div class="ranking hidden" id="ranking">
+        <div class="loginContainer">
+            <h2 class="loginTitle">Login</h2>
+            
+            <button class="closeButton" onclick="hideLoginMenu()">Back</button>
+        </div>
+    </div>
 
     <!--메뉴-->
     <script src="mainMenu/menuHandle.js"></script>
+    <script src="mainMenu/loginDisplay.js"></script>
 
     <!--테트리스-->
     <script src="mainGame/gameSetting.js"></script>
