@@ -1,0 +1,247 @@
+/* 세팅 팝업 전체 배경 */
+.setting {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999;
+}
+
+.setting.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 팝업 본체 */
+.settingContainer {
+  width: 70%;
+  max-width: 900px;
+  max-height: 85%;
+  background: linear-gradient(135deg, rgba(71, 192, 192, 0.8), rgba(40, 60, 120, 0.95));
+  border: 3px solid rgb(255, 250, 221);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(255, 250, 221, 0.5);
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  font-family: 'IAmAPlayer', sans-serif;
+  animation: popupIn 0.4s ease;
+  overflow: hidden;
+}
+
+/* 제목 */
+.settingTitle {
+  font-size: 42px;
+  letter-spacing: 4px;
+  color: rgb(255, 250, 221);
+  text-shadow: 0 0 15px rgba(255, 250, 221, 0.5);
+  margin: 0;
+}
+
+/* 리스트 영역 스크롤 */
+.settingList {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* 섹션 */
+.settingSection {
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.sectionTitle {
+  font-size: 24px;
+  color: rgb(255, 243, 138);
+  margin: 0 0 15px 0;
+  border-bottom: 2px solid rgba(255, 243, 138, 0.3);
+  padding-bottom: 8px;
+}
+
+/* 개별 설정 항목 */
+.settingItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: background 0.2s ease;
+}
+
+.settingItem:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.settingLabel {
+  font-size: 18px;
+  color: white;
+  font-weight: 500;
+}
+
+/* 키 버튼 */
+.keyButton {
+  min-width: 100px;
+  padding: 8px 20px;
+  font-size: 16px;
+  font-family: 'IAmAPlayer', sans-serif;
+  color: white;
+  background: linear-gradient(135deg, rgba(40, 60, 120, 0.8), rgba(60, 80, 140, 0.8));
+  border: 2px solid rgb(255, 243, 138);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.keyButton:hover {
+  background: linear-gradient(135deg, rgba(60, 80, 140, 0.9), rgba(80, 100, 160, 0.9));
+  transform: scale(1.05);
+}
+
+.keyButton.listening {
+  background: linear-gradient(135deg, rgba(255, 100, 100, 0.8), rgba(255, 150, 150, 0.8));
+  animation: pulse 1s infinite;
+}
+
+/* 슬라이더 컨테이너 */
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  min-width: 300px;
+}
+
+.settingSlider {
+  flex: 1;
+  height: 6px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.2);
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.settingSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgb(255, 243, 138);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.settingSlider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px rgb(255, 243, 138);
+}
+
+.settingSlider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgb(255, 243, 138);
+  cursor: pointer;
+  border: none;
+}
+
+.sliderValue {
+  min-width: 60px;
+  text-align: right;
+  font-size: 16px;
+  color: rgb(255, 243, 138);
+  font-weight: bold;
+}
+
+/* 토글 스위치 */
+.toggleSwitch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 30px;
+}
+
+.toggleSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggleSlider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: 0.3s;
+  border-radius: 30px;
+  border: 2px solid rgba(255, 243, 138, 0.5);
+}
+
+.toggleSlider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+
+.toggleSwitch input:checked + .toggleSlider {
+  background-color: rgb(255, 243, 138);
+}
+
+.toggleSwitch input:checked + .toggleSlider:before {
+  transform: translateX(30px);
+}
+
+.resetButton {
+  background: linear-gradient(135deg, rgba(200, 50, 50, 0.8), rgba(220, 70, 70, 0.8));
+}
+
+.resetButton:hover {
+  background: linear-gradient(135deg, rgba(220, 70, 70, 0.9), rgba(240, 90, 90, 0.9));
+  transform: scale(1.05);
+}
+
+.saveButton {
+  background: linear-gradient(135deg, rgb(20, 38, 77), rgb(40, 60, 120));
+}
+
+.saveButton:hover {
+  background: linear-gradient(135deg, rgb(40, 60, 120), rgb(60, 80, 140));
+  transform: scale(1.05);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes popupIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

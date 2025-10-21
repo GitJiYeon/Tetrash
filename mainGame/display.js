@@ -39,6 +39,9 @@ function updateMissionDisplay() {
     if(currentStage == 4 && difficulty == 0){//EASY모드
         document.getElementById('mission_value').textContent = `${LINES_FOR_STAGE5}줄을 삭제!`;
     } 
+    if(currentStage == 6 && difficulty == 0){//EASY모드
+        document.getElementById('mission_value').textContent = `4줄 삭제 ${TETRIS_FOR_STAGE7}번! `;
+    } 
     document.getElementById('progress_value').textContent = makeProgressString();
 }
 
@@ -55,10 +58,23 @@ function makeProgressString(){
         return `(${clearedLinesStage4} / ${LINES_FOR_STAGE5})`;
     }else if (currentStage == 5){
         return `(${placedBigPiece} / ${PLACED_FOR_STAGE6})`;
-    }else if (currentStage == 6){
+    }else if (difficulty != 0 && currentStage == 6){ //NOMAL
         return `(${tSpinStage7} / ${TSPIN_FOR_STAGE7})`;
+    }else if (difficulty == 0 && currentStage == 6){ //EASY
+        return `(${clearedTetrisStage6} / ${TETRIS_FOR_STAGE7})`;
     }else if(currentStage == 7){
         return `HP(${currentBossHP}/${bossHP})`;
     }
     return '(0 / 0)';
+}
+
+function showDifficulty(){
+    if(difficulty == 0){
+        document.getElementById('difficulty_value').textContent = 'EASY MODE';
+    }else if(difficulty == 1){
+        document.getElementById('difficulty_value').textContent = 'NOMAL MODE';
+    }else if(difficulty == 2){
+        document.getElementById('difficulty_value').textContent = 'HARD MODE';
+    }
+     
 }

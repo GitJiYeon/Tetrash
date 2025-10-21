@@ -39,7 +39,8 @@ function gameLoop(now) {
   
   // 미션 표시 업데이트
   updateMissionDisplay();
-
+  showDifficulty();
+  
   // 게임 로직 업데이트
   if (!isAnimating && gameRunning) {
     updateGameLogic();

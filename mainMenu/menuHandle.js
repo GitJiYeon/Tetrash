@@ -80,6 +80,15 @@ function showGameOver(isClear) {
 function showGamePlay(mode) {
   //modes = ['arcadeEasy', 'arcadeNomal', 'arcadeHard', 'skillCheck', '-'];
     if(mode == '-') return;
+
+    if(mode == 'arcadeEasy') difficulty = 0;
+    else if(mode == 'arcadeNomal') difficulty = 1;
+    else if(mode == 'arcadeHard') difficulty = 2;
+
+    console.log(mode);
+  
+    difficultySetting();
+    showDifficulty();
    // 모든 화면 숨기기
     mainMenu.classList.remove('active');
     mainMenu.classList.add('hidden');
@@ -112,6 +121,18 @@ function hideLoginMenu() {
   popup.classList.add('hidden');
 }
 
+// 랭킹 화면으로 전환
+function showRanking() {
+  const ranking = document.getElementById('ranking');
+  ranking.classList.remove('hidden');
+  ranking.classList.add('active');
+}
+
+function hideRanking() {
+  const ranking = document.getElementById('ranking');
+  ranking.classList.remove('active');
+  ranking.classList.add('hidden');
+}
 
 
 function updateCards() {
@@ -169,11 +190,9 @@ document.addEventListener('keydown', (e) => {
 });
 
 // 카드 클릭
-cards.forEach((card, index) => {
+cards.forEach((card) => {
     card.addEventListener('click', () => {
         const mode = card.getAttribute('data-mode');
-        console.log(`${mode} 모드 선택됨`);
-        console.log(window.startGame);
         // 게임 시작 함수 호출
         showGamePlay(mode);
     });
@@ -267,7 +286,13 @@ function shaking2(container){
   }, 300); // 흔들림0.4초
 }
 
+function boing(container){
+  container.classList.add('boing');
 
+  setTimeout(() => {
+    container.classList.remove('boing');
+  }, 200); // 한번 튀는 효과
+}
 
 
 

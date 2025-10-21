@@ -73,11 +73,15 @@
 
 /* 일반 흔들림 */
 .gameSpace.shake {
-    animation: shake 0.3s;
+    animation: shake 0.1s;
 }
 
 .bossSpace.shake2 {
     animation: shake2 0.3s;
+}
+
+.gameSpace.boing {
+    animation: boing 0.2s;
 }
 
 .gameSpace.impact1 {
@@ -88,7 +92,7 @@
         transform: scale(80%) translateY(0); 
     }
     50% , 60%{ 
-        transform: scale(80%) translateY(-3px); 
+        transform: scale(80%) translateY(5px); 
     }
 }
 
@@ -106,13 +110,10 @@
 
 @keyframes shake {
     0%, 100% { 
-        transform: scale(80%) translateX(0); 
+        transform: scale(80%) translateY(0); 
     }
-    25%, 75% { 
-        transform: scale(80%) translateX(-2px); 
-    }
-    50% { 
-        transform: scale(80%) translateX(2px); 
+    50%{ 
+        transform: scale(80%) translateY(2px); 
     }
 }
 
@@ -129,6 +130,14 @@
     }
 }
 
+@keyframes boing {
+    0%, 100% { 
+        transform: scale(80%); 
+    }
+    50% , 60%{ 
+        transform: scale(83%); 
+    }
+}
 
 /* 흔들림 효과 */
 @keyframes shakingBoss {

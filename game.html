@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="./motion.css" />
     <link rel="stylesheet" href="./gameOver.css" />
     <link rel="stylesheet" href="./login.css" />
+    <link rel="stylesheet" href="./ranking.css" />
+    <link rel="stylesheet" href="./setting.css" />
 </head>
 <body>
     <!-- 메인메뉴 -->
@@ -17,8 +19,8 @@
         <div class="topBar">
             <h1 class="menu-title">TETRASH</h1>
                 <div class="rightMenu">
-                <button class="settingButton">Setting</button>
-                <button class="rankingButton">Ranking</button>
+                <button class="settingButton" onclick="showSetting()">Setting</button>
+                <button class="rankingButton" onclick="showRanking()">Ranking</button>
                 <button class="loginButton" onclick="showLoginMenu()">Login</button>
                 <img src="images/profile.png" class="profile-img" id="profileImg" style="display: none;">
             </div>
@@ -40,7 +42,7 @@
                     <div class="mode-description">테트리스 마을이 멸망 위기에요!</div>
                 </div>
                 
-                <div class="mode-card" data-mode="arcade_hard">
+                <div class="mode-card" data-mode="arcadeHard">
                     <div class="mode-icon"><img src="./images/logo/arcade_hard.png"></div>
                     <div class="mode-name">Tetrash Arcade<br><p>(HARD MODE)</p></div>
                     <div class="mode-description">테트리스 마을이 소멸 위기에요!</div>
@@ -95,6 +97,7 @@
                     <div class="hold">
                         <canvas id="hold" width="120" height="120">홀드</canvas>
                     </div> <!--hold-->
+                    <div class="difficultyDisplay"><span id="difficulty_value">NOMAL MODE</span></div>
                     <div class="score">
                         <div class="score">
                             <div>Score : <span id="score_value">0</span></div>
@@ -170,10 +173,195 @@
 
     <!--랭킹 화면-->
     <div class="ranking hidden" id="ranking">
-        <div class="loginContainer">
-            <h2 class="loginTitle">Login</h2>
-            
-            <button class="closeButton" onclick="hideLoginMenu()">Back</button>
+        <div class="rankingContainer">
+            <h1 class="rankingTitle">Ranking</h1>
+
+            <div class="rankingList">
+                <div class="rankItem">
+                    <span class="order">1</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">김ㅇㅇ</span>
+                        <span class="rankStats">time 03:28  score 16,281</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">2</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">이ㅇㅇ</span>
+                        <span class="rankStats">time 03:54  score 18,831</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">3</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">박ㅇㅇ</span>
+                        <span class="rankStats">time 04:02  score 16,163</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">4</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">최ㅇㅇ</span>
+                        <span class="rankStats">time 04:02  score 16,163</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">5</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">정ㅇㅇ</span>
+                        <span class="rankStats">time 04:02  score 16,163</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">6</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">한ㅇㅇ</span>
+                        <span class="rankStats">time 04:02  score 16,163</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">7</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">강ㅇㅇ</span>
+                        <span class="rankStats">time 04:02  score 16,163</span>
+                    </div>
+                </div>
+                <div class="rankItem">
+                    <span class="order">8</span>
+                    <img src="./images/logo/google.png" class="rankAvatar">
+                    <div class="rankInfo">
+                        <span class="rankName">문ㅇㅇ</span>
+                        <span class="rankStats">time 04:02  score 16,163</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="closeButton" onclick="hideRanking()">Back</button>
+        </div>
+    </div>
+
+    <!--세팅 화면-->
+    <div class="setting hidden" id="setting">
+        <div class="settingContainer">
+            <h1 class="settingTitle">Settings</h1>
+
+            <div class="settingList">
+                <!-- 키 설정 섹션 -->
+                <div class="settingSection">
+                    <h2 class="sectionTitle">Key Binding</h2>
+                    <div class="settingItem">
+                        <span class="settingLabel">Move Left</span>
+                        <button class="keyButton" data-action="moveLeft">←</button>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Move Right</span>
+                        <button class="keyButton" data-action="moveRight">→</button>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Soft Drop</span>
+                        <button class="keyButton" data-action="softDrop">↓</button>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Hard Drop</span>
+                        <button class="keyButton" data-action="hardDrop">Space</button>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Rotate CW</span>
+                        <button class="keyButton" data-action="rotateCW">↑</button>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Rotate CCW</span>
+                        <button class="keyButton" data-action="rotateCCW">Z</button>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Hold</span>
+                        <button class="keyButton" data-action="hold">Shift</button>
+                    </div>
+                </div>
+
+                <!-- 게임 설정 섹션 -->
+                <div class="settingSection">
+                    <h2 class="sectionTitle">Game Settings</h2>
+                    <div class="settingItem">
+                        <span class="settingLabel">DAS (Delayed Auto Shift)</span>
+                        <div class="sliderContainer">
+                            <input type="range" class="settingSlider" id="dasSlider" min="0" max="300" value="133" step="1">
+                            <span class="sliderValue" id="dasValue">133ms</span>
+                        </div>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">ARR (Auto Repeat Rate)</span>
+                        <div class="sliderContainer">
+                            <input type="range" class="settingSlider" id="arrSlider" min="0" max="100" value="10" step="1">
+                            <span class="sliderValue" id="arrValue">10ms</span>
+                        </div>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">SDF (Soft Drop Factor)</span>
+                        <div class="sliderContainer">
+                            <input type="range" class="settingSlider" id="sdfSlider" min="1" max="40" value="20" step="1">
+                            <span class="sliderValue" id="sdfValue">20x</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 사운드 설정 섹션 -->
+                <div class="settingSection">
+                    <h2 class="sectionTitle">Audio Settings</h2>
+                    <div class="settingItem">
+                        <span class="settingLabel">BGM Volume</span>
+                        <div class="sliderContainer">
+                            <input type="range" class="settingSlider" id="bgmSlider" min="0" max="100" value="70" step="1">
+                            <span class="sliderValue" id="bgmValue">70%</span>
+                        </div>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">SFX Volume</span>
+                        <div class="sliderContainer">
+                            <input type="range" class="settingSlider" id="sfxSlider" min="0" max="100" value="80" step="1">
+                            <span class="sliderValue" id="sfxValue">80%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 디스플레이 설정 섹션 -->
+                <div class="settingSection">
+                    <h2 class="sectionTitle">Display Settings</h2>
+                    <div class="settingItem">
+                        <span class="settingLabel">Show Ghost Piece</span>
+                        <label class="toggleSwitch">
+                            <input type="checkbox" id="ghostToggle" checked>
+                            <span class="toggleSlider"></span>
+                        </label>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Show Grid Lines</span>
+                        <label class="toggleSwitch">
+                            <input type="checkbox" id="gridToggle" checked>
+                            <span class="toggleSlider"></span>
+                        </label>
+                    </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Particle Effects</span>
+                        <label class="toggleSwitch">
+                            <input type="checkbox" id="particleToggle" checked>
+                            <span class="toggleSlider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="settingButtons">
+                <button class="settingButton resetButton" onclick="resetSettings()">Reset to Default</button>
+                <button class="settingButton saveButton" onclick="saveSettings()">Save & Close</button>
+            </div>
         </div>
     </div>
 
@@ -192,5 +380,6 @@
     <script src="mainGame/moveControl.js"></script>
     <script src="mainGame/display.js"></script>
     <script src="mainGame/gameLoop.js"></script>
+    <script src="mainMenu/settingDisplay.js"></script>
 
 </html>

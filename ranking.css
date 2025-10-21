@@ -1,0 +1,124 @@
+/* 랭킹 팝업 전체 배경 */
+.ranking {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  z-index: 999;
+}
+
+/* 활성화 시 */
+.ranking.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 팝업 본체 */
+.rankingContainer {
+  width: 60%;
+  max-width: 800px;
+  max-height: 80%;
+  background: linear-gradient(135deg, rgba(71, 192, 192, 0.8), rgba(40, 60, 120, 0.95));
+  border: 3px solid rgb(255, 250, 221);
+  border-radius: 20px;
+  box-shadow: 0 0 40px rgba(255, 250, 221, 0.5);
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  color: white;
+  font-family: 'IAmAPlayer', sans-serif;
+  animation: popupIn 0.4s ease;
+  overflow: hidden;
+}
+
+/* 리스트 영역 스크롤 */
+.rankingList {
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 10px; /* 스크롤 간격 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 개별 랭킹 항목 */
+.rankItem {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 10px 15px;
+  border-radius: 12px;
+  background-color: rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.rankItem:hover {
+  background-color: rgba(0,0,0,0.5);
+  transform: translateX(5px);
+}
+
+.rankAvatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid rgb(255, 250, 221);
+  object-fit: cover;
+}
+
+.rankInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.rankName {
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(255, 243, 138);
+}
+
+.rankStats {
+  font-size: 16px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* 제목 */
+.rankingTitle {
+  font-size: 42px;
+  letter-spacing: 4px;
+  color: rgb(255, 250, 221);
+  text-shadow: 0 0 15px rgba(255, 250, 221, 0.5);
+}
+
+/* 닫기 버튼 */
+.closeButton {
+  padding: 12px 40px;
+  font-size: 20px;
+  color: white;
+  background: linear-gradient(135deg, rgb(20, 38, 77), rgb(40, 60, 120));
+  border: 2px solid rgb(255, 250, 221);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.closeButton:hover {
+  background: linear-gradient(135deg, rgb(40, 60, 120), rgb(60, 80, 140));
+  transform: scale(1.05);
+}
+
+@keyframes popupIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}

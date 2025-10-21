@@ -244,6 +244,8 @@ function placePieceOnGrid(piece, x, y) {
       }
     }
   }
+
+  shaking(gameSpace);
   
   //빅블록 애니메이션
   if(MODE_bigBlock){impactEffect(gameSpace)}
@@ -254,7 +256,18 @@ function placePieceOnGrid(piece, x, y) {
 
   // 라인 체크 및 제거
   const clearedLines = checkLineFilled(piece.type);
-  if(currentStage == 7 && clearedLines > 1) {
+
+  //이지모드에서 6스테이지 테트리스
+  if(currentStage == 6 && clearedLines == 4){
+    clearedTetrisStage6++;
+  }
+  // 7스테이지 공격 (이지 제외) : 한줄 삭제시 공격 X
+  if(currentStage == 7 && clearedLines > 1 && difficulty != 0) {
+    damageBoss(clearedLines);
+    shaking2(bossSpace);
+
+  // 7스테이지 공격 (이지) : 한줄 삭제도 공격 O
+  }else if(currentStage == 7 && clearedLines > 0 && difficulty == 0){
     damageBoss(clearedLines);
     shaking2(bossSpace);
   }
@@ -420,11 +433,7 @@ function showCountdownAndStart(duration = 3, mode) {
 // 게임 시작
 function startGame(mode) {
   gameRunning = true;
-  if(mode == 'arcadeEasy') difficulty = 0;
-  else if(mode == 'arcadeNomal') difficulty = 1;
-  else if(mode == 'arcadeHard') difficulty = 2;
-  
-  difficultySetting();
+
   stageMessageSetting();
   
   currentBag = createNewBag();

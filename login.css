@@ -48,7 +48,7 @@
   font-size: 48px;
   letter-spacing: 4px;
   color: rgb(255, 250, 221);
-  text-shadow: 0 0 15px rgba(255, 250, 221, 0.8);
+  text-shadow: 0 0 15px rgba(255, 250, 221, 0.5);
 }
 
 .googleButton {
