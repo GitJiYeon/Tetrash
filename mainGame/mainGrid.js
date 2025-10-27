@@ -55,6 +55,7 @@ function checkRedZone() {
 
 // 게임 오버 처리
 function gameOver(isClear) {
+  stopBGM();
   gameRunning = false;
   isGameOver = true;
   showGameOver(isClear);
@@ -245,6 +246,7 @@ function placePieceOnGrid(piece, x, y) {
     }
   }
 
+  playSFX(placeSound);
   shaking(gameSpace);
   
   //빅블록 애니메이션
@@ -275,6 +277,7 @@ function placePieceOnGrid(piece, x, y) {
   const tSpinTable = [0, 300, 800, 1200];
   if (isTSpin) {
     if(currentStage == 6 && clearedLines != 0) tSpinStage7++;
+      playSFX(tSpinSound, 0.6);
       tSpinCount++;
       score += tSpinTable[clearedLines];
       console.log("T스핀" + tSpinTable[clearedLines]);
@@ -293,9 +296,12 @@ function placePieceOnGrid(piece, x, y) {
   // 테트리스 클리어 카운트
   if (clearedLines === 4) {
     if(currentStage == 7 && clearedLines != 0) damageBoss(1);
+    playSFX(tetrashSound, 0.6);
     totalTetrisClear++;
     showSkillImage('tetrash');
     if (currentStage === 4) clearedTetrisStage4++;
+  }else if(clearedLines != 0 && clearedLines != 4){ //테트리스가 아니면
+    playSFX(lineClearSound, 1);
   }
   
   // 퍼펙트 클리어 체크
@@ -399,7 +405,7 @@ function drawGrid() {
 // 카운트다운 후 게임 시작
 function showCountdownAndStart(duration = 3, mode) {
   if (!canvas) return;
-  
+  initGameSettings();
   const ctx = canvas.getContext('2d');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
@@ -431,7 +437,7 @@ function showCountdownAndStart(duration = 3, mode) {
 }
 
 // 게임 시작
-function startGame(mode) {
+function startGame() {
   gameRunning = true;
 
   stageMessageSetting();
@@ -446,6 +452,7 @@ function startGame(mode) {
     placeTimer = 0;
     requestAnimationFrame(gameLoop);
   }
+  playBGM(tetrashInDreamBGM, bgmVolume);
 }
 
 window.showCountdownAndStart = showCountdownAndStart;
@@ -581,4 +588,15 @@ function clearGrid() {
   }
   
   step();
+}
+//그리드 삭제
+function initGrid() {
+  // 현재 행의 모든 칸 비우기
+  for (let c = 0; c < COLS; c++) {
+    for(let r = 0; r < ROWS; r++){
+      grid[r][c] = 0;
+    }
+  }
+  
+  drawGrid();
 }

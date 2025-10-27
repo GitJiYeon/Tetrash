@@ -1,3 +1,4 @@
+let selectMode = "";
 // 메뉴 관리
 let currentModeIndex = 1; 
 const modes = ['arcadeEasy', 'arcadeNomal', 'arcadeHard', 'skillCheck', '-'];
@@ -38,6 +39,9 @@ function showMainMenu() {
     // 메인 메뉴 보이기
     mainMenu.classList.remove('hidden');
     mainMenu.classList.add('active');
+    
+    initGame();
+    stopBGM();
 }
 
 // gameOver화면
@@ -52,12 +56,16 @@ function showGameOver(isClear) {
   const final_pps = document.getElementById('final_pps');
   const final_tSpin = document.getElementById('final_tSpin');
   const final_tetrash = document.getElementById('final_tetrash');
+  const final_clearedLines = document.getElementById('final_clearedLines');
+  const final_placedPieces = document.getElementById('final_placedPieces');
 
   final_time.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
   final_score.textContent = score;
   final_pps.textContent = currentPps;
   final_tSpin.textContent = tSpinCount;
   final_tetrash.textContent = totalTetrisClear;
+  final_clearedLines.textContent = totalLinesCleared;
+  final_placedPieces.textContent = placedPiece;
   if(isClear){
     document.getElementById('scoreMessage').textContent = "WOW CLEAR!";
   }else{
@@ -76,6 +84,10 @@ function showGameOver(isClear) {
   gameOverMenu.classList.add('active');
 }
 
+function hideGameOver(){
+  gameOverMenu.classList.remove('active');
+  gameOverMenu.classList.add('hidden');
+}
 
 function showGamePlay(mode) {
   //modes = ['arcadeEasy', 'arcadeNomal', 'arcadeHard', 'skillCheck', '-'];
@@ -86,6 +98,7 @@ function showGamePlay(mode) {
     else if(mode == 'arcadeHard') difficulty = 2;
 
     console.log(mode);
+    selectMode = mode;
   
     difficultySetting();
     showDifficulty();
@@ -99,6 +112,7 @@ function showGamePlay(mode) {
     gamePlay.classList.remove('hidden');
     gamePlay.classList.add('active');
 
+    playSFX(countDownSound);
     gamePlay.addEventListener('transitionend', function handler(e) {
         if (e.propertyName === 'opacity') {
             showCountdownAndStart(3, mode); // 3초 카운트
@@ -261,6 +275,17 @@ function startBossStage() {
     
   }, 1000);
 }
+function endBossStage() {
+  // 보스 사라짐
+  bossSpace.style.transform = 'translateX(-120%)'; // 오른쪽으로 나감
+  bossSpace.style.opacity = '0';
+
+  // 테트리스 위치 원래대로 복귀
+  gameSpace.style.marginRight = '20%';
+  gameSpace.style.marginLeft = '0';
+
+}
+
 
 function impactEffect(container){
   container.classList.add('impact1');

@@ -7,8 +7,8 @@ let DROP_DELAY = 1000; // 블록 낙하 속도(ms)
 let PLACE_DELAY = 1000; // 블록이 바닥에 닿은 후 고정까지 딜레이(ms)
 let DAS = 160; // 키를 누른 후 반복 시작까지 딜레이(ms)
 let ARR = 30;  // 반복 간격(ms)
+let SDF = 1;
 let softDropMax = true;
-let softDropDelay = 80;
 let RED_ROW = 2; // 기본 데드라인 (중력 아래)
 let gravityDirection = 1; // 1 = 아래, -1 = 위 (중력 방향)
 
@@ -61,12 +61,138 @@ let totalTetrisClear = 0;
 let placedPiece = 0;
 let tSpinCount = 0;
 let currentPps = 0;
-
+/////////////////////////////[사운드]/////////////////////////////
+let bgmVolume = 0.5;
+let sfxVolume = 0.7;
 ///////////////////////////////[기타 설정]/////////////////////////////////
 let basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I'];
 const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
 const tetrashTypes = ['Q', 'X', 'U', 'P', 'V', 'dot'];
 //기본 블럭
+
+// 게임 시작 시 설정 적용
+function initGameSettings() {
+    DAS = gameSettings.das;
+    ARR = gameSettings.arr;
+    SDF = gameSettings.sdf;
+    
+    bgmVolume = gameSettings.bgmVolume / 100;
+    sfxVolume = gameSettings.sfxVolume / 100;
+}
+
+function initGame(){
+  ///////////////////////////////[게임 기본 설정]/////////////////////////////////
+  DROP_DELAY = 1000; // 블록 낙하 속도(ms)
+  PLACE_DELAY = 1000; // 블록이 바닥에 닿은 후 고정까지 딜레이(ms)
+  DAS = 160; // 키를 누른 후 반복 시작까지 딜레이(ms)
+  ARR = 30;  // 반복 간격(ms)
+  SDF = 1;
+  softDropMax = false;
+  RED_ROW = 2; // 기본 데드라인 (중력 아래)
+  gravityDirection = 1; // 1 = 아래, -1 = 위 (중력 방향)
+
+  bossHP = 100; // 보스 최대 HP 100
+  currentBossHP = bossHP;
+
+  ///////////////////////////////[게임 상태 변수]/////////////////////////////////
+  gameRunning = false; // 게임 실행 상태
+  isAnimating = false; // 애니메이션 중 여부
+  isGameOver = false; // 게임 오버 상태
+
+  gameTime = 0;       // 누적된 게임 시간
+  startTime = 0;      // 시작 시각
+  dropTimer = 0;      // 블록 낙하 타이머
+  placeTimer = 0;     // 바닥 닿은 시점 기록
+  lastFrameTime = 0;  // 마지막 프레임 시각
+  gamePlayTime = 0;   // 실제 플레이 누적 시간
+  lastPPS = 0;        // 마지막 PPS 값 저장
+
+  ///////////////////////////////[블록 관련 변수]/////////////////////////////////
+  currentPiece = null; 
+  currentPieceType = '';
+  currentX = 0; 
+  currentY = 0; 
+  isOnGround = false; // 블록이 바닥에 닿았는지
+  rotationState = 0;  // 회전 상태
+
+  // 고스트 블록
+  currentGhostPiece = null;
+  currentGhostX = 0;
+  currentGhostY = 0;
+
+  ///////////////////////////////[가방 시스템]/////////////////////////////////
+  currentBag = []; // 현재 가방
+  nextBag = [];    // 다음 가방
+
+  ///////////////////////////////[스코어/통계 관련 변수]/////////////////////////////////
+  currentStage = 1;
+  score = 0;
+  totalLinesCleared = 0;
+  totalTetrisClear = 0;
+  placedPiece = 0;
+  tSpinCount = 0;
+  currentPps = 0;
+
+  ///////////////////////////////[키 상태 초기화]/////////////////////////////////
+  lastRotationUsed = false;
+  lastKickIndex = -1;
+  lastRotationKey = "";
+
+  lastSoftDropTime = 0;
+  lastMoveKey = null;
+  ////////////////////////////[hold 변수]/////////////////////////////////
+  isUsingHold = false;
+  canPlaceHold = false;
+  holdingPiece = '';
+
+  countLinesCleared = 0;
+  
+  blockedCount = 0;
+  lastMoveKey = null;
+
+  //////////////////////////[main변수//////////////////////////////////]
+  window.showCountdownAndStart = showCountdownAndStart;
+
+  //////////////////////////[mode manage 변수]///////////////////////////
+  difficulty = 0; // 0 easy, 1 nomal, 2 hard
+
+  clearedGarbageLine = 0; //클리어 한 방해줄 라인
+  clearedLineWithTetrash = 0; //테트레쉬 블럭으로 클리어한 라인
+  clearedTetrisStage4 = 0;
+  clearedLinesStage4 = 0;
+  clearedTetrisStage6 = 0;
+
+  placedBigPiece = 0;
+  tSpinStage7 = 0;
+  lastGarbageTime = Date.now();
+  garbageInterval = 4000; // 4초마다 방해줄 추가
+
+/////////////////////////////////////////조건
+
+  LINES_FOR_STAGE2 = 20;        // 2스테이지로 넘어가기 위한 줄 수
+  GARBAGELINES_FOR_STAGE3 = 10;   //3스테이지 조건(방해줄 10줄 삭제)
+  LINES_FOR_STAGE4 = 7;        // 4스테이지로 넘어가기 위한 줄 수
+
+  TETRIS_FOR_STAGE5 = 3;        // (NOMAL 이상)5스테이지로 넘어가기 위한 줄 수
+  LINES_FOR_STAGE5 = 3;         // (EASY)5스테이지로 넘어가기 위한 줄 수
+
+  PLACED_FOR_STAGE6 = 10;
+  TSPIN_FOR_STAGE7 = 3;
+  TETRIS_FOR_STAGE7 = 2; 
+  countLinesCleared = 0;
+
+  initGrid();
+  difficultySetting();
+  initGameSettings()
+  modeReset();
+  initKeyStates();
+  renderGame();
+  updateMissionDisplay();
+  updateScoreDisplay();
+  endBossStage();
+  showDifficulty();
+  applyGameSettings();
+}
 
 // 셀 그리기
 function drawBlock(ctx, x, y, color = 'white', isGhost = false, block_size = BLOCK_SIZE) {

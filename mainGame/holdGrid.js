@@ -48,7 +48,6 @@ function drawHold() {
 }
 
 
-
 function usingHold(){
   if(!isUsingHold){
     holdingPiece = clonePiece(blocks[currentPiece.type]); //기존 블럭 복사 (할당문제 방지)

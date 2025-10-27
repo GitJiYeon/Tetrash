@@ -110,7 +110,7 @@
                     <div class="mission-text">
                         <div style="font-weight:bold; font-size: 18px;" ><span id="stage_value">0</span> Stage  Mission!</div>
                         <div><span id="mission_value">준비하세요!</span></div>
-                        <div style="color: rgb(255, 243, 138);"><span id="progress_value">(0 / 100)</span></div>
+                        <div style="color: rgb(255, 243, 138);"><span id="progress_value">(0 / 0)</span></div>
                     </div> <!--mission-text-->
                     <div class="spin-text"></div>
                 </div><!--left-->
@@ -152,6 +152,8 @@
                     <div>PPS : <span id="final_pps">0</span></div>
                     <div>T-spin : <span id="final_tSpin">0</span></div>
                     <div>Tetrash : <span id="final_tetrash">0</span></div>
+                    <div>Cleared lines : <span id="final_clearedLines">0</span></div>
+                    <div>Placed pieces  : <span id="final_placedPieces">0</span></div>
                 </div>
                 
             </div>
@@ -284,6 +286,10 @@
                         <span class="settingLabel">Hold</span>
                         <button class="keyButton" data-action="hold">Shift</button>
                     </div>
+                    <div class="settingItem">
+                        <span class="settingLabel">Rotate 180°</span>
+                        <button class="keyButton" data-action="rotate180">A</button>
+                    </div>
                 </div>
 
                 <!-- 게임 설정 섹션 -->
@@ -292,22 +298,22 @@
                     <div class="settingItem">
                         <span class="settingLabel">DAS (Delayed Auto Shift)</span>
                         <div class="sliderContainer">
-                            <input type="range" class="settingSlider" id="dasSlider" min="0" max="300" value="133" step="1">
-                            <span class="sliderValue" id="dasValue">133ms</span>
+                            <input type="range" class="settingSlider" id="dasSlider" min="30" max="300" value="160" step="1">
+                            <span class="sliderValue" id="dasValue">160ms</span>
                         </div>
                     </div>
                     <div class="settingItem">
                         <span class="settingLabel">ARR (Auto Repeat Rate)</span>
                         <div class="sliderContainer">
-                            <input type="range" class="settingSlider" id="arrSlider" min="0" max="100" value="10" step="1">
-                            <span class="sliderValue" id="arrValue">10ms</span>
+                            <input type="range" class="settingSlider" id="arrSlider" min="10" max="100" value="30" step="1">
+                            <span class="sliderValue" id="arrValue">30ms</span>
                         </div>
                     </div>
                     <div class="settingItem">
                         <span class="settingLabel">SDF (Soft Drop Factor)</span>
                         <div class="sliderContainer">
-                            <input type="range" class="settingSlider" id="sdfSlider" min="1" max="40" value="20" step="1">
-                            <span class="sliderValue" id="sdfValue">20x</span>
+                            <input type="range" class="settingSlider" id="sdfSlider" min="0" max="50" value="30" step="1">
+                            <span class="sliderValue" id="sdfValue">30x</span>
                         </div>
                     </div>
                 </div>
@@ -342,16 +348,9 @@
                         </label>
                     </div>
                     <div class="settingItem">
-                        <span class="settingLabel">Show Grid Lines</span>
+                        <span class="settingLabel">Delete Softdrop Delay</span>
                         <label class="toggleSwitch">
-                            <input type="checkbox" id="gridToggle" checked>
-                            <span class="toggleSlider"></span>
-                        </label>
-                    </div>
-                    <div class="settingItem">
-                        <span class="settingLabel">Particle Effects</span>
-                        <label class="toggleSwitch">
-                            <input type="checkbox" id="particleToggle" checked>
+                            <input type="checkbox" id="sdfMaxToggle" checked>
                             <span class="toggleSlider"></span>
                         </label>
                     </div>
@@ -380,6 +379,7 @@
     <script src="mainGame/moveControl.js"></script>
     <script src="mainGame/display.js"></script>
     <script src="mainGame/gameLoop.js"></script>
+    <script src="sound/sound.js"></script>
     <script src="mainMenu/settingDisplay.js"></script>
 
 </html>

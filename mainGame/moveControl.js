@@ -43,20 +43,6 @@ function isTPiece(piece) {
   if(piece.type == 'T') return true;
   else return false;
 }
-/*
-function isTspinTriple(dx, dy){
-  if (!isTPiece(currentPiece)) return false;
-
-  // 중력에 따라 dy 확인
-  const expectedDy = 2 * gravityDirection;
-  if ((dx === 1 && dy === expectedDy) || (dx === -1 && dy === expectedDy)) {
-    console.log("T스핀 트리플");
-    return true;
-  }
-
-  return false;
-}
-*/
 
 let lastRotationUsed = false;
 let lastKickIndex = -1;
@@ -243,7 +229,7 @@ let lastSoftDropTime = 0;
 function softDrop(gameTime) {
   updateGhostPiece();
 
-  if (gameTime - lastSoftDropTime >= softDropDelay) {
+  if (gameTime - lastSoftDropTime >= SDF) {
     if (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
       if(softDropMax){
         while (canPlacePiece(currentPiece, currentX, currentY + gravityDirection)) {
@@ -280,46 +266,60 @@ function hardDrop() {
 
 
 //==== 키 상태 관리 ==============================================================
-const keyTimers = {
-  ArrowLeft: 0,
-  ArrowRight: 0,
-  ArrowDown: 0,
-  ArrowUp: 0
-};
-
-// 단발 키 처리용
-const processedOnceKeys = {
-  Space: false,
-  ShiftLeft: false,
-  KeyZ: false,
-  KeyA: false,
-  ArrowUp: false,   // 단발 회전
-  ArrowDown: false  // 중력 반전 시 단발 회전
-};
-
+const keyTimers = {};
+const processedOnceKeys = {};
 const pressedKeys = {};
-let lastMoveKey = null; // 마지막으로 누른 좌우 키 기록
+let lastMoveKey = null;
+
+// 키 타이머 및 처리 상태 초기화 함수
+function initKeyStates() {
+  // 이동 키 타이머
+  keyTimers[keySettings.moveLeft] = 0;
+  keyTimers[keySettings.moveRight] = 0;
+  keyTimers[keySettings.softDrop] = 0;
+  
+  // 단발 키 처리 상태
+  processedOnceKeys[keySettings.hardDrop] = false;
+  processedOnceKeys[keySettings.hold] = false;
+  processedOnceKeys[keySettings.rotateCW] = false;
+  processedOnceKeys[keySettings.rotateCCW] = false;
+  processedOnceKeys[keySettings.rotate180] = false; // 180도 회전 추가
+}
+
+// 페이지 로드 시 초기화
+window.addEventListener('DOMContentLoaded', () => {
+  initKeyStates();
+});
 
 //==== 키 다운/업 이벤트 ========================================================
-document.addEventListener('keydown', (e) => { //좌우는 먼저 누른 한쪽만 처리되도록
+document.addEventListener('keydown', (e) => {
+  // 설정 화면에서 키 입력 대기 중이면 무시
+  if (typeof isListeningForKey !== 'undefined' && isListeningForKey) return;
+  
   pressedKeys[e.code] = true;
-  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
-    lastMoveKey = e.code; // 마지막으로 누른 키 갱신
+  
+  // 좌우 이동 키 처리
+  if (e.code === keySettings.moveLeft || e.code === keySettings.moveRight) {
+    lastMoveKey = e.code;
   }
 });
 
 document.addEventListener('keyup', (e) => {
   pressedKeys[e.code] = false;
+  
   // 단발 키 리셋
   if (processedOnceKeys[e.code] !== undefined) {
     processedOnceKeys[e.code] = false;
   }
-  // 좌우/다운 이동 타이머 리셋
-  if (keyTimers[e.code] !== undefined) keyTimers[e.code] = 0;
+  
+  // 이동 타이머 리셋
+  if (keyTimers[e.code] !== undefined) {
+    keyTimers[e.code] = 0;
+  }
 
   // 좌우 키가 모두 떼어지면 lastMoveKey 초기화
-  if (e.code === 'ArrowLeft' || e.code === 'ArrowRight') {
-    if (!pressedKeys['ArrowLeft'] && !pressedKeys['ArrowRight']) {
+  if (e.code === keySettings.moveLeft || e.code === keySettings.moveRight) {
+    if (!pressedKeys[keySettings.moveLeft] && !pressedKeys[keySettings.moveRight]) {
       lastMoveKey = null;
     }
   }
@@ -332,44 +332,48 @@ function handleInput(gameTime) {
   // 좌/우 이동 (DAS + ARR)
   if (lastMoveKey && pressedKeys[lastMoveKey]) {
     if (keyTimers[lastMoveKey] === 0) {
-      lastMoveKey === 'ArrowLeft' ? moveLeft() : moveRight();
-      keyTimers[lastMoveKey] = gameTime + DAS;
+      lastMoveKey === keySettings.moveLeft ? moveLeft() : moveRight();
+      keyTimers[lastMoveKey] = gameTime + gameSettings.das;
     } else if (gameTime >= keyTimers[lastMoveKey]) {
-      lastMoveKey === 'ArrowLeft' ? moveLeft() : moveRight();
-      keyTimers[lastMoveKey] = gameTime + ARR;
+      lastMoveKey === keySettings.moveLeft ? moveLeft() : moveRight();
+      keyTimers[lastMoveKey] = gameTime + gameSettings.arr;
     }
   }
 
-  // 아래 화살표 소프트드롭
-  if (pressedKeys['ArrowDown']) {
-    if (keyTimers['ArrowDown'] === 0) {
+  // 소프트 드롭
+  if (pressedKeys[keySettings.softDrop]) {
+    if (keyTimers[keySettings.softDrop] === 0) {
       softDrop(gameTime);
-      keyTimers['ArrowDown'] = gameTime + DAS;
-    } else if (gameTime >= keyTimers['ArrowDown']) {
+      keyTimers[keySettings.softDrop] = gameTime + gameSettings.das;
+    } else if (gameTime >= keyTimers[keySettings.softDrop]) {
       softDrop(gameTime);
-      keyTimers['ArrowDown'] = gameTime + ARR;
+      keyTimers[keySettings.softDrop] = gameTime + gameSettings.arr;
     }
   }
 
-  // 위 화살표 단발 회전
-  if (pressedKeys['ArrowUp']) {
-    if (!processedOnceKeys['ArrowUp']) {
-      rotateRight();
-      processedOnceKeys['ArrowUp'] = true;
-    }
-  }
+  // 단발 키 처리
+  const keyActions = [
+    { key: keySettings.hardDrop, action: () => hardDrop() },
+    { key: keySettings.hold, action: () => usingHold() },
+    { key: keySettings.rotateCW, action: () => rotateRight() },
+    { key: keySettings.rotateCCW, action: () => rotateLeft() },
+    { key: keySettings.rotate180, action: () => rotate180() } // 180도 회전 추가
+  ];
 
-  // 단발 키 처리 (스페이스, 홀드, 회전)
-  ['Space','ShiftLeft','KeyZ','KeyA'].forEach(key => {
+  keyActions.forEach(({ key, action }) => {
     if (pressedKeys[key] && !processedOnceKeys[key]) {
-      switch(key){
-        case 'Space': hardDrop(); break;
-        case 'ShiftLeft': usingHold(); break;
-        case 'KeyZ': rotateLeft(); break;
-        case 'KeyA': rotate180(); break;
-      }
+      action();
       processedOnceKeys[key] = true;
     }
   });
 }
 
+// 설정이 변경될 때 키 상태 재초기화
+function refreshKeySettings() {
+  // 기존 상태 초기화
+  Object.keys(keyTimers).forEach(key => delete keyTimers[key]);
+  Object.keys(processedOnceKeys).forEach(key => delete processedOnceKeys[key]);
+  
+  // 새로운 키 설정으로 재초기화
+  initKeyStates();
+}

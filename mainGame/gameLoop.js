@@ -127,3 +127,9 @@ function renderGame() {
   drawGrid();
   drawNext();
 }
+
+function restartGame(){
+  initGame();
+  hideGameOver();
+  showCountdownAndStart(3, selectMode); // 3초 카운트
+}

@@ -45,7 +45,7 @@ function difficultySetting(){
     TETRIS_FOR_STAGE7 = 2; //2 (난이도 하향)
 
     //세팅
-    DROP_DELAY = 1600; //블록 떨어지는 속도 : 1.6초마다
+    DROP_DELAY = 2000; //블록 떨어지는 속도 : 1.6초마다
     garbageInterval = 9000; //방해줄 속도 : 9초
 
     //보스
@@ -61,7 +61,7 @@ function difficultySetting(){
     TSPIN_FOR_STAGE7 = 1;
 
     //세팅
-    DROP_DELAY = 1100; //블록 떨어지는 속도 : 1.1초마다
+    DROP_DELAY = 100000000; //블록 떨어지는 속도 : 1.1초마다
     garbageInterval = 5000; //방해줄 속도 : 5초
     
     //보스
