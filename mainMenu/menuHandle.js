@@ -179,6 +179,8 @@ function analyzeSkill(){
 
   console.log("스코어 : "+totalScore);
 
+  
+  document.getElementById("finish-image").src = "images/stageBackground/gameFinish.png";
   if(totalScore <= 5){ 
     return 'EASY모드 추천';
   }else if(totalScore <= 9){
