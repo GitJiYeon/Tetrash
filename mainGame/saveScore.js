@@ -1,5 +1,5 @@
 // saveScore.js
-
+const API_URL = 'https://calm-florencia-tetrash-6578a127.koyeb.app';
 async function saveScore(score) {
     const auth = window.auth;
     
@@ -28,7 +28,7 @@ async function saveScore(score) {
         console.log("난이도:", difficulty);
         
         // 기존 점수 데이터 가져오기
-        const res = await fetch("http://localhost:4000/getScores");
+        const res = await fetch(`${API_URL}/getScores`);
         
         if (!res.ok) {
             throw new Error(`서버 응답 오류: ${res.status}`);
@@ -81,7 +81,7 @@ async function saveScore(score) {
             };
 
             // 서버에 저장
-            const saveRes = await fetch("http://localhost:4000/saveScore", {
+            const saveRes = await fetch(`${API_URL}/saveScore`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ 

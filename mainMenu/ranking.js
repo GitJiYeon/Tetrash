@@ -1,5 +1,5 @@
 // mainMenu/ranking.js
-
+const API_URL = 'https://calm-florencia-tetrash-6578a127.koyeb.app';
 // 현재 보고 있는 랭킹 난이도 (게임 난이도와 별개)
 let currentRankingDifficulty = "easy";
 
@@ -62,7 +62,7 @@ async function loadRanking() {
     try {
         console.log(`${currentRankingDifficulty} 랭킹 로딩 중`);
         
-        const response = await fetch(`http://localhost:4000/getRanking/${currentRankingDifficulty}`);
+        const response = await fetch(`${API_URL}/getRanking/${currentRankingDifficulty}`);
         
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
@@ -113,7 +113,7 @@ async function displayRanking(ranking) {
         };
 
         try {
-            const userResponse = await fetch(`http://localhost:4000/getUserInfo/${item.uid}`);
+            const userResponse = await fetch(`${API_URL}/getUserInfo/${item.uid}`);
             if (userResponse.ok) userInfo = await userResponse.json();
         } catch {}
 
@@ -151,7 +151,7 @@ async function displayRanking(ranking) {
 
     // 내 유저 정보 가져외기
     const myScore = ranking[myIndex].score;
-    const myUserResponse = await fetch(`http://localhost:4000/getUserInfo/${uid}`);
+    const myUserResponse = await fetch(`${API_URL}/getUserInfo/${uid}`);
     const myInfo = myUserResponse.ok ? await myUserResponse.json() : { displayName: '익명', photoURL: './images/logo/google.png' };
 
     const minutes = Math.floor(myScore.time / 60);
