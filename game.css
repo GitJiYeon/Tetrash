@@ -142,7 +142,7 @@ html, body {
 .bossSpace {
     border: 2px solid rgb(255, 250, 221);
     border-radius: 10px;
-    background-image: url("/images/bossFrame.png");
+    background-image: url("./images/bossFrame.png");
     background-size: cover;
     flex: 3;
     transform: translateX(-120%);
@@ -261,7 +261,7 @@ html, body {
 
 /* Hold 섹션 */
 .hold-title {
-    background-image: url("/images/titleBackground.png");
+    background-image: url("./images/titleBackground.png");
     background-size: cover;
     background-color: rgb(20, 38, 77);
     border: 2px solid rgb(255, 250, 221);
@@ -278,7 +278,7 @@ html, body {
 }
 
 .hold {
-    background-image: url("/images/holdFrame7.png");
+    background-image: url("./images/holdFrame7.png");
     background-size: cover;
     display: flex;
     align-items: center;
@@ -299,7 +299,7 @@ canvas#hold {
 /* 점수 섹션 */
 .score {
     border: 1px solid rgb(255, 250, 221);
-    background-image: url("/images/titleBackground.png");
+    background-image: url("./images/titleBackground.png");
     background-size: cover;
     background-color: rgb(20, 38, 77);
     width: 100%;
@@ -358,7 +358,7 @@ canvas#hold {
 }
 /* 중앙 그리드 */
 .grid {
-    background-image: url("/images/gameFrame7.png");
+    background-image: url("./images/gameFrame7.png");
     background-size: cover;
     border-radius: 10px;
     border: 2px solid rgb(255, 250, 221);
@@ -394,7 +394,7 @@ canvas#tetris {
 }
 
 .next-title {
-    background-image: url("/images/titleBackground.png");
+    background-image: url("./images/titleBackground.png");
     background-size: cover;
     background-color: rgb(20, 38, 77);
     border: 2px solid rgb(255, 250, 221);
@@ -411,7 +411,7 @@ canvas#tetris {
 }
 
 .next {
-    background-image: url("/images/nextFrame7.png");
+    background-image: url("./images/nextFrame7.png");
     background-size: cover;
     display: flex;
     align-items: center;

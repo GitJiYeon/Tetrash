@@ -110,7 +110,7 @@ async function displayRanking(ranking) {
         // 유저 정보 로드
         let userInfo = {
             displayName: '익명',
-            photoURL: './images/logo/google.png'
+            photoURL: '../images/logo/google.png'
         };
 
         try {
@@ -128,7 +128,7 @@ async function displayRanking(ranking) {
         rankItem.className = 'rankItem';
         rankItem.innerHTML = `
             <span class="order">${i + 1}</span>
-            <img src="${userInfo.photoURL || './images/logo/google.png'}" class="rankAvatar">
+            <img src="${userInfo.photoURL || '../images/logo/google.png'}" class="rankAvatar">
             <div class="rankInfo">
                 <span class="rankName">${userInfo.displayName || '익명'}</span>
                 <span class="rankStats">time: ${timeStr} | score: ${score.score.toLocaleString()} | pps: ${ppsStr}</span>
@@ -153,7 +153,7 @@ async function displayRanking(ranking) {
     // 내 유저 정보 가져외기
     const myScore = ranking[myIndex].score;
     const myUserResponse = await fetch(`${API_URL}/getUserInfo/${uid}`);
-    const myInfo = myUserResponse.ok ? await myUserResponse.json() : { displayName: '익명', photoURL: './images/logo/google.png' };
+    const myInfo = myUserResponse.ok ? await myUserResponse.json() : { displayName: '익명', photoURL: '../images/logo/google.png' };
 
     const minutes = Math.floor(myScore.time / 60);
     const seconds = myScore.time % 60;

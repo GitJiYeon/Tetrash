@@ -355,13 +355,13 @@ function showSkillImage(skillType) {
 
   switch (skillType) {
     case 'tSpin':
-      imagePath = '/images/skillImages/tSpin.png';
+      imagePath = './images/skillImages/tSpin.png';
       break;
     case 'tetrash':
-      imagePath = '/images/skillImages/tetrash.png';
+      imagePath = './images/skillImages/tetrash.png';
       break;
     case 'perfect':
-      imagePath = '/images/skillImages/perfect.png';
+      imagePath = './images/skillImages/perfect.png';
       break;
     default:
       imagePath = ''; // 기본값 (없을 때)
