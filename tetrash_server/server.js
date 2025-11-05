@@ -1,21 +1,27 @@
-
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import admin from "firebase-admin";
-import fs from "fs";
+import { readFileSync } from 'fs';
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+const serviceAccount = JSON.parse(
+  readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, 'utf8')
+);
 
 admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
+  credential: admin.credential.cert(serviceAccount)
 });
 
 const db = admin.firestore();
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 app.use(cors({
   origin: '*',
@@ -29,12 +35,6 @@ app.use(helmet({
 
 app.use(express.json());
 
-// 서버 상태 확인
-app.get("/", (req, res) => {
-  res.json({ status: "Server is running" });
-});
-
-// Firestore 연결 테스트
 app.get("/test", async (req, res) => {
   try {
     const testRef = await db.collection("_test").add({
@@ -52,7 +52,6 @@ app.get("/test", async (req, res) => {
   }
 });
 
-// 점수 저장 API
 app.post("/saveScore", async (req, res) => {
   try {
     const { uid, score, timestamp } = req.body;
@@ -73,7 +72,6 @@ app.post("/saveScore", async (req, res) => {
   }
 });
 
-// 점수 조회 API
 app.get("/getScores", async (req, res) => {
   try {
     const snapshot = await db.collection("scores").get();
@@ -91,7 +89,6 @@ app.get("/getScores", async (req, res) => {
   }
 });
 
-// 특정 유저의 점수만 조회
 app.get("/getScores/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
@@ -110,7 +107,6 @@ app.get("/getScores/:uid", async (req, res) => {
   }
 });
 
-// 랭킹 조회 
 app.get("/getRanking/:difficulty", async (req, res) => {
   try {
     const { difficulty } = req.params;
@@ -146,7 +142,6 @@ app.get("/getRanking/:difficulty", async (req, res) => {
   }
 });
 
-// 유저 정보 조회
 app.get("/getUserInfo/:uid", async (req, res) => {
   try {
     const { uid } = req.params;
@@ -166,21 +161,11 @@ app.get("/getUserInfo/:uid", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log("서버 열림");
-});
-
-import path from "path";
-import { fileURLToPath } from "url";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// 프론트 폴더가 루트
+// 정적 파일 제공
 app.use(express.static(path.join(__dirname, "../")));
 
-// 모든 경로를 index.html로 리다이렉트
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../game.html"));
+// 서버 시작 (맨 마지막!)
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
 });
