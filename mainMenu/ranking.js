@@ -1,5 +1,4 @@
 // mainMenu/ranking.js
-const API_URL = 'https://calm-florencia-tetrash-6578a127.koyeb.app';
 // 현재 보고 있는 랭킹 난이도 (게임 난이도와 별개)
 let currentRankingDifficulty = "easy";
 

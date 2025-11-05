@@ -4,13 +4,11 @@ async function saveScore(score) {
     const auth = window.auth;
     
     if (!auth) {
-        console.error("Firebase auth가 초기화되지 않았습니다.");
         return;
     }
     
     const user = auth.currentUser;
     if (!user) {
-        console.log("로그인 필요");
         alert("로그인이 필요합니다.");
         return;
     }
@@ -20,12 +18,11 @@ async function saveScore(score) {
     try {
         console.log("서버에 점수 저장 시도:", score);
         
-        // ✅ 난이도가 문자열인지 확인
+        // 난이도가 문자열인지 확인
         const difficulty = typeof score.difficulty === 'string' 
             ? score.difficulty 
             : (score.difficulty === 0 ? "easy" : "normal");
         
-        console.log("난이도:", difficulty);
         
         // 기존 점수 데이터 가져오기
         const res = await fetch(`${API_URL}/getScores`);
@@ -43,7 +40,7 @@ async function saveScore(score) {
         
         console.log("기존 점수 데이터:", data);
 
-        // ✅ 해당 유저의 해당 난이도 최고 기록 찾기
+        // 해당 유저의 해당 난이도 최고 기록 찾기
         const userScoresForDifficulty = data.filter(s => {
             const sDifficulty = typeof s.score?.difficulty === 'string' 
                 ? s.score.difficulty 
@@ -52,9 +49,7 @@ async function saveScore(score) {
             return s.uid === uid && sDifficulty === difficulty;
         });
 
-        console.log(`${uid}의 ${difficulty} 기록:`, userScoresForDifficulty);
-
-        // ✅ 최고 기록 찾기 (가장 빠른 시간)
+        // 최고 기록 (가장 빠른 시간)
         let isBestRecord = false;
         
         if (userScoresForDifficulty.length === 0) {
@@ -74,7 +69,7 @@ async function saveScore(score) {
         }
 
         if (isBestRecord) {
-            // ✅ score 객체에 difficulty를 문자열로 저장
+            // score 객체에 difficulty를 문자열로 저장
             const scoreToSave = {
                 ...score,
                 difficulty: difficulty  // 문자열로 통일
@@ -97,7 +92,7 @@ async function saveScore(score) {
 
             const result = await saveRes.json();
             console.log("저장 결과:", result);
-            alert(`🎉 최고 기록 저장 완료!\n시간: ${score.time}초`);
+            alert(`최고 기록 저장 완료!\t${score.time}초`);
         } else {
             alert("최고 기록이 아닙니다.");
         }
@@ -109,4 +104,3 @@ async function saveScore(score) {
 }
 
 window.saveScore = saveScore;
-console.log('✅ saveScore 함수 등록 완료');
