@@ -8,9 +8,7 @@ import fs from "fs";
 
 dotenv.config();
 
-const serviceAccount = JSON.parse(
-  fs.readFileSync("./serviceAccountKey.json", "utf8")
-);
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -171,4 +169,18 @@ app.get("/getUserInfo/:uid", async (req, res) => {
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log("서버 열림");
+});
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 프론트 폴더가 루트
+app.use(express.static(path.join(__dirname, "../")));
+
+// 모든 경로를 index.html로 리다이렉트
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../game.html"));
 });
