@@ -34,28 +34,28 @@ function getPPS(gameTime) {
 
 function updateBackDisplay(){
     if(currentStage == 1){
-        document.getElementById('bg-img').src = "../images/stageBackground/sMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage3.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/sMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage3.png";
     }else if(currentStage == 2){
-        document.getElementById('bg-img').src = "../images/stageBackground/oMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage3.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/oMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage3.png";
     }else if(currentStage == 3){
-        document.getElementById('bg-img').src = "../images/stageBackground/pMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage4.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/pMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage4.png";
     }else if(currentStage == 4){
-        document.getElementById('bg-img').src = "../images/stageBackground/zMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage4.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/zMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage4.png";
     }else if(currentStage == 5){
-        document.getElementById('bg-img').src = "../images/stageBackground/zMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage4.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/zMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage4.png";
     }else if(currentStage == 6){
-        document.getElementById('bg-img').src = "../images/stageBackground/lMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage5.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/lMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage5.png";
     }else if(currentStage == 7){
-        document.getElementById('bg-img').src = "../images/stageBackground/tMino.gif";
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage5.png";
+        document.getElementById('bg-img').src = "./images/stageBackground/tMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage5.png";
     }else{
-        document.getElementById("backgroundImage").src = "../images/stageBackground/backStage6.png";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage6.png";
     }
 }
 /////////////////////미션

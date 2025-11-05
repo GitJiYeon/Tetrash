@@ -21,7 +21,7 @@ const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 
 ///////////////////////////////[텍스처 로드]/////////////////////////////////
 const blockTexture = new Image();
-blockTexture.src = '../images/blockTexture2.png';
+blockTexture.src = './images/blockTexture2.png';
 
 ///////////////////////////////[게임 상태 변수]/////////////////////////////////
 let gameRunning = false; // 게임 실행 상태
@@ -102,7 +102,7 @@ function initGame(){
 
   document.getElementById('bg-img').style.display = 'block';
   document.getElementById("boss-img").src = "images/stageBackground/xMino.gif";
-  document.getElementById("backgroundImage").src = "../images/stageBackground/backStage6.png";
+  document.getElementById("backgroundImage").src = "./images/stageBackground/backStage6.png";
 
   ///////////////////////////////[게임 기본 설정]/////////////////////////////////
   DROP_DELAY = 1000;
