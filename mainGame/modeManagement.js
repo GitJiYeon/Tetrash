@@ -52,7 +52,7 @@ function difficultySetting(){
     garbageInterval = 9000; //방해줄 속도 : 9초
 
     //보스
-    bossHP = 3;
+    bossHP = 20;
     currentBossHP = bossHP;
   }else if(difficulty == 1){ //nomal
     //라운드 조건
