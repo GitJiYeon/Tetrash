@@ -9,10 +9,10 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
-const serviceAccount = JSON.parse(
-  readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH, 'utf8')
-);
-
+const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT 
+  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT)
+  : JSON.parse(readFileSync('./serviceAccountKey.json', 'utf8'));
+  
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
