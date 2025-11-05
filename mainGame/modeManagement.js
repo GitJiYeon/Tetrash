@@ -40,11 +40,11 @@ let TETRIS_FOR_STAGE7 = 2;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 1;   //10
-    GARBAGELINES_FOR_STAGE3 = 1; //3
-    LINES_FOR_STAGE4 = 1; //2
-    LINES_FOR_STAGE5 = 1; //3 (난이도 하향) 
-    PLACED_FOR_STAGE6 = 1; //9
+    LINES_FOR_STAGE2 = 10;   //10
+    GARBAGELINES_FOR_STAGE3 = 3; //3
+    LINES_FOR_STAGE4 = 2; //2
+    LINES_FOR_STAGE5 = 3; //3 (난이도 하향) 
+    PLACED_FOR_STAGE6 = 9; //9
     TETRIS_FOR_STAGE7 = 1; //1 (난이도 하향)
 
     //세팅
@@ -64,11 +64,11 @@ function difficultySetting(){
     TSPIN_FOR_STAGE7 = 1;
 
     //세팅
-    DROP_DELAY = 100000000; //블록 떨어지는 속도 : 1.1초마다
+    DROP_DELAY = 1100; //블록 떨어지는 속도 : 1.1초마다
     garbageInterval = 5000; //방해줄 속도 : 5초
     
     //보스
-    bossHP = 40;
+    bossHP = 35;
     currentBossHP = bossHP;
   }
   else if(difficulty == 2){ //hard

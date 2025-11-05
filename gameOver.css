@@ -137,6 +137,7 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
+.finish-image,
 .scoreImage img {
   width: 100%;               /* 부모 가로에 맞춤 */
   height: 100%;              /* 부모 높이에 맞춤 */
