@@ -2,6 +2,8 @@
 // 현재 보고 있는 랭킹 난이도 (게임 난이도와 별개)
 let currentRankingDifficulty = "easy";
 
+document.getElementById("rankingButton").addEventListener("click", showRanking);
+
 // 랭킹 화면 표시
 function showRanking() {
     const ranking = document.getElementById('ranking');
