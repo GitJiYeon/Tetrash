@@ -2,6 +2,7 @@
 // 유틸리티 함수
 // ============================================================================
 
+
 // Fisher-Yates 알고리즘 배열 섞기
 function shuffleArray(array) {
   const shuffled = [...array];
@@ -46,8 +47,14 @@ function checkRedZone() {
   // 중앙 4칸(3-6) 체크
   for (let x = 3; x < 7; x++) {
     if (grid[RED_ROW][x] !== 0) {
-      gameOver(false);
-      return true;
+      if(MODE_free){
+        clearGrid();
+      }else if(MODE_skillCheck){
+        showRetryPopup();
+      }else{
+        gameOver(false);
+        return true;
+      }
     }
   }
   return false;
@@ -55,11 +62,30 @@ function checkRedZone() {
 
 // 게임 오버 처리
 function gameOver(isClear) {
-  stopBGM();
-  gameRunning = false;
-  isGameOver = true;
-  showGameOver(isClear);
-  console.log("gameover");
+    stopBGM();
+    gameRunning = false;
+    isGameOver = true;
+    showGameOver(isClear);
+    
+    if (isClear && typeof window.saveScore === 'function') {
+        try {
+            const totalSeconds = Math.floor(gameTime / 1000);
+            const scoreData = {
+                time: totalSeconds,
+                score: score,
+                pps: currentPps,
+                tetrash: totalTetrisClear,
+                lines: totalLinesCleared,
+                pieces: totalSeconds,
+                difficulty: difficulty === 0 ? "easy" : "normal"  //문자열로 저장
+            };
+            
+            console.log('점수 저장:', scoreData);
+            window.saveScore(scoreData);
+        } catch (error) {
+            console.error('점수 저장 중 오류:', error);
+        }
+    }
 }
 
 // ============================================================================
@@ -74,6 +100,7 @@ function damageBoss(amount) {
     
     if (currentBossHP < 1){
       defeatBoss();
+      hpBar.style.width = "0%";
       gameRunning = false;
       return;
     }
@@ -122,11 +149,16 @@ function spawnNewPiece() {
 
   
   // 스폰 위치 유효성 검사
-  if (!canPlacePiece(currentPiece, currentX, currentY) || checkRedZone()) {
-    gameOver(false);
-    return false;
+  if (!canPlacePiece(currentPiece, currentX, currentY)) {
+    if(MODE_free){
+      clearGrid();
+    }else if(MODE_skillCheck){
+      showRetryPopup();
+    }else{
+      gameOver(false);
+      return false;
+    }
   }
-  
   updateGhostPiece();
   showNextBlocks();
   return true;
@@ -263,13 +295,8 @@ function placePieceOnGrid(piece, x, y) {
   if(currentStage == 6 && clearedLines == 4){
     clearedTetrisStage6++;
   }
-  // 7스테이지 공격 (이지 제외) : 한줄 삭제시 공격 X
-  if(currentStage == 7 && clearedLines > 1 && difficulty != 0) {
-    damageBoss(clearedLines);
-    shaking2(bossSpace);
-
-  // 7스테이지 공격 (이지) : 한줄 삭제도 공격 O
-  }else if(currentStage == 7 && clearedLines > 0 && difficulty == 0){
+  // 7스테이지 공격 : 한줄 삭제도 공격 O
+  else if(currentStage == 7 && clearedLines){
     damageBoss(clearedLines);
     shaking2(bossSpace);
   }
@@ -405,7 +432,13 @@ function drawGrid() {
 // 카운트다운 후 게임 시작
 function showCountdownAndStart(duration = 3, mode) {
   if (!canvas) return;
-  initGameSettings();
+
+  initGame();
+  if(mode == "skillCheck"){
+    currentStage = 100;
+  }
+  difficultySetting();
+  updateBackDisplay();
   const ctx = canvas.getContext('2d');
   const centerX = canvas.width / 2;
   const centerY = canvas.height / 2;
@@ -421,7 +454,6 @@ function showCountdownAndStart(duration = 3, mode) {
     ctx.textBaseline = 'middle';
     ctx.fillText(counter, centerX, centerY);
   }
-  
   drawCountdown();
   
   const interval = setInterval(() => {
@@ -429,8 +461,12 @@ function showCountdownAndStart(duration = 3, mode) {
     if (counter <= 0) {
       clearInterval(interval);
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      startGame(mode);
-    } else {
+      if(mode == 'skillCheck'){
+        startSkillCheck();
+      }else{
+        startGame(mode);
+      }
+    }else {
       drawCountdown();
     }
   }, 1000);
@@ -438,6 +474,10 @@ function showCountdownAndStart(duration = 3, mode) {
 
 // 게임 시작
 function startGame() {
+  const hpBar = document.getElementById('currentHP');
+  const percent = (currentBossHP / bossHP) * 100;
+  hpBar.style.width = percent + '%';
+
   gameRunning = true;
 
   stageMessageSetting();
@@ -579,7 +619,7 @@ function clearGrid() {
     
     row++;
     if (row < ROWS) {
-      setTimeout(step, 30);
+      setTimeout(step, 15);
     } else {
       isAnimating = false;
       placedPiece--;

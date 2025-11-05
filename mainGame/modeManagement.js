@@ -5,6 +5,9 @@ let MODE_transformScreen = false;
 let MODE_gravityReverse = false;
 let MODE_multyBlock = false;
 let MODE_tetrash = false;
+let MODE_free = false;
+let MODE_skillCheck = false;
+
 
 let difficulty = 0; // 0 easy, 1 nomal, 2 hard
 
@@ -37,26 +40,26 @@ let TETRIS_FOR_STAGE7 = 2;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 10;   //10
-    GARBAGELINES_FOR_STAGE3 = 3; //3
-    LINES_FOR_STAGE4 = 2; //2
-    LINES_FOR_STAGE5 = 3; //3 (난이도 하향) 
-    PLACED_FOR_STAGE6 = 9; //10
-    TETRIS_FOR_STAGE7 = 2; //2 (난이도 하향)
+    LINES_FOR_STAGE2 = 1;   //10
+    GARBAGELINES_FOR_STAGE3 = 1; //3
+    LINES_FOR_STAGE4 = 1; //2
+    LINES_FOR_STAGE5 = 1; //3 (난이도 하향) 
+    PLACED_FOR_STAGE6 = 1; //9
+    TETRIS_FOR_STAGE7 = 1; //1 (난이도 하향)
 
     //세팅
     DROP_DELAY = 2000; //블록 떨어지는 속도 : 1.6초마다
     garbageInterval = 9000; //방해줄 속도 : 9초
 
     //보스
-    bossHP = 20;
+    bossHP = 3;
     currentBossHP = bossHP;
   }else if(difficulty == 1){ //nomal
     //라운드 조건
-    LINES_FOR_STAGE2 = 20; 0
+    LINES_FOR_STAGE2 = 20; 
     GARBAGELINES_FOR_STAGE3 = 5;
     LINES_FOR_STAGE4 = 4;
-    TETRIS_FOR_STAGE5 = 2;
+    TETRIS_FOR_STAGE5 = 1;
     PLACED_FOR_STAGE6 = 20;
     TSPIN_FOR_STAGE7 = 1;
 
@@ -186,6 +189,7 @@ function checkStageProgress() {
 }
 
 function modeReset(){
+  updateBackDisplay();
   MODE_garbageLine = false;
   MODE_bigBlock = false;
   MODE_rythem = false;
@@ -193,4 +197,7 @@ function modeReset(){
   MODE_gravityReverse = false;
   MODE_multyBlock = false;
   MODE_tetrash = false;
+  MODE_free = false;
+  MODE_skillCheck = false;
+  
 }

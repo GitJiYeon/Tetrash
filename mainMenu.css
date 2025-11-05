@@ -36,15 +36,16 @@
     gap: 15px; /* 버튼 사이 간격 */
 }
 
-.profile-img {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid white;
+.profileImg {
+    border-radius: 50%;
+    width: 15%;
+    height: 15%;
+    object-fit: cover;
+    border: 2px solid white;
+    display: none;
 }
 /* 버튼 스타일 */
-.rankingButton, .settingButton, .loginButton {
+.rankingButton, .settingButton, .loginButton, .logoutButton{
     background-color: rgba(255, 255, 255, 0.15);
     border: 2px solid white;
     border-radius: 8px;
@@ -54,8 +55,13 @@
     cursor: pointer;
     transition: all 0.3s ease;
 }
-
-.rankingButton:hover, .settingButton:hover, .loginButton:hover {
+.logoutButton{
+    display: none;
+}
+.loginButton{
+    display: none;
+}
+.rankingButton:hover, .settingButton:hover, .loginButton:hover, .logoutButton:hover {
     background-color: rgba(255, 255, 255, 0.3);
     transform: scale(1.05);
 }

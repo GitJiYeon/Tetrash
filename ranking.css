@@ -38,15 +38,26 @@
   color: white;
   font-family: 'IAmAPlayer', sans-serif;
   animation: popupIn 0.4s ease;
-  overflow: hidden;
+  overflow: visible;
+
 }
 
 /* 리스트 영역 스크롤 */
 .rankingList {
   width: 100%;
-  flex: 1;
+  max-height: 300px;
   overflow-y: auto;
-  padding-right: 10px; /* 스크롤 간격 */
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-right: 10px;
+  box-sizing: border-box; 
+}
+
+
+.myLanking {
+  width: 100%;
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -95,7 +106,7 @@
 
 /* 제목 */
 .rankingTitle {
-  font-size: 42px;
+  font-size: 1rem;
   letter-spacing: 4px;
   color: rgb(255, 250, 221);
   text-shadow: 0 0 15px rgba(255, 250, 221, 0.5);
@@ -122,3 +133,29 @@
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
+
+.rankButtons {
+    display: flex;            /* 가로 정렬 */
+    justify-content: center;  /* 가운데 정렬 */
+    gap: 10px;                /* 버튼 사이 간격 */
+    margin-bottom: 20px;
+}
+
+
+.difficultyBtn{
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 2px solid white;
+  border-radius: 8px;
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.difficultyBtn.active {
+    display: flex; 
+    border: 2px solid rgb(255, 255, 151);
+    color: rgb(255, 255, 151);
+}
+

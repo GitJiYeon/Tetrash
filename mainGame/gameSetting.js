@@ -27,7 +27,6 @@ blockTexture.src = './images/blockTexture2.png';
 let gameRunning = false; // 게임 실행 상태
 let isAnimating = false; // 애니메이션 중 여부
 let isGameOver = false; // 게임 오버 상태
-
 let gameTime = 0;       // 누적된 게임 시간
 let startTime = 0;      // 시작 시각
 let dropTimer = 0;      // 블록 낙하 타이머
@@ -81,48 +80,73 @@ function initGameSettings() {
 }
 
 function initGame(){
+  //CSS 초기화
+  const gameSpace = document.querySelector('.gameSpace');
+  const bossSpace = document.querySelector('.bossSpace');
+  const gameInfo = document.querySelector('.gameInfo');
+  
+  if (gameSpace) {
+    gameSpace.style.transform = 'scale(80%)';
+    gameSpace.style.marginRight = '20%';
+  }
+  
+  if (bossSpace) {
+    bossSpace.style.transform = 'translateX(-120%)';
+    bossSpace.style.opacity = '0';
+    bossSpace.classList.add('hidden');
+  }
+  
+  if (gameInfo) {
+    gameInfo.style.transform = 'translateX(0)';
+  }
+
+  document.getElementById('bg-img').style.display = 'block';
+  document.getElementById("boss-img").src = "images/stageBackground/xMino.gif";
+  document.getElementById("backgroundImage").src = "./images/stageBackground/backStage6.png";
+
   ///////////////////////////////[게임 기본 설정]/////////////////////////////////
-  DROP_DELAY = 1000; // 블록 낙하 속도(ms)
-  PLACE_DELAY = 1000; // 블록이 바닥에 닿은 후 고정까지 딜레이(ms)
-  DAS = 160; // 키를 누른 후 반복 시작까지 딜레이(ms)
-  ARR = 30;  // 반복 간격(ms)
+  DROP_DELAY = 1000;
+  PLACE_DELAY = 1000;
+  DAS = 160;
+  ARR = 30;
   SDF = 1;
   softDropMax = false;
-  RED_ROW = 2; // 기본 데드라인 (중력 아래)
-  gravityDirection = 1; // 1 = 아래, -1 = 위 (중력 방향)
+  RED_ROW = 2;
+  gravityDirection = 1;
 
-  bossHP = 100; // 보스 최대 HP 100
+  bossHP = 100;
   currentBossHP = bossHP;
 
   ///////////////////////////////[게임 상태 변수]/////////////////////////////////
-  gameRunning = false; // 게임 실행 상태
-  isAnimating = false; // 애니메이션 중 여부
-  isGameOver = false; // 게임 오버 상태
+  gameRunning = false;
+  isAnimating = false;
+  isGameOver = false;
 
-  gameTime = 0;       // 누적된 게임 시간
-  startTime = 0;      // 시작 시각
-  dropTimer = 0;      // 블록 낙하 타이머
-  placeTimer = 0;     // 바닥 닿은 시점 기록
-  lastFrameTime = 0;  // 마지막 프레임 시각
-  gamePlayTime = 0;   // 실제 플레이 누적 시간
-  lastPPS = 0;        // 마지막 PPS 값 저장
+  gameTime = 0;
+  startTime = 0;
+  dropTimer = 0;
+  placeTimer = 0;
+  lastFrameTime = 0;
+  gamePlayTime = 0;
+  lastPPS = 0;
 
+  MODE_free = false;
+  
   ///////////////////////////////[블록 관련 변수]/////////////////////////////////
   currentPiece = null; 
   currentPieceType = '';
   currentX = 0; 
   currentY = 0; 
-  isOnGround = false; // 블록이 바닥에 닿았는지
-  rotationState = 0;  // 회전 상태
+  isOnGround = false;
+  rotationState = 0;
 
-  // 고스트 블록
   currentGhostPiece = null;
   currentGhostX = 0;
   currentGhostY = 0;
 
   ///////////////////////////////[가방 시스템]/////////////////////////////////
-  currentBag = []; // 현재 가방
-  nextBag = [];    // 다음 가방
+  currentBag = [];
+  nextBag = [];
 
   ///////////////////////////////[스코어/통계 관련 변수]/////////////////////////////////
   currentStage = 1;
@@ -140,6 +164,7 @@ function initGame(){
 
   lastSoftDropTime = 0;
   lastMoveKey = null;
+  
   ////////////////////////////[hold 변수]/////////////////////////////////
   isUsingHold = false;
   canPlaceHold = false;
@@ -150,14 +175,10 @@ function initGame(){
   blockedCount = 0;
   lastMoveKey = null;
 
-  //////////////////////////[main변수//////////////////////////////////]
   window.showCountdownAndStart = showCountdownAndStart;
-
-  //////////////////////////[mode manage 변수]///////////////////////////
-  difficulty = 0; // 0 easy, 1 nomal, 2 hard
-
-  clearedGarbageLine = 0; //클리어 한 방해줄 라인
-  clearedLineWithTetrash = 0; //테트레쉬 블럭으로 클리어한 라인
+  
+  clearedGarbageLine = 0;
+  clearedLineWithTetrash = 0;
   clearedTetrisStage4 = 0;
   clearedLinesStage4 = 0;
   clearedTetrisStage6 = 0;
@@ -165,33 +186,33 @@ function initGame(){
   placedBigPiece = 0;
   tSpinStage7 = 0;
   lastGarbageTime = Date.now();
-  garbageInterval = 4000; // 4초마다 방해줄 추가
-
-/////////////////////////////////////////조건
-
-  LINES_FOR_STAGE2 = 20;        // 2스테이지로 넘어가기 위한 줄 수
-  GARBAGELINES_FOR_STAGE3 = 10;   //3스테이지 조건(방해줄 10줄 삭제)
-  LINES_FOR_STAGE4 = 7;        // 4스테이지로 넘어가기 위한 줄 수
-
-  TETRIS_FOR_STAGE5 = 3;        // (NOMAL 이상)5스테이지로 넘어가기 위한 줄 수
-  LINES_FOR_STAGE5 = 3;         // (EASY)5스테이지로 넘어가기 위한 줄 수
-
+  garbageInterval = 4000;
+  /////////////////////////////////////////조건
+  LINES_FOR_STAGE2 = 20;
+  GARBAGELINES_FOR_STAGE3 = 10;
+  LINES_FOR_STAGE4 = 7;
+  TETRIS_FOR_STAGE5 = 3;
+  LINES_FOR_STAGE5 = 3;
   PLACED_FOR_STAGE6 = 10;
   TSPIN_FOR_STAGE7 = 3;
   TETRIS_FOR_STAGE7 = 2; 
   countLinesCleared = 0;
 
   initGrid();
-  difficultySetting();
-  initGameSettings()
+  initGameSettings();
   modeReset();
   initKeyStates();
   renderGame();
-  updateMissionDisplay();
+  
+  if(!MODE_skillCheck && !MODE_free){
+    updateMissionDisplay();
+  }
+  
   updateScoreDisplay();
   endBossStage();
   showDifficulty();
   applyGameSettings();
+  initGameLayout();
 }
 
 // 셀 그리기

@@ -13,13 +13,13 @@
 
 /* 게임오버 컨테이너 */
 .gameOverContainer {
-    width: 40%;
+    width: 35%;
     max-width: 900px;
     height: 90%;
     max-height: 700px;
     display: flex;
     flex-direction: column;
-    background: linear-gradient(135deg, rgba(28, 76, 140, 0.95), rgba(26, 42, 116, 0.95));
+    background: rgb(15, 22, 45);
     border-radius: 20px;
     border: 3px solid rgb(255, 250, 221);
     box-shadow: 0 0 30px rgba(255, 250, 221, 0.5);
@@ -27,6 +27,14 @@
     animation: gameOverSlideIn 0.6s ease-out;
 }
 
+.skillView {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+}
 /* 내부 스크롤 가능하도록 */
 .scoreInfo {
     width: 100%;
@@ -71,8 +79,8 @@
     padding: 15px 40px;
     font-size: 1.5vw;
     font-family: 'IAmAPlayer', sans-serif;
-    color: white;
-    background: linear-gradient(135deg, rgb(20, 38, 77), rgb(40, 60, 120));
+    color: rgb(255, 250, 221);
+    background: rgb(15, 22, 45);
     border: 2px solid rgb(255, 250, 221);
     border-radius: 10px;
     cursor: pointer;
@@ -85,16 +93,6 @@
 }
 .gameOverButton:active {
     transform: scale(0.95);
-}
-
-/* 별 스타일 */
-.scoreStar {
-    font-size: 3vw;
-    color: gold;
-    letter-spacing: 15px;
-    text-shadow:
-        0 0 10px rgba(255, 246, 193, 0.8);
-    animation: starGlow 2s ease-in-out infinite;
 }
 
 /* 점수 뷰 */
@@ -112,7 +110,7 @@
     justify-content: space-between;
     height: 15%;
     padding: 15px 25px;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgb(0, 0, 0, 0.4);
     border-radius: 10px;
     border: 1px solid rgba(255, 250, 221, 0.3);
     transition: all 0.3s ease;
@@ -128,24 +126,21 @@
     text-align: right;
 }
 
-/* 상단 이미지 */
 .scoreImage {
-    background-image: url(images/stageBackground/back_stage1.png);
-    background-size: cover;
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    min-height: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    border-bottom: 2px solid rgb(255, 250, 221);
-    background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;                /* 부모 가로 100% */
+  aspect-ratio: 1 / 2;   /* 비율 유지 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-bottom: 2px solid rgb(255, 250, 221);
+  background-color: rgba(0, 0, 0, 0.3);
 }
+
 .scoreImage img {
-    width: 100%;
-    height: 100%;
+  width: 100%;               /* 부모 가로에 맞춤 */
+  height: 100%;              /* 부모 높이에 맞춤 */
+  object-fit: contain;       /* 이미지 비율 유지, 잘리지 않음 */
 }
 /* 반응형 디자인 */
 @media (max-width: 1200px) {

@@ -14,7 +14,7 @@ function updateScoreDisplay(gameTime) {
 
     document.getElementById('pps_value').textContent = ppsValue;
     document.getElementById('time_value').textContent = formatTime(gameTime);
-    document.getElementById('tSpin_value').textContent = tSpinCount + "  " + clearedGarbageLine;
+    document.getElementById('tSpin_value').textContent = tSpinCount;
 }
 
 function formatTime(gameTime) {
@@ -32,20 +32,60 @@ function getPPS(gameTime) {
 }
 
 
+function updateBackDisplay(){
+    if(currentStage == 1){
+        document.getElementById('bg-img').src = "./images/stageBackground/sMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage3.png";
+    }else if(currentStage == 2){
+        document.getElementById('bg-img').src = "./images/stageBackground/oMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage3.png";
+    }else if(currentStage == 3){
+        document.getElementById('bg-img').src = "./images/stageBackground/pMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage4.png";
+    }else if(currentStage == 4){
+        document.getElementById('bg-img').src = "./images/stageBackground/zMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage4.png";
+    }else if(currentStage == 5){
+        document.getElementById('bg-img').src = "./images/stageBackground/zMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage4.png";
+    }else if(currentStage == 6){
+        document.getElementById('bg-img').src = "./images/stageBackground/lMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage5.png";
+    }else if(currentStage == 7){
+        document.getElementById('bg-img').src = "./images/stageBackground/tMino.gif";
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage5.png";
+    }else{
+        document.getElementById("backgroundImage").src = "./images/stageBackground/backStage6.png";
+    }
+}
 /////////////////////미션
 function updateMissionDisplay() {
-    document.getElementById('stage_value').textContent = currentStage;
-    document.getElementById('mission_value').textContent = stagesDisplay.find(stage => stage.id === currentStage)?.mission;
-    if(currentStage == 4 && difficulty == 0){//EASY모드
-        document.getElementById('mission_value').textContent = `${LINES_FOR_STAGE5}줄을 삭제!`;
-    } 
-    if(currentStage == 6 && difficulty == 0){//EASY모드
-        document.getElementById('mission_value').textContent = `4줄 삭제 ${TETRIS_FOR_STAGE7}번! `;
-    } 
-    document.getElementById('progress_value').textContent = makeProgressString();
+    if(MODE_free){
+        document.getElementById('stage_value').textContent = "F";
+        document.getElementById('mission_value').textContent = "자유롭게 테스트 하세요!"
+        document.getElementById('progress_value').textContent = "free";
+    }else if(MODE_skillCheck){
+        document.getElementById('stage_value').textContent = "N";
+        document.getElementById('mission_value').textContent = "40줄을 클리어하세요!"
+        document.getElementById('progress_value').textContent = makeProgressString();
+    }else if(!MODE_free && !MODE_skillCheck){
+        document.getElementById('stage_value').textContent = currentStage;
+        document.getElementById('mission_value').textContent = stagesDisplay.find(stage => stage.id === currentStage)?.mission;
+        if(currentStage == 4 && difficulty == 0){//EASY모드
+            document.getElementById('mission_value').textContent = `${LINES_FOR_STAGE5}줄을 삭제!`;
+        } 
+        if(currentStage == 6 && difficulty == 0){//EASY모드
+            document.getElementById('mission_value').textContent = `4줄 삭제 ${TETRIS_FOR_STAGE7}번! `;
+        }
+        document.getElementById('progress_value').textContent = makeProgressString();
+    }
+    
 }
 
 function makeProgressString(){
+    if(MODE_skillCheck){
+        return `(${totalLinesCleared} / 40)`;
+    }
     if(currentStage == 1){
         return `(${totalLinesCleared} / ${LINES_FOR_STAGE2})`;
     }else if (currentStage == 2){
@@ -75,6 +115,9 @@ function showDifficulty(){
         document.getElementById('difficulty_value').textContent = 'NOMAL MODE';
     }else if(difficulty == 2){
         document.getElementById('difficulty_value').textContent = 'HARD MODE';
+    }else if(difficulty == 100){//스킬쳌
+        document.getElementById('difficulty_value').textContent = 'SKILL CHECK!';
+        document.getElementById('bg-img').style.display = 'none';
     }
      
 }

@@ -61,12 +61,24 @@ function usingHold(){
     holdingPiece = clonePiece(blocks[tempType]);
 
     canPlaceHold = false;
+    if(MODE_bigBlock){
+      if (currentPiece.type === 'bigI') {
+        // bigI 블록은 특수 처리
+        currentX = 1;
+        currentY = (gravityDirection === 1) ? 0 : 20;
+      }else {
+      // 중력 방향에 따른 스폰 위치 설정
+        currentX = Math.floor(COLS / 2) - 2;
+        currentY = (gravityDirection === 1) ? 0 : 20;
+      }
+    }else{
     currentX = Math.floor(COLS / 2) -2; // 중앙에 배치
-    if(gravityDirection == 1){ //중력 아래
-      currentY = 0; // 맨 위에서 시작
-    }else{ //중력 위
-      currentY = 20; // 맨 위에서 시작
-    } 
+      if(gravityDirection == 1){ //중력 아래
+        currentY = 0; // 맨 위에서 시작
+      }else{ //중력 위
+        currentY = 20; // 맨 위에서 시작
+      } 
+    }
     placeTimer = 0; //바닥 닿은 시간 초기화
     rotationState = 0;
     updateGhostPiece();

@@ -14,15 +14,22 @@
     <link rel="stylesheet" href="./setting.css" />
 </head>
 <body>
+    <div id="initialLoading" class="loadingSpinner">
+        <div class="spinner"></div>
+        <div class="loadingText">loading...</div>
+    </div>
+
+
     <!-- 메인메뉴 -->
     <div class="mainMenu active" id="mainMenu">
         <div class="topBar">
             <h1 class="menu-title">TETRASH</h1>
                 <div class="rightMenu">
-                <button class="settingButton" onclick="showSetting()">Setting</button>
-                <button class="rankingButton" onclick="showRanking()">Ranking</button>
-                <button class="loginButton" onclick="showLoginMenu()">Login</button>
-                <img src="images/profile.png" class="profile-img" id="profileImg" style="display: none;">
+                <button class="settingButton" id="settingButton" onclick="showSetting()">Setting</button>
+                <button class="rankingButton" id="rankingButton" onclick="showRanking()">Ranking</button>
+                <button class="loginButton" id="loginButton"onclick="showLoginMenu()">Login</button>
+                <button class="logoutButton" id="logoutButton" onclick="logout()">Logout</button>
+                <img class="profileImg" id="profileImg">
             </div>
         </div>
 
@@ -67,16 +74,13 @@
 
     <!--테트리스 화면-->
     <div class="gamePlay hidden" id="gamePlay">
+        <img class="backgroundImage" id="backgroundImage" src = "./images/stageBackground/backStage6.png">
         <div class="backgroundLayer">
-            <!--
-            <img class="bg-img" src="./images/stageBackground/pMino1.png">
-            <img class="bg-img" src="./images/stageBackground/xMino1.png">
-            <img class="bg-img" src="./images/stageBackground/zMino1.png">
-            -->
+            <img class="bg-img" id="bg-img" src="./images/stageBackground/oMino.gif">
         </div>
         <div class="gameInfo">
-            <button id="menuButton">MENU</button>
-            <h2>Tetrash</h2>
+            <button class="menuButton" id="menuButton">MENU</button>
+            <div class="InfoTitle">Tetrash</div>
         </div>
 
         <div class="bossSpace" id="bossSpace">
@@ -85,7 +89,7 @@
                     <div class="currentHP" id="currentHP"></div>
                 </div>
                 <div class="bossCase" id="bossCase">
-                    <img src="images/stageBackground/xMino1.png">
+                    <img id="boss-img" src="images/stageBackground/xMino.gif">
                 </div>
             </div><!--bossInfo-->
         </div><!--bossSpace-->
@@ -130,18 +134,13 @@
             
         </div><!--gameSpace-->
     </div><!--gamePlay-->
-
+   
     <!--게임오버 화면-->
     <div class="gameOver hidden" id="gameOver">
         <div class="gameOverContainer">
-            <div class="scoreImage" id="scoreImage">
-                
-            </div>
+            <div class="scoreImage" id="scoreImage"><img id="score-image" src="images/stageBackground/gameOver.png"></div>  
             <div class="scoreInfo" id="scoreInfo">
                 <div class="scoreMessage" id="scoreMessage">잘하셨어요!</div>
-                <div class="scoreStar" id="scoreStar">
-                    ★ ★ ★ ★ ★
-                </div>
                 <div class="gameOverButtons">
                     <button class="gameOverButton" onclick="showMainMenu()">메인 메뉴</button>
                     <button class="gameOverButton" onclick="restartGame()">다시하기</button>
@@ -161,11 +160,45 @@
     </div>
 
 
+    <!--실력 체크 클리어화면-->
+    <div class="skillView hidden" id="skillView">
+        <div class="gameOverContainer">
+            <div class="scoreInfo" id="scoreInfo">
+                <div class="scoreMessage" id="scoreMessage">EASY모드를 추천합니다!</div>
+                <div class="gameOverButtons">
+                    <button class="gameOverButton" onclick="showMainMenu()">메인 메뉴</button>
+                    <button class="gameOverButton" onclick="retrySkillCheck()">다시하기</button>
+                </div>
+                <div class="scoreView" id="scoreView">
+                    <div>Time : <span id="final_time">0:00</span></div>
+                    <div>Score : <span id="final_score">0</span></div>
+                    <div>PPS : <span id="final_pps">0</span></div>
+                    <div>T-spin : <span id="final_tSpin">0</span></div>
+                    <div>Tetrash : <span id="final_tetrash">0</span></div>
+                    <div>Cleared lines : <span id="final_clearedLines">0</span></div>
+                    <div>Placed pieces  : <span id="final_placedPieces">0</span></div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <!--재시작 버튼-->
+    <div class="retryPopup hidden" id="retryPopup">
+        <div class="loginContainer">
+            <div class="loginTitle">측정 실패... 초보인가요?</div>
+            <button class="retryButton" id="retryButton" onclick="retrySkillCheck()">
+               <span>retry ↺</span> 
+            </button>
+            <button class="retryButton" onclick="hideLoginMenu()">Back</button>
+        </div>
+    </div>
+
     <!--로그인 화면-->
     <div class="loginPopup hidden" id="loginPopup">
         <div class="loginContainer">
             <h2 class="loginTitle">Login</h2>
-            <button class="googleButton">
+            <button class="googleButton" id="googleButton">
                 <img src="images/logo/google.png" alt="Google" class="googleIcon">
                 Continue with Google
             </button>
@@ -178,76 +211,30 @@
         <div class="rankingContainer">
             <h1 class="rankingTitle">Ranking</h1>
 
+            <div class="rankButtons">
+                <button id="rankingEasyBtn" class="difficultyBtn active" onclick="changeRankingDifficulty(0)">
+                    Easy
+                </button>
+                <button id="rankingNormalBtn" class="difficultyBtn" onclick="changeRankingDifficulty(1)">
+                    Normal
+                </button>
+            </div>
+
+            <!-- 전체 랭킹 목록 -->
             <div class="rankingList">
-                <div class="rankItem">
-                    <span class="order">1</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">김ㅇㅇ</span>
-                        <span class="rankStats">time 03:28  score 16,281</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">2</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">이ㅇㅇ</span>
-                        <span class="rankStats">time 03:54  score 18,831</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">3</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">박ㅇㅇ</span>
-                        <span class="rankStats">time 04:02  score 16,163</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">4</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">최ㅇㅇ</span>
-                        <span class="rankStats">time 04:02  score 16,163</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">5</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">정ㅇㅇ</span>
-                        <span class="rankStats">time 04:02  score 16,163</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">6</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">한ㅇㅇ</span>
-                        <span class="rankStats">time 04:02  score 16,163</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">7</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">강ㅇㅇ</span>
-                        <span class="rankStats">time 04:02  score 16,163</span>
-                    </div>
-                </div>
-                <div class="rankItem">
-                    <span class="order">8</span>
-                    <img src="./images/logo/google.png" class="rankAvatar">
-                    <div class="rankInfo">
-                        <span class="rankName">문ㅇㅇ</span>
-                        <span class="rankStats">time 04:02  score 16,163</span>
-                    </div>
-                </div>
+                <div style="text-align: center; color: white; padding: 20px;">로딩 중...</div>
+            </div>
+
+            <!-- 내 랭킹 -->
+            <div class="myLanking">
+                <div class="myLankingContent" style="text-align:center; color:white; padding:10px;">로그인하면 내 기록을 확인할 수 있어요.</div>
             </div>
 
             <button class="closeButton" onclick="hideRanking()">Back</button>
         </div>
     </div>
+
+
 
     <!--세팅 화면-->
     <div class="setting hidden" id="setting">
@@ -341,13 +328,6 @@
                 <div class="settingSection">
                     <h2 class="sectionTitle">Display Settings</h2>
                     <div class="settingItem">
-                        <span class="settingLabel">Show Ghost Piece</span>
-                        <label class="toggleSwitch">
-                            <input type="checkbox" id="ghostToggle" checked>
-                            <span class="toggleSlider"></span>
-                        </label>
-                    </div>
-                    <div class="settingItem">
                         <span class="settingLabel">Delete Softdrop Delay</span>
                         <label class="toggleSwitch">
                             <input type="checkbox" id="sdfMaxToggle" checked>
@@ -364,9 +344,15 @@
         </div>
     </div>
 
-    <!--메뉴-->
+   <!--메뉴-->
+    <script type="module" src="./fireBase/fireBaseInit.js"></script>
+    <script type="module" src="./fireBase/login.js"></script>
+
+    <script src="./mainGame/saveScore.js"></script>
+
     <script src="mainMenu/menuHandle.js"></script>
     <script src="mainMenu/loginDisplay.js"></script>
+    <script src="mainMenu/settingDisplay.js"></script>
 
     <!--테트리스-->
     <script src="mainGame/gameSetting.js"></script>
@@ -379,7 +365,17 @@
     <script src="mainGame/moveControl.js"></script>
     <script src="mainGame/display.js"></script>
     <script src="mainGame/gameLoop.js"></script>
+
+    <!--스킬체크-->
+    <script src="modes/freeMode.js"></script>
+    <script src="modes/skillCheckControl.js"></script>
+
+    <!--사운드-->
     <script src="sound/sound.js"></script>
-    <script src="mainMenu/settingDisplay.js"></script>
+
+    <!-- 랭킹 -->
+    <script src="mainMenu/ranking.js"></script> 
+        
+    
 
 </html>

@@ -1,4 +1,4 @@
-let stagesDisplay = {};
+let stagesDisplay = [];
 function stageMessageSetting(){
   stagesDisplay = [
     { id: 1, mission: `${LINES_FOR_STAGE2}줄을 삭제하세요!`},
