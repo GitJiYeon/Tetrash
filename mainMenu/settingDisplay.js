@@ -274,7 +274,6 @@ function applyGameSettings() {
     console.log(`SDF: ${gameSettings.sdf}x`);
     console.log(`BGM Volume: ${gameSettings.bgmVolume}%`);
     console.log(`SFX Volume: ${gameSettings.sfxVolume}%`);
-    console.log(`Ghost Piece: ${gameSettings.showGhost}`);
 }
 
 // 페이지 로드 시 키 버튼 이벤트 설정

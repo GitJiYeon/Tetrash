@@ -48,6 +48,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
 });
 
+document.addEventListener("keydown", function(e) {
+    if (e.key === "Tab") {
+        e.preventDefault(); // Tab 이동 막기
+    }
+});
+
 function initGameLayout(){
   const gameSpace = document.querySelector('.gameSpace');
     const bossSpace = document.querySelector('.bossSpace');

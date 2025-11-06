@@ -224,7 +224,7 @@ function drawBlock(ctx, x, y, color = 'white', isGhost = false, block_size = BLO
     ctx.save();
   
     if (isGhost) {
-      ctx.globalAlpha = 0.45; // 유령 블록은 투명하게
+      ctx.globalAlpha = 0.3; // 유령 블록은 투명하게
     }
   
     // 둥근 사각형 클리핑

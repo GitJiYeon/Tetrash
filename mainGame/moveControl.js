@@ -136,9 +136,17 @@ function rotateLeft() {
   const kickKey = `${rotationState}>${newRotationState}`;
 
   // 적절한 킥 테이블 선택
-  let kicks;
+ let kicks;
   if (isIPiece(currentPiece)) {
     kicks = kickTableI[kickKey] || [[0, 0]];
+  } else if (currentPiece.type.includes("big")) {
+    if (currentPiece.type === "bigI") {
+      kicks = bigKickTableI[kickKey] || [[0, 0]];
+    } else if (currentPiece.type === "bigO") {
+      kicks = [[0,0]];
+    } else {
+      kicks = bigKickTable[kickKey] || [[0, 0]];
+    }
   } else {
     kicks = kickTable[kickKey] || [[0, 0]];
   }

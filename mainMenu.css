@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgb(88, 204, 204);
+    background: rgb(80, 166, 166);
     z-index: 100;
 }
 
@@ -205,22 +205,23 @@
 /* 모드 이름 */
 .mode-name {
     font-size: 200%;
-    font-weight: bold;
     color: white;
     margin-bottom: 5px;
+    font-family: 'IAmAPlayer', sans-serif;
 }
 
 .mode-name p {
     font-size: 50%;
-    font-weight: bold;
-    color: rgb(190, 190, 190);
+    color: rgb(217, 5, 5);
+    font-family: 'IAmAPlayer', sans-serif;
 }
 
 /* 모드 설명 */
 .mode-description {
-    font-size: 100%;
+    font-size: 1.1rem;
     text-align: center;
     color: white;
+    font-family: 'IAmAPlayer', sans-serif;
     opacity: 0.9;
 }
 
