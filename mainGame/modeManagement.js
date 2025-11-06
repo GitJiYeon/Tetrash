@@ -40,8 +40,8 @@ let TETRIS_FOR_STAGE7 = 2;
 function difficultySetting(){
   if(difficulty == 0){ //easy
     //라운드 조건
-    LINES_FOR_STAGE2 = 10;   //10
-    GARBAGELINES_FOR_STAGE3 = 3; //3
+    LINES_FOR_STAGE2 = 9;   //10
+    GARBAGELINES_FOR_STAGE3 = 2; //2
     LINES_FOR_STAGE4 = 2; //2
     LINES_FOR_STAGE5 = 3; //3 (난이도 하향) 
     PLACED_FOR_STAGE6 = 9; //9
@@ -56,8 +56,8 @@ function difficultySetting(){
     currentBossHP = bossHP;
   }else if(difficulty == 1){ //nomal
     //라운드 조건
-    LINES_FOR_STAGE2 = 20; 
-    GARBAGELINES_FOR_STAGE3 = 5;
+    LINES_FOR_STAGE2 = 15; 
+    GARBAGELINES_FOR_STAGE3 = 4;
     LINES_FOR_STAGE4 = 4;
     TETRIS_FOR_STAGE5 = 1;
     PLACED_FOR_STAGE6 = 20;

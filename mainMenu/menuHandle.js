@@ -163,9 +163,9 @@ function showSkillView() {
 function analyzeSkill(){
   let totalScore = 0;
   const totalSeconds = Math.floor(gameTime / 1000);
-  if(score >= 6200){ totalScore += 3}
-  else if(score >= 5200){ totalScore += 2}
-  else if(score >= 4100){ totalScore++; }
+  if(score >= 5600){ totalScore += 3}
+  else if(score >= 4800){ totalScore += 2}
+  else if(score >= 3300){ totalScore++; }
   else{ totalScore-- }
   
   if(currentPps >= 1.8){ totalScore += 5}

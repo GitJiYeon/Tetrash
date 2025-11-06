@@ -178,7 +178,7 @@ function freeLoop(now) {
 // 실력 체크 모드 루프
 // ============================================================================
 function skillCheckLoop(now) {
-  if(totalLinesCleared >= 40){
+  if(totalLinesCleared >= 30){
     stopBGM();
     gameRunning = false;
     showSkillView();
