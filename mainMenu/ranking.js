@@ -162,7 +162,8 @@ async function displayRanking(ranking) {
 
     // 내 랭킹 표시
     myRankingBox.innerHTML = `
-        <div class="rankItem myRank">
+        <div class="myLankingTitle">내 랭킹</div>
+        <div class="myLankingContent">
             <span class="order">${myIndex + 1}</span>
             <img src="${myInfo.photoURL}" class="rankAvatar">
             <div class="rankInfo">

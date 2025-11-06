@@ -25,7 +25,7 @@
 .rankingContainer {
   width: 60%;
   max-width: 800px;
-  max-height: 80%;
+  max-height: 90%;
   background: linear-gradient(135deg, rgba(71, 192, 192, 0.8), rgba(40, 60, 120, 0.95));
   border: 3px solid rgb(255, 250, 221);
   border-radius: 20px;
@@ -54,19 +54,47 @@
   box-sizing: border-box; 
 }
 
-
 .myLanking {
   width: 100%;
-  min-height: 3.37rem;
-  height: 100%;
-  margin-top: 20px;
+  margin-top: 10px; /* 20px에서 10px로 감소 */
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 0 20px rgba(255, 222, 36, 0.7);
+  gap: 8px; /* 12px에서 8px로 감소 */
   border-radius: 0.75rem;
+  background-color: rgba(0,0,0,0.3);
+  padding: 10px 15px; /* 상하 패딩 15px에서 10px로 감소 */
 }
 
+/* 내 랭킹 제목 */
+.myLankingTitle {
+  padding: 0px;
+  margin: 0px;
+  font-size: 18px; /* 20px에서 18px로 감소 */
+  font-weight: bold;
+  color: rgb(255, 243, 138);
+  text-align: center;
+  margin-bottom: 0px; /* 5px에서 0px로 제거 */
+}
+
+/* 내 순위 내용 - rankItem과 동일한 레이아웃 적용 */
+.myLankingContent {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 15px; /* 10px에서 8px로 감소 */
+  border-radius: 0.75rem;
+  background-color: rgba(0,0,0,0.5);
+  color: white;
+}
+
+/* 순위 번호 스타일 */
+.myLankingContent .order {
+  font-size: 24px;
+  font-weight: bold;
+  color: rgb(255, 243, 138);
+  min-width: 30px;
+  text-align: center;
+}
 /* 개별 랭킹 항목 */
 .rankItem {
   display: flex;
@@ -77,7 +105,6 @@
   background-color: rgba(0,0,0,0.3);
   transition: transform 0.2s ease, background 0.2s ease;
 }
-
 .rankItem:hover {
   background-color: rgba(0,0,0,0.5);
   transform: translateX(2px);
@@ -110,7 +137,7 @@
 
 /* 제목 */
 .rankingTitle {
-  font-size: 1rem;
+  font-size: 2rem;
   letter-spacing: 4px;
   color: rgb(255, 250, 221);
   text-shadow: 0 0 15px rgba(255, 250, 221, 0.5);
