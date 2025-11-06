@@ -66,7 +66,7 @@ function updateMissionDisplay() {
         document.getElementById('progress_value').textContent = "free";
     }else if(MODE_skillCheck){
         document.getElementById('stage_value').textContent = "N";
-        document.getElementById('mission_value').textContent = "40줄을 클리어하세요!"
+        document.getElementById('mission_value').textContent = "30줄을 클리어하세요!"
         document.getElementById('progress_value').textContent = makeProgressString();
     }else if(!MODE_free && !MODE_skillCheck){
         document.getElementById('stage_value').textContent = currentStage;
@@ -84,7 +84,7 @@ function updateMissionDisplay() {
 
 function makeProgressString(){
     if(MODE_skillCheck){
-        return `(${totalLinesCleared} / 40)`;
+        return `(${totalLinesCleared} / 30)`;
     }
     if(currentStage == 1){
         return `(${totalLinesCleared} / ${LINES_FOR_STAGE2})`;

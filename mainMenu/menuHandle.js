@@ -277,6 +277,7 @@ function hideRetryPopup() {
   const popup = document.getElementById('retryPopup');
   popup.classList.remove('active');
   popup.classList.add('hidden');
+  showMainMenu();
 }
 
 
