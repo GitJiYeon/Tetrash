@@ -79,6 +79,7 @@ async function loadRanking() {
         
     } catch (error) {
         alert('랭킹을 불러오는데 실패했습니다.', error);
+        console.error("🔥 랭킹 불러오기 실패:", error)
     }
 }
 
