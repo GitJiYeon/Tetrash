@@ -114,7 +114,7 @@ html, body {
 
 /* 게임 정보 사이드바 */
 .gameInfo {
-    width: 15%;
+    width: 20%;
     height: 100%;
     background-color: rgb(255, 250, 221);
     opacity: 0.4;
@@ -126,6 +126,11 @@ html, body {
     font-size: 1.8rem;
     font-family: 'IAmAPlayer', sans-serif;
     padding: 0.625rem;
+}
+.patchInfo{
+    padding: 0.625rem;
+    font-style: bold;
+
 }
 
 .menuButton {

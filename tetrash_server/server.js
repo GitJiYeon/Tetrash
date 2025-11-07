@@ -24,12 +24,15 @@ const __dirname = path.dirname(__filename);
 
 app.use(express.json());
 
-/*app.use(cors({
-  origin: ["https://gitjiyeon.github.io", "http://127.0.0.1:8080"], // 허용할 프론트 주소
-  methods: ["GET", "POST"],
-}));*/
+app.use(cors({
+  origin: [
+    "https://gitjiyeon.github.io",
+    "http://127.0.0.1:8080",
+    "http://localhost:8080"
+  ],
+  credentials: true, // 로그인 세션/쿠키 허용
+}));
 
-app.use(cors());
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: "cross-origin" }

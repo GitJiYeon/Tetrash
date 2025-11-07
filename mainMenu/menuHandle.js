@@ -28,7 +28,7 @@ const final_time = document.getElementById(`final_time`);
 document.addEventListener('DOMContentLoaded', () => {
   const initialLoading = document.getElementById('initialLoading');
 
-  // 3초 후
+  // 2.5초 후
   setTimeout(() => {
     if (initialLoading) {
       initialLoading.style.display = "none";  // 로딩 화면 숨기기
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     gameOverMenu.classList.add('hidden');
     gameOverMenu.classList.remove('active');
-  }, 3000);
+  }, 2500);
     
 });
 
