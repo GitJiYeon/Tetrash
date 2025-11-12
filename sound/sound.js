@@ -28,7 +28,7 @@ function stopBGM() {
   }
 }
 
-function playSFX(soundPath, volume = 4) {
+function playSFX(soundPath, volume = 1) {
     const audio = new Audio(soundPath);
     audio.volume = volume;
     audio.play().catch(err => {
