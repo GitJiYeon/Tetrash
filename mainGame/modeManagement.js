@@ -81,7 +81,7 @@ function difficultySetting(){
     TSPIN_FOR_STAGE7 = 3;
 
     //세팅
-    DROP_DELAY = 900; //블록 떨어지는 속도 : 1.1초마다
+    DROP_DELAY = 700; //블록 떨어지는 속도 : 1.1초마다
     garbageInterval = 2500; //방해줄 속도 : 5초
     
     //보스

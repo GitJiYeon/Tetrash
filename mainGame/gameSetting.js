@@ -61,8 +61,8 @@ let placedPiece = 0;
 let tSpinCount = 0;
 let currentPps = 0;
 /////////////////////////////[사운드]/////////////////////////////
-let bgmVolume = 0.5;
-let sfxVolume = 0.7;
+let bgmVolume = 0.3;
+let sfxVolume = 1;
 ///////////////////////////////[기타 설정]/////////////////////////////////
 let basicBlocks = ['T', 'O', 'J', 'L', 'S', 'Z', 'I'];
 const bigTypes = ['bigT', 'bigO', 'bigZ', 'bigS', 'bigJ', 'bigL', 'bigI'];
