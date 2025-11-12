@@ -215,8 +215,9 @@ function showGamePlay(mode) {
     } else if(mode == 'arcadeNomal') {
         difficulty = 1;
     } else if(mode == 'arcadeHard') {
-        alert("업데이트 예정입니다.");
-        return;
+        difficulty = 2;
+        //alert("업데이트 예정입니다.");
+        //return;
     } else if(mode == 'skillCheck') {
         difficulty = 100; // 스킬 체크용
         currentStage = 100;

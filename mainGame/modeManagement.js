@@ -72,7 +72,21 @@ function difficultySetting(){
     currentBossHP = bossHP;
   }
   else if(difficulty == 2){ //hard
+    //라운드 조건
+    LINES_FOR_STAGE2 = 30; 
+    GARBAGELINES_FOR_STAGE3 = 10;
+    LINES_FOR_STAGE4 = 10;
+    TETRIS_FOR_STAGE5 = 3;
+    PLACED_FOR_STAGE6 = 30;
+    TSPIN_FOR_STAGE7 = 3;
 
+    //세팅
+    DROP_DELAY = 900; //블록 떨어지는 속도 : 1.1초마다
+    garbageInterval = 2.5; //방해줄 속도 : 5초
+    
+    //보스
+    bossHP = 50;
+    currentBossHP = bossHP;
   }
 }
 
