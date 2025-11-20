@@ -33,7 +33,6 @@ function hideRanking() {
 function changeRankingDifficulty(newDifficulty) {
     // 0: easy, 1: normal
     currentRankingDifficulty = (newDifficulty === 0 ? "easy" : "normal");
-    console.log(`🏆 랭킹 난이도 변경: ${currentRankingDifficulty}`);
     
     // 난이도 버튼 활성화 업데이트
     updateDifficultyButtons();
@@ -61,12 +60,10 @@ function updateDifficultyButtons() {
 // 랭킹 데이터 로드
 async function loadRanking() {
     try {
-        console.log(`${currentRankingDifficulty} 랭킹 로딩 중`);
-        
         const response = await fetch(`${API_URL}/getRanking/${currentRankingDifficulty}`);
         
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`HTTP error: ${response.status}`);
         }
         
         const ranking = await response.json();
@@ -79,7 +76,7 @@ async function loadRanking() {
         
     } catch (error) {
         alert('랭킹을 불러오는데 실패했습니다.', error);
-        console.error("🔥 랭킹 불러오기 실패:", error)
+        console.error("불러오기 실패:", error)
     }
 }
 

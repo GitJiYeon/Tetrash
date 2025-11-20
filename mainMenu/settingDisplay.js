@@ -6,7 +6,7 @@ const keySettings = {
     hardDrop: 'Space',
     rotateCW: 'ArrowUp',
     rotateCCW: 'KeyZ',
-    rotate180: 'KeyA',  // 추가
+    rotate180: 'KeyA',
     hold: 'ShiftLeft'
 };
 
@@ -17,11 +17,57 @@ const gameSettings = {
     sdf: 30,
     bgmVolume: 70,
     sfxVolume: 80,
-    sdfMax: false
+    sdfMax: false,
 };
 
 let isListeningForKey = false;
 let currentListeningButton = null;
+
+// 로컬 스토리지에서 설정 불러오기
+function loadSettingsFromStorage() {
+    try {
+        const savedSettings = localStorage.getItem('tetrisSettings');
+        if (savedSettings) {
+            const parsed = JSON.parse(savedSettings);
+            
+            // 키 설정 불러오기
+            if (parsed.keys) {
+                Object.assign(keySettings, parsed.keys);
+            }
+            
+            // 게임 설정 불러오기
+            if (parsed.game) {
+                Object.assign(gameSettings, parsed.game);
+            }
+            
+            console.log('설정 불러오기 완료:', parsed);
+            
+            // 게임 설정 즉시 적용
+            applyGameSettings();
+            
+            // 키 설정 새로고침
+            if (typeof refreshKeySettings === 'function') {
+                refreshKeySettings();
+            }
+        }
+    } catch (e) {
+        console.error('설정 불러오기 실패:', e);
+    }
+}
+
+// 로컬 스토리지에 설정 저장
+function saveSettingsToStorage() {
+    try {
+        const allSettings = {
+            keys: keySettings,
+            game: gameSettings
+        };
+        localStorage.setItem('tetrisSettings', JSON.stringify(allSettings));
+        console.log('설정 저장 완료:', allSettings);
+    } catch (e) {
+        console.error('설정 저장 실패:', e);
+    }
+}
 
 // 세팅 팝업 표시
 function showSetting() {
@@ -52,12 +98,10 @@ function getKeyDisplayName(keyCode) {
         'ControlRight': 'Ctrl'
     };
     
-    // KeyA~KeyZ 형식이면 마지막 글자만 추출
     if (keyCode.startsWith('Key') && keyCode.length === 4) {
         return keyCode.slice(-1);
     }
     
-    // Digit0~Digit9 형식이면 숫자만 추출
     if (keyCode.startsWith('Digit')) {
         return keyCode.slice(-1);
     }
@@ -71,20 +115,17 @@ function setupKeyButtons() {
     
     keyButtons.forEach(button => {
         button.addEventListener('click', function(e) {
-            e.stopPropagation(); // 이벤트 버블링 방지
+            e.stopPropagation();
             
             if (isListeningForKey && currentListeningButton === this) {
-                // 이미 대기 중인 버튼을 다시 클릭하면 취소
                 stopListeningForKey();
                 return;
             }
             
-            // 다른 버튼이 대기 중이면 취소
             if (isListeningForKey) {
                 stopListeningForKey();
             }
             
-            // 새로운 키 입력 대기 시작
             startListeningForKey(this);
         });
     });
@@ -109,15 +150,13 @@ function stopListeningForKey() {
     currentListeningButton = null;
 }
 
-// 키보드 입력 감지 (keydown 이벤트 하나로 통합)
+// 키보드 입력 감지
 document.addEventListener('keydown', function(e) {
-    // 키 입력 대기 중일 때만 처리
     if (!isListeningForKey) return;
     
     e.preventDefault();
     e.stopPropagation();
     
-    // ESC 키로 취소
     if (e.key === 'Escape') {
         stopListeningForKey();
         return;
@@ -126,7 +165,6 @@ document.addEventListener('keydown', function(e) {
     const action = currentListeningButton.dataset.action;
     const newKey = e.code;
     
-    // 중복 키 체크
     const isDuplicate = Object.entries(keySettings).some(([key, value]) => {
         return key !== action && value === newKey;
     });
@@ -137,12 +175,11 @@ document.addEventListener('keydown', function(e) {
         return;
     }
     
-    // 키 설정 저장
     keySettings[action] = newKey;
     currentListeningButton.textContent = getKeyDisplayName(newKey);
     
     stopListeningForKey();
-}, true); // capture phase에서 이벤트 캡처
+}, true);
 
 // 슬라이더 값 업데이트
 document.getElementById('dasSlider')?.addEventListener('input', (e) => {
@@ -174,12 +211,12 @@ document.getElementById('sfxSlider')?.addEventListener('input', (e) => {
 document.getElementById('ghostToggle')?.addEventListener('change', (e) => {
     gameSettings.showGhost = e.target.checked;
 });
-// 토글 스위치 이벤트
+
 document.getElementById('sdfMaxToggle')?.addEventListener('change', (e) => {
     gameSettings.sdfMax = e.target.checked;
 });
 
-// 설정 불러오기
+// 설정 불러오기 (UI 업데이트용)
 function loadSettings() {
     // 키 설정 표시
     document.querySelectorAll('.keyButton').forEach(button => {
@@ -230,34 +267,37 @@ function resetSettings() {
         gameSettings.bgmVolume = 70;
         gameSettings.sfxVolume = 80;
         gameSettings.showGhost = true;
+        gameSettings.sdfMax = false;
+        
+        // 로컬 스토리지에 저장
+        saveSettingsToStorage();
         
         // UI 업데이트
         loadSettings();
-    }
-}
-
-// 설정 저장
-function saveSettings() {
-    try {
-        const allSettings = {
-            keys: keySettings,
-            game: gameSettings
-        };
-        console.log('저장된 설정:', allSettings);
         
-        // 게임 설정을 즉시 적용
+        // 게임 설정 적용
         applyGameSettings();
         
         // 키 설정 새로고침
         if (typeof refreshKeySettings === 'function') {
             refreshKeySettings();
         }
-        
-    } catch (e) {
-        console.error('설정 저장 실패:', e);
+    }
+}
+
+// 설정 저장
+function saveSettings() {
+    // 로컬 스토리지에 저장
+    saveSettingsToStorage();
+    
+    // 게임 설정을 즉시 적용
+    applyGameSettings();
+    
+    // 키 설정 새로고침
+    if (typeof refreshKeySettings === 'function') {
+        refreshKeySettings();
     }
     
-    //alert('설정이 저장되었습니다!');
     hideSetting();
 }
 
@@ -268,7 +308,8 @@ function applyGameSettings() {
     if (typeof SDF !== 'undefined') SDF = gameSettings.sdf;
 
     softDropMax = gameSettings.sdfMax;
-    
+    document.getElementById('sdfMaxToggle').checked = gameSettings.sdfMax;
+
     console.log(`DAS: ${gameSettings.das}ms`);
     console.log(`ARR: ${gameSettings.arr}ms`);
     console.log(`SDF: ${gameSettings.sdf}x`);
@@ -276,7 +317,10 @@ function applyGameSettings() {
     console.log(`SFX Volume: ${gameSettings.sfxVolume}%`);
 }
 
-// 페이지 로드 시 키 버튼 이벤트 설정
+
+
+// 페이지 로드 시 설정 불러오기 및 적용
 window.addEventListener('DOMContentLoaded', () => {
     setupKeyButtons();
+    loadSettingsFromStorage(); // 로컬 스토리지에서 설정 불러오기 및 즉시 적용
 });

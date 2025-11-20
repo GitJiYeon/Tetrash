@@ -15,14 +15,14 @@ document.addEventListener("visibilitychange", () => {
 // ============================================================================
 
 function gameLoop(now) {
-  // 일시정지 후 복귀 시 프레임 시간 초기화
+  // 일시정지 후 복귀 시 시간 초기화
   if (!lastFrameTime || paused) {
     lastFrameTime = now;
   }
 
   checkRedZone();
   // 프레임 간 경과 시간 계산
-  let dt = Math.min(now - lastFrameTime, 100); // 상한 100ms
+  let dt = Math.min(now - lastFrameTime, 100); // 최대 100ms
   lastFrameTime = now;
 
   // 비정상적인 dt 값 방지 (최대 100ms)

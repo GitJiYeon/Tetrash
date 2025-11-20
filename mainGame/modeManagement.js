@@ -93,7 +93,6 @@ function difficultySetting(){
 let countLinesCleared = 0;
 
 function checkStageProgress() {
-
   // 1스테이지 → 2스테이지 
   if (currentStage === 1 && totalLinesCleared >= LINES_FOR_STAGE2) {
     currentStage++;

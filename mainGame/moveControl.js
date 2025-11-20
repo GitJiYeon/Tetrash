@@ -1,5 +1,5 @@
 //===================================무빙===================================================================
-// SRS 회전 함수 수정 (시계방향)
+// 회전 함수 (시계방향)
 function rotateMatrixCW(matrix) {
   const N = matrix.length;
   const M = matrix[0].length;
@@ -13,7 +13,7 @@ function rotateMatrixCW(matrix) {
   return rotated;
 }
 
-// SRS 회전 함수 수정 (반시계방향)
+// 회전 함수 (반시계방향)
 function rotateMatrixCCW(matrix) {
   const N = matrix.length;
   const M = matrix[0].length;
@@ -88,7 +88,7 @@ function detectTSpin() {
   return isTSpin;
 }
 
-// 오른쪽 회전 함수 수정
+// 오른쪽 회전 함수
 function rotateRight() {
   if (!currentPiece) return;
   if (isOPiece(currentPiece)) return;
