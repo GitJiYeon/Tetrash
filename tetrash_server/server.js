@@ -115,17 +115,17 @@ app.get("/getScores/:uid", async (req, res) => {
 app.get("/getRanking/:difficulty", async (req, res) => {
   try {
     const { difficulty } = req.params;
-    
+
+    // 1. 점수 컬렉션 가져오기
     const snapshot = await db.collection("scores").get();
-    if (snapshot.empty) {
-      return res.status(200).json([]);
-    }
+    if (snapshot.empty) return res.status(200).json([]);
 
     const allScores = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data()
     }));
 
+    // 2. 난이도별 유저별 최고 기록 추출
     const userBestScores = {};
     allScores.forEach(item => {
       const scoreDifficulty = item.score?.difficulty || "easy";
@@ -137,11 +137,35 @@ app.get("/getRanking/:difficulty", async (req, res) => {
       }
     });
 
-    const ranking = Object.values(userBestScores)
+    // 3. 최고 기록 기준 정렬 후 20명만 추출
+    const topScores = Object.values(userBestScores)
       .sort((a, b) => a.score.time - b.score.time)
-      .slice(0, 10);
+      .slice(0, 20);
 
-    res.status(200).json(ranking);
+    // 4. 사용자 정보 가져오기 (병렬 처리)
+    const rankingWithUserInfo = await Promise.all(topScores.map(async (item) => {
+      try {
+        const userRecord = await admin.auth().getUser(item.uid);
+        return {
+          ...item,
+          userInfo: {
+            displayName: userRecord.displayName || "익명",
+            photoURL: userRecord.photoURL || "./images/logo/google.png",
+          }
+        };
+      } catch {
+        return {
+          ...item,
+          userInfo: {
+            displayName: "익명",
+            photoURL: "./images/logo/google.png",
+          }
+        };
+      }
+    }));
+
+    res.status(200).json(rankingWithUserInfo);
+
   } catch (error) {
     res.status(500).json({ error: "서버 오류", details: error.message });
   }
