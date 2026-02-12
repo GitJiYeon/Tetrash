@@ -9,7 +9,7 @@ async function saveScore(score) {
     
     const user = auth.currentUser;
     if (!user) {
-        alert("로그인이 필요합니다.");
+        alert("로그인이 필요합니다.\nPlease log in");
         return;
     }
 
@@ -92,9 +92,9 @@ async function saveScore(score) {
 
             const result = await saveRes.json();
             console.log("저장 결과:", result);
-            alert(`최고 기록 저장 완료!\t${score.time}초`);
+            alert(`최고 기록 저장 완료!\t${score.time}초\nHighest record saved!\t${score.time}`);
         } else {
-            alert("최고 기록이 아닙니다.");
+            alert("최고 기록이 아닙니다.\nIt's not the best record");
         }
 
     } catch (err) {

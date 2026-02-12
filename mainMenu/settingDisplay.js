@@ -170,7 +170,7 @@ document.addEventListener('keydown', function(e) {
     });
     
     if (isDuplicate) {
-        alert('이미 다른 동작에 할당된 키입니다!');
+        alert('이미 다른 동작에 할당된 키입니다!\nThe key is already assigned to another action!');
         stopListeningForKey();
         return;
     }

@@ -130,6 +130,31 @@
     color: white;
 }
 
+.mode-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    border-radius: 7.8%;
+    z-index: 0;
+}
+
+.mode-card.left::before,
+.mode-card.right::before {
+    background: rgba(0,0,0,0.25);
+}
+
+.mode-card.left2::before,
+.mode-card.right2::before {
+    background: rgba(0,0,0,0.45);
+}
+
+.mode-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+
 /* 중앙 카드 호버 효과 */
 .mode-card.active:hover {
     transform: translate(-50%, -50%) scale(1.05);
@@ -203,21 +228,24 @@
 }
 
 /* 모드 이름 */
-.mode-name {
+.mode-name, 
+.mode-name-english {
     font-size: 200%;
     color: white;
     margin-bottom: 5px;
     font-family: 'IAmAPlayer', sans-serif;
 }
 
-.mode-name p {
+.mode-name p,
+.mode-name-english p {
     font-size: 50%;
     color: rgb(217, 5, 5);
     font-family: 'IAmAPlayer', sans-serif;
 }
 
 /* 모드 설명 */
-.mode-description {
+.mode-description 
+.mode-description-english {
     font-size: 1.1rem;
     text-align: center;
     color: white;

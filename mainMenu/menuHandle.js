@@ -487,3 +487,49 @@ function defeatBoss() {
     }, 600);
   }, 2000);
 }
+
+//한영 번역
+const langSwitch = document.getElementById("langSwitch");
+
+let currentLang = localStorage.getItem("lang") || "kr";
+applyLanguage(currentLang);
+
+langSwitch.addEventListener("click", () => {
+    currentLang = currentLang === "kr" ? "en" : "kr";
+    localStorage.setItem("lang", currentLang);
+    applyLanguage(currentLang);
+});
+
+
+//언어 번경
+function applyLanguage(lang) {
+    const krModes = document.querySelectorAll(".mode-name");
+    const enModes = document.querySelectorAll(".mode-name-english");
+    const krDesc = document.querySelectorAll(".mode-description");
+    const enDesc = document.querySelectorAll(".mode-description-english");
+
+    if (lang === "en") {
+        langSwitch.classList.add("english");
+
+        document.getElementById("mission-text-korean").style.display = "none";
+        document.getElementById("mission-text-english").style.display = "block";
+
+        krModes.forEach(e => e.style.display = "none");
+        krDesc.forEach(e => e.style.display = "none");
+
+        enModes.forEach(e => e.style.display = "block");
+        enDesc.forEach(e => e.style.display = "block");
+
+    } else {
+        langSwitch.classList.remove("english");
+
+        document.getElementById("mission-text-korean").style.display = "block";
+        document.getElementById("mission-text-english").style.display = "none";
+
+        krModes.forEach(e => e.style.display = "block");
+        krDesc.forEach(e => e.style.display = "block");
+
+        enModes.forEach(e => e.style.display = "none");
+        enDesc.forEach(e => e.style.display = "none");
+    }
+}

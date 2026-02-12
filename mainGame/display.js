@@ -64,20 +64,34 @@ function updateMissionDisplay() {
         document.getElementById('stage_value').textContent = "F";
         document.getElementById('mission_value').textContent = "자유롭게 테스트 하세요!"
         document.getElementById('progress_value').textContent = "free";
+        
+        document.getElementById('english_stage_value').textContent = "F";
+        document.getElementById('english_mission_value').textContent = "Feel free to test it out!"
+        document.getElementById('english_progress_value').textContent = "free";
     }else if(MODE_skillCheck){
         document.getElementById('stage_value').textContent = "N";
         document.getElementById('mission_value').textContent = "30줄을 클리어하세요!"
         document.getElementById('progress_value').textContent = makeProgressString();
+
+        document.getElementById('english_stage_value').textContent = "N";
+        document.getElementById('english_mission_value').textContent = "Clear 30 lines!"
+        document.getElementById('english_progress_value').textContent = makeProgressString();
     }else if(!MODE_free && !MODE_skillCheck){
         document.getElementById('stage_value').textContent = currentStage;
         document.getElementById('mission_value').textContent = stagesDisplay.find(stage => stage.id === currentStage)?.mission;
+    
+        document.getElementById('english_stage_value').textContent = currentStage;
+        document.getElementById('english_mission_value').textContent = stagesDisplayEnglish.find(stage => stage.id === currentStage)?.mission;
         if(currentStage == 4 && difficulty == 0){//EASY모드
             document.getElementById('mission_value').textContent = `${LINES_FOR_STAGE5}줄을 삭제!`;
+            document.getElementById('english_mission_value').textContent = `Clear ${LINES_FOR_STAGE5} line!`;
         } 
         if(currentStage == 6 && difficulty == 0){//EASY모드
             document.getElementById('mission_value').textContent = `4줄 삭제 ${TETRIS_FOR_STAGE7}번! `;
+            document.getElementById('english_mission_value').textContent = `Clear ${TETRIS_FOR_STAGE7}line! `;
         }
         document.getElementById('progress_value').textContent = makeProgressString();
+        document.getElementById('english_progress_value').textContent = makeProgressString();
     }
     
 }

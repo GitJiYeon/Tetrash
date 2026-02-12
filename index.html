@@ -25,6 +25,12 @@
         <div class="topBar">
             <h1 class="menu-title">TETRASH</h1>
                 <div class="rightMenu">
+                    <!-- 언어 변경 -->
+                <div class="langSwitch" id="langSwitch">
+                    <div class="langSlider" id="langSlider"></div>
+                    <span class="langKR">한국어</span>
+                    <span class="langEN">English</span>
+                </div>
                 <button class="settingButton" id="settingButton" onclick="showSetting()">Setting</button>
                 <button class="rankingButton" id="rankingButton">Ranking</button>
                 <button class="loginButton" id="loginButton"onclick="showLoginMenu()">Login</button>
@@ -39,32 +45,42 @@
             <div class="cards-wrapper" id="cardsWrapper">
                 <div class="mode-card" data-mode="arcadeEasy">
                     <div class="mode-icon"><img src="./images/logo/arcade_easy.png"></div>
-                    <div class="mode-name">Tetrash Arcade<br><p>(EASY MODE)</p></div>
-                    <div class="mode-description">테트리스 마을이 위험해요!</div>
+                    <div class="mode-name">테트래쉬 아케이드<br><p>(쉬운 모드)</p></div>
+                    <div class="mode-name-english">Tetrash Arcade<br><p>(EASY MODE)</p></div>
+                    <div class="mode-description">테트미노 마을이 위험해요!</div>
+                    <div class="mode-description-english">Tetmino Village is in danger!</div>
                 </div>
                 
                 <div class="mode-card active" data-mode="arcadeNomal">
                     <div class="mode-icon"><img src="./images/logo/arcade_nomal.png"></div>
-                    <div class="mode-name">Tetrash Arcade<br><p>(NOMAL MODE)</p></div>
-                    <div class="mode-description">테트리스 마을이 멸망 위기에요!</div>
+                    <div class="mode-name">테트래쉬 아케이드<br><p>(기본 모드)</p></div>
+                    <div class="mode-name-english">Tetrash Arcade<br><p>(NOMAL MODE)</p></div>
+                    <div class="mode-description">테트미노 마을이 멸망 위기에요!</div>
+                    <div class="mode-description-english">Tetmino Village is in danger of destruction!</div>
                 </div>
                 
                 <div class="mode-card" data-mode="arcadeHard">
                     <div class="mode-icon"><img src="./images/logo/arcade_hard.png"></div>
-                    <div class="mode-name">Tetrash Arcade<br><p>(HARD MODE)</p></div>
-                    <div class="mode-description">테트리스 마을이 소멸 위기에요!</div>
+                    <div class="mode-name">테트래쉬 아케이드<br><p>(어려운 모드)</p></div>
+                    <div class="mode-name-english">Tetrash Arcade<br><p>(HARD MODE)</p></div>
+                    <div class="mode-description">테트미노 마을이 소멸 위기에요!</div>
+                    <div class="mode-description-english">Tetris Village is in danger of extinction!</div>
                 </div>
                 
                 <div class="mode-card" data-mode="skillCheck">
                     <div class="mode-icon"><img src="./images/logo/temp.png"></div>
-                    <div class="mode-name">Skill Test</div>
+                    <div class="mode-name">실력 테스트</div>
+                    <div class="mode-name-english">skill test</div>
                     <div class="mode-description">당신의 실력은 어느정도일까요?</div>
+                    <div class="mode-description-english">How good are your skills?</div>
                 </div>
                 
                 <div class="mode-card" data-mode="-">
                     <div class="mode-icon"><img src="./images/logo/commingSoon.png"></div>
-                    <div class="mode-name">ROCK</div>
-                    <div class="mode-description">(Coming Soon...)</div>
+                    <div class="mode-name">바위</div>
+                    <div class="mode-name-english">ROCK</div>
+                    <div class="mode-description">(곧 돌아옵니다...)</div>
+                    <div class="mode-description-english">(Coming Soon...)</div>
                 </div>
             </div>
             
@@ -117,10 +133,15 @@
                         </div>
                         
                     </div>
-                    <div class="mission-text">
-                        <div style="font-weight:bold; font-size: 18px;" ><span id="stage_value">0</span> Stage  Mission!</div>
+                    <div class="mission-text" id="mission-text-korean">
+                        <div style="font-weight:bold; font-size: 18px;" ><span id="stage_value">0</span> 스테이지 미션!</div>
                         <div><span id="mission_value">준비하세요!</span></div>
                         <div style="color: rgb(255, 243, 138);"><span id="progress_value">(0 / 0)</span></div>
+                    </div> <!--mission-text-->
+                    <div class="mission-text" id="mission-text-english">
+                        <div style="font-weight:bold; font-size: 18px;" ><span id="english_stage_value">0</span> Stage  Mission!</div>
+                        <div><span id="english_mission_value">ready!</span></div>
+                        <div style="color: rgb(255, 243, 138);"><span id="english_progress_value">(0 / 0)</span></div>
                     </div> <!--mission-text-->
                     <div class="spin-text"></div>
                 </div><!--left-->
@@ -172,8 +193,8 @@
             <div class="skillInfo" id="skillInfo"><img id="finish-image" src="images/stageBackground/gameFinish.png">
                 <div class="scoreMessage" id="scoreMessage">EASY모드를 추천합니다!</div>
                 <div class="gameOverButtons">
-                    <button class="gameOverButton" onclick="showMainMenu()">메인 메뉴</button>
-                    <button class="gameOverButton" onclick="retrySkillCheck()">다시하기</button>
+                    <button class="gameOverButton" onclick="showMainMenu()">Go to menu</button>
+                    <button class="gameOverButton" onclick="retrySkillCheck()">Retry</button>
                 </div>
                 <div class="scoreView" id="scoreView">
                     <div>Time : <span id="final_time">0:00</span></div>
