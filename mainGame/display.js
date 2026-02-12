@@ -88,7 +88,7 @@ function updateMissionDisplay() {
         } 
         if(currentStage == 6 && difficulty == 0){//EASY모드
             document.getElementById('mission_value').textContent = `4줄 삭제 ${TETRIS_FOR_STAGE7}번! `;
-            document.getElementById('english_mission_value').textContent = `Clear ${TETRIS_FOR_STAGE7}line! `;
+            document.getElementById('english_mission_value').textContent = `Delete 4 lines at once! `;
         }
         document.getElementById('progress_value').textContent = makeProgressString();
         document.getElementById('english_progress_value').textContent = makeProgressString();
