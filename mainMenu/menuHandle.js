@@ -232,6 +232,7 @@ function showGamePlay(mode) {
     // 모든 화면 숨기기
     mainMenu.classList.remove('active');
     mainMenu.classList.add('hidden');
+    
     gameOverMenu.classList.remove('active');
     gameOverMenu.classList.add('hidden');
     
@@ -240,17 +241,28 @@ function showGamePlay(mode) {
         skillView.classList.add('hidden');
     }
 
-    // 게임 화면 보이기
+    // 게임 화면 켜기
     gamePlay.classList.remove('hidden');
-    gamePlay.classList.add('active');
+    
+    // [중요] 브라우저가 화면을 그릴 틈을 줌 (애니메이션 삑사리 방지)
+    setTimeout(() => {
+        gamePlay.classList.add('active');
+    }, 10);
 
     playSFX(countDownSound);
-    gamePlay.addEventListener('transitionend', function handler(e) {
-        if (e.propertyName === 'opacity') {
+
+    setTimeout(() => {
+        console.log("강제 게임 시작 신호 보냄: " + mode);
+        
+        // 혹시 모를 오류 방지를 위한 안전장치
+        if (typeof showCountdownAndStart === 'function') {
             showCountdownAndStart(3, mode);
+        } else {
+            console.error("showCountdownAndStart 함수를 찾을 수 없습니다! game.js가 연결되었나요?");
+            // 비상용 실행
+             if (typeof initGame === 'function') initGame();
         }
-        gamePlay.removeEventListener('transitionend', handler);
-    });
+    }, 500); // 0.5초 딜레이
 }
 
 
