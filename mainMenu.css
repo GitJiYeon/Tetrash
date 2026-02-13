@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: rgb(80, 166, 166);
+    background: rgb(84, 201, 201);
     z-index: 100;
 }
 
@@ -18,16 +18,6 @@
     box-sizing: border-box;
 }
 
-/* 제목 (왼쪽 정렬 유지) */
-.menu-title {
-    font-size: 72px;
-    font-weight: bold;
-    color: white;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
-    letter-spacing: 8px;
-    font-family: 'IAmAPlayer', sans-serif;
-    margin: 0; /* flex로 정렬하니까 margin-bottom 제거 */
-}
 
 /* 버튼 그룹 (오른쪽 정렬) */
 .rightMenu {
@@ -38,8 +28,8 @@
 
 .profileImg {
     border-radius: 50%;
-    width: 15%;
-    height: 15%;
+    width: 12%;
+    height: 12%;
     object-fit: cover;
     border: 2px solid white;
     display: none;
@@ -68,13 +58,13 @@
 
 /* 메뉴 타이틀 */
 .menu-title {
-    font-size: 72px;
-    font-weight: bold;
+    width: auto;
+    height: 7rem;
     color: white;
-    margin-bottom: 50px;
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    margin-bottom: 1.4rem;
+    display: block; /* 이미지 하단 여백 제거 */
+    filter: drop-shadow(0px 0px 4px rgba(255, 255, 255, 0.9));
     letter-spacing: 8px;
-    font-family: 'IAmAPlayer', sans-serif;
 }
 
 /* 메뉴 컨테이너 */
@@ -104,8 +94,8 @@
     position: absolute;
     border-radius: 7.8%;
     padding: 60px 50px;
-    box-shadow: 0 20px 30px rgba(248, 226, 127, 0.4);
-    background: rgb(148, 255, 255);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+    background: rgb(85, 255, 255);
     cursor: pointer;
     transition: all 0.4s ease;
     display: flex;
@@ -156,8 +146,18 @@
 
 
 /* 중앙 카드 호버 효과 */
-.mode-card.active:hover {
+.mode-card.active:hover{
     transform: translate(-50%, -50%) scale(1.05);
+}
+
+.mode-card.left:hover,
+.mode-card.right:hover {
+    transform: translate(-50%, -50%) scale(0.85); /* 0.8보다 조금 크게 */
+}
+
+.mode-card.left2:hover,
+.mode-card.right2:hover {
+    transform: translate(-50%, -50%) scale(0.75); /* 0.7보다 조금 크게 */
 }
 
 /* 왼쪽 카드 1 */
@@ -167,8 +167,7 @@
     left: calc(50% - 20%);
     transform: translate(-50%, -50%) scale(0.8);
     z-index: 7;
-    opacity: 0.8;
-    filter: brightness(0.8);
+    filter: brightness(0.85);
 }
 
 /* 왼쪽 카드 2 */
@@ -178,8 +177,8 @@
     left: calc(50% - 35%);
     transform: translate(-50%, -50%) scale(0.7);
     z-index: 5;
-    opacity: 0.5;
-    filter: brightness(0.7);
+    /*opacity: 1;*/
+    filter: brightness(0.75);
 }
 
 /* 오른쪽 카드 1 */
@@ -189,8 +188,7 @@
     left: calc(50% + 20%);
     transform: translate(-50%, -50%) scale(0.8);
     z-index: 7;
-    opacity: 0.8;
-    filter: brightness(0.8);
+    filter: brightness(0.85);
 }
 
 /* 오른쪽 카드 2 */
@@ -200,8 +198,7 @@
     left: calc(50% + 35%);
     transform: translate(-50%, -50%) scale(0.7);
     z-index: 5;
-    opacity: 0.5;
-    filter: brightness(0.7);
+    filter: brightness(0.75);
 }
 
 /* 화면 밖 카드 (mode-card의 hidden과 전체 화면 hidden 구분) */
@@ -224,7 +221,7 @@
     object-fit: cover;
     display: block;
     border-radius: 5%;
-    border: 4px solid rgba(99, 109, 112, 0.8);
+    border: 4px solid rgba(167, 255, 248, 0.8);
 }
 
 /* 모드 이름 */
@@ -238,16 +235,17 @@
 
 .mode-name p,
 .mode-name-english p {
-    font-size: 50%;
-    color: rgb(217, 5, 5);
-    font-family: 'IAmAPlayer', sans-serif;
+    text-align: center;
+    font-size: 55%;
+    color: rgb(55, 0, 255);
+    /*font-family: 'IAmAPlayer', sans-serif;*/
 }
 
 /* 모드 설명 */
-.mode-description 
+.mode-description,
 .mode-description-english {
-    font-size: 1.1rem;
     text-align: center;
+    font-size: 1.1rem;
     color: white;
     font-family: 'IAmAPlayer', sans-serif;
     opacity: 0.9;
@@ -256,8 +254,9 @@
 /* 화살표 버튼 */
 .arrow-button {
     position: absolute;
-    background: white;
-    border: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid white ;
     border-radius: 10%;
     width: 100px;
     height: 150px;
@@ -283,4 +282,81 @@
 
 .arrow-right {
     right: 50px;
+}
+
+/*언어 변경 스위치*/
+.langSwitch {
+    position: relative;
+    width: 160px;
+    height: 50px;
+    background: rgba(0,0,0,0.2);
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 9px; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    cursor: pointer;
+    margin-right: 0px;
+    font-family: 'IAmAPlayer', sans-serif;
+}
+
+.langSwitch span {
+    font-size: 14px;
+    color: rgba(255,255,255,0.7);
+    z-index: 2;
+    transition: 0.2s;
+}
+
+.langSlider {
+    position: absolute;
+    width: 74px;
+    height: 40px;
+    left: 3px;
+    top: 3px;
+    background: rgb(222, 255, 255);
+    border-radius: 4px;
+    transition: 0.25s ease;
+    z-index: 1;
+}
+
+/* 선택된 언어 */
+.langSwitch .langKR {
+    color: rgb(32, 138, 155);
+    font-family: bold;
+}
+
+.langSwitch.english .langEN {
+    color: rgb(32, 138, 155);
+}
+
+.langSwitch.english .langKR {
+    color: rgb(255, 255, 255, 0.8);
+}
+
+.langSwitch.english .langSlider {
+    left: 79px;
+}
+
+#githubFooter {
+    position: fixed;
+    bottom: 8px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 99999;   /* 네 게임 UI 전부 위에 덮어쓰기 */
+    font-size: 12px;
+    pointer-events: none;
+}
+
+#githubFooter a {
+    color: rgba(255,255,255,0.7);
+    text-decoration: none;
+    pointer-events: auto;
+    padding: 4px 10px;
+    border-radius: 8px;
+}
+
+#githubFooter a:hover {
+    color: white;
 }

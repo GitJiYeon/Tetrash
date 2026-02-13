@@ -125,7 +125,8 @@
 
 .retryButton {
   border: 2px solid rgb(255, 250, 221); ;
-  background: transparent;
+  
+  
   color: white;
   border-radius: 0.75rem;
   font-size: 1.2em;

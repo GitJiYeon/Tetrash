@@ -23,7 +23,8 @@
     <!-- 메인메뉴 -->
     <div class="mainMenu active" id="mainMenu">
         <div class="topBar">
-            <h1 class="menu-title">TETRASH</h1>
+            <!--메인 로고-->
+            <img class="menu-title" src="images/logo/tetrashLogo.png" alt="TETRASH"> 
                 <div class="rightMenu">
                     <!-- 언어 변경 -->
                 <div class="langSwitch" id="langSwitch">
@@ -40,31 +41,31 @@
         </div>
 
         <div class="menu-container">
-            <button class="arrow-button arrow-left" id="arrowLeft">◀</button>
+            <button class="arrow-button arrow-left" id="arrowLeft">←</button>
             
             <div class="cards-wrapper" id="cardsWrapper">
                 <div class="mode-card" data-mode="arcadeEasy">
                     <div class="mode-icon"><img src="./images/logo/arcade_easy.png"></div>
-                    <div class="mode-name">테트래쉬 아케이드<br><p>(쉬운 모드)</p></div>
-                    <div class="mode-name-english">Tetrash Arcade<br><p>(EASY MODE)</p></div>
+                    <div class="mode-name">Tetrash 아케이드<br><p>( 이지 모드 )</p></div>
+                    <div class="mode-name-english">Tetrash Arcade<br><p>( EASY MODE )</p></div>
                     <div class="mode-description">테트미노 마을이 위험해요!</div>
                     <div class="mode-description-english">Tetmino Village is in danger!</div>
                 </div>
                 
                 <div class="mode-card active" data-mode="arcadeNomal">
                     <div class="mode-icon"><img src="./images/logo/arcade_nomal.png"></div>
-                    <div class="mode-name">테트래쉬 아케이드<br><p>(기본 모드)</p></div>
-                    <div class="mode-name-english">Tetrash Arcade<br><p>(NOMAL MODE)</p></div>
+                    <div class="mode-name">Tetrash 아케이드<br><p>( 노말 모드 )</p></div>
+                    <div class="mode-name-english">Tetrash Arcade<br><p>( NOMAL MODE )</p></div>
                     <div class="mode-description">테트미노 마을이 멸망 위기에요!</div>
                     <div class="mode-description-english">Tetmino Village is in danger of destruction!</div>
                 </div>
                 
                 <div class="mode-card" data-mode="arcadeHard">
                     <div class="mode-icon"><img src="./images/logo/arcade_hard.png"></div>
-                    <div class="mode-name">테트래쉬 아케이드<br><p>(어려운 모드)</p></div>
-                    <div class="mode-name-english">Tetrash Arcade<br><p>(HARD MODE)</p></div>
+                    <div class="mode-name">Tetrash 아케이드<br><p>( 하드 모드 )</p></div>
+                    <div class="mode-name-english">Tetrash Arcade<br><p>( HARD MODE )</p></div>
                     <div class="mode-description">테트미노 마을이 소멸 위기에요!</div>
-                    <div class="mode-description-english">Tetris Village is in danger of extinction!</div>
+                    <div class="mode-description-english">Tetmino Village is in danger of extinction!</div>
                 </div>
                 
                 <div class="mode-card" data-mode="skillCheck">
@@ -84,7 +85,7 @@
                 </div>
             </div>
             
-            <button class="arrow-button arrow-right" id="arrowRight">▶</button>
+            <button class="arrow-button arrow-right" id="arrowRight">→</button>
         </div>
     </div>
 
@@ -100,6 +101,7 @@
             <div class="patchInfo">
                 대충 패치노트<br>
                 -한/영 번역 임시 업데이트
+                -메인 디자인 리뉴얼
             </div>
         </div>
 
@@ -369,6 +371,15 @@
             </div>
         </div>
     </div>
+
+    <!-- GitHub footer -->
+        <div id="githubFooter">
+            <a href="https://github.com/GitJiYeon" target="_blank">
+                © 2026 Jiyeon | GitHub
+            </a>
+        </div>
+    </body>
+
 
    <!--메뉴-->
     <script type="module" src="./fireBase/fireBaseInit.js"></script>
