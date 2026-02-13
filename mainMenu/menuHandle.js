@@ -204,65 +204,64 @@ function hideGameOver(){
 }
 
 function showGamePlay(mode) {
-    if(mode == '-') return;
+    if (mode == '-') return;
 
-    // 먼저 모든 모드 초기화
+    // 모드 및 난이도 초기화
     MODE_skillCheck = false;
-    
-    // 난이도 설정
-    if(mode == 'arcadeEasy') {
+
+    if (mode == 'arcadeEasy') {
         difficulty = 0;
-    } else if(mode == 'arcadeNomal') {
+    } else if (mode == 'arcadeNomal') {
         difficulty = 1;
-    } else if(mode == 'arcadeHard') {
+    } else if (mode == 'arcadeHard') {
         alert("업데이트 예정입니다.");
         return;
-    } else if(mode == 'skillCheck') {
-        difficulty = 100; // 스킬 체크용
+    } else if (mode == 'skillCheck') {
+        difficulty = 100;
         currentStage = 100;
         MODE_skillCheck = true;
     }
 
     selectMode = mode;
-    
-    // 난이도 설정 후 적용
     difficultySetting();
     showDifficulty();
-    
-    // 모든 화면 숨기기
+
+    // 메뉴 화면 숨기기
     mainMenu.classList.remove('active');
     mainMenu.classList.add('hidden');
-    
+
     gameOverMenu.classList.remove('active');
     gameOverMenu.classList.add('hidden');
-    
-    if(skillView) {
+
+    if (skillView) {
         skillView.classList.remove('active');
         skillView.classList.add('hidden');
     }
 
     // 게임 화면 켜기
     gamePlay.classList.remove('hidden');
-    
-    // [중요] 브라우저가 화면을 그릴 틈을 줌 (애니메이션 삑사리 방지)
+
+    // 렌더링 씹힘 방지 (0.01초 딜레이)
     setTimeout(() => {
         gamePlay.classList.add('active');
     }, 10);
 
-    playSFX(countDownSound);
+    // 사운드 재생
+    if (typeof playSFX === 'function' && typeof countDownSound !== 'undefined') {
+        playSFX(countDownSound);
+    }
 
+    // 0.5초 후 게임 강제 시작 (애니메이션 이벤트 의존 X)
     setTimeout(() => {
-        console.log("강제 게임 시작 신호 보냄: " + mode);
-        
-        // 혹시 모를 오류 방지를 위한 안전장치
+        console.log("게임 시작: " + mode);
+
         if (typeof showCountdownAndStart === 'function') {
             showCountdownAndStart(3, mode);
         } else {
-            console.error("showCountdownAndStart 함수를 찾을 수 없습니다! game.js가 연결되었나요?");
-            // 비상용 실행
-             if (typeof initGame === 'function') initGame();
+            console.error("showCountdownAndStart 함수 없음. 비상 실행.");
+            if (typeof initGame === 'function') initGame();
         }
-    }, 500); // 0.5초 딜레이
+    }, 500);
 }
 
 
